@@ -1,0 +1,448 @@
+<!doctype html>
+<!--
+  The Audits page, at audits/ beside the demo (tools/audits.py writes it
+  to audits/index.html, its asset paths one level up, with the entries
+  from audits/audits.json in "Published audits"). The process it shows
+  is Faraday's docs/AUDIT-SUBMISSIONS.md: the request below is its §2
+  as written, and a change there is copied here.
+
+  Its look is the download page's (web/download.html), copied from it;
+  keep the three pages alike. Each label a person reads is on one line
+  of its own, for tools/lint-page.sh.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#e4e7ea">
+<title>Audits of Faraday: the request, how to submit, and the audits published</title>
+<meta name="description" content="Faraday invites audits from experts and AIs and publishes each one with its response to every finding. The request to follow or paste into a prompt, how to submit, and the audits published.">
+<link rel="canonical" href="https://faradayoffline.app/audits/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://faradayoffline.app/audits/">
+<meta property="og:site_name" content="Faraday">
+<meta property="og:title" content="Audits of Faraday">
+<meta property="og:description" content="Faraday invites audits from experts and AIs and publishes each one with its response to every finding.">
+<meta property="og:image" content="https://faradayoffline.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 136'%3E%3Cpath fill='%230b7a9e' fill-rule='evenodd' d='M0 12A12 12 0 0 1 12 0H88A12 12 0 0 1 100 12V81.2Q98 115 50 135.3Q2 115 0 81.2ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z'/%3E%3C/svg%3E">
+<style>
+  /* The app's palette in Light, as the download page's. */
+  :root {
+    --surface: #ffffff;
+    --line: #dce2e8;
+    --inner: #e8edf1;
+    --border: #c6d0d8;
+    --text: #151c23;
+    --muted: #4f5d69;
+    --dim: #7a8894;
+    --accent: #0b7a9e;
+    --on-accent: #ffffff;
+    --ok: #1d8556;
+    --warn: #9a5d00;
+    --bad: #b3261e;
+    --page: #e4e7ea;
+    --page-3: #f6f7f8;
+    --page-line: rgb(20 30 40 / 0.12);
+    --ink-hi: #18212a;
+    --ink-mid: #4f5c67;
+    --shadow: 25 35 45;
+    --accent-hi: color-mix(in oklab, var(--accent), black 8%);
+    --rim: color-mix(in oklab, var(--accent), white 50%);
+    --font: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, sans-serif;
+    --mono: ui-monospace, "Cascadia Mono", "JetBrains Mono", "Noto Sans Mono", Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--ink-hi);
+    background: var(--page);
+    font: 15px/1.55 var(--font);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 3px; border-radius: 6px; }
+  button { font: inherit; }
+  code { font: 0.92em/1.4 var(--mono); overflow-wrap: anywhere; }
+
+  /* The bar, as the download page's. */
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: color-mix(in oklab, var(--page) 90%, transparent);
+    backdrop-filter: saturate(1.3) blur(14px);
+    -webkit-backdrop-filter: saturate(1.3) blur(14px);
+    border-bottom: 1px solid var(--page-line);
+  }
+  .bar-in { max-width: 1920px; margin: 0 auto; padding: 6px 16px; display: flex; align-items: center; gap: 10px; min-height: 50px; }
+  .brand {
+    --cap: 13px;
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    column-gap: calc(var(--cap) * 0.75);
+    row-gap: calc(var(--cap) * 0.22);
+    width: max-content;
+    color: var(--ink-hi);
+  }
+  .brand:hover { text-decoration: none; }
+  .mark { grid-row: 1 / span 2; grid-column: 1; align-self: center; display: block; width: calc(var(--cap) * 1.6); height: auto; }
+  .name { grid-row: 1; grid-column: 2; display: block; fill: currentColor; height: var(--cap); width: calc(var(--cap) * 6067 / 687); }
+  .under { grid-row: 2; grid-column: 2; display: block; fill: var(--ink-mid); overflow: visible; height: calc(var(--cap) * 426 / 687); width: calc(var(--cap) * 6067 / 687); }
+  .bar nav { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+  .bar nav a.plain { color: var(--ink-mid); padding: 6px 12px; border-radius: 999px; transition: color 200ms, background-color 200ms; }
+  .bar nav a.plain:hover { color: var(--ink-hi); background: var(--page-3); text-decoration: none; }
+  .bar nav a.plain[aria-current] { color: var(--ink-hi); background: var(--page-3); }
+
+  /* Buttons. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 14px;
+    font: 500 14px/1 var(--font);
+    color: var(--ink-hi);
+    background: var(--page-3);
+    border: 1px solid var(--page-line);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 200ms, border-color 200ms, color 200ms, transform 150ms;
+    user-select: none;
+    -webkit-user-select: none;
+    white-space: nowrap;
+  }
+  .btn:hover { text-decoration: none; background: color-mix(in oklab, var(--page-3), var(--accent) 22%); border-color: color-mix(in oklab, var(--page-line), var(--accent-hi) 50%); }
+  .btn:active { transform: scale(0.96); }
+  .btn svg { width: 16px; height: 16px; flex: none; }
+  .btn.accent { background: var(--accent); color: var(--on-accent); border-color: transparent; }
+  .btn.accent:hover { background: color-mix(in oklab, var(--accent), white 10%); }
+  .btn.coffee svg { width: 17px; height: 17px; }
+
+  /* The page: a heading, then sections, each a heading and cards. */
+  main { max-width: 1100px; margin: 0 auto; padding: 48px 16px 24px; }
+  .top { text-align: center; margin-bottom: 8px; }
+  .top h1 { margin: 0 0 8px; font-size: clamp(28px, 4vw, 42px); letter-spacing: -0.02em; line-height: 1.15; }
+  .top p { max-width: 640px; margin: 0 auto; color: var(--ink-mid); }
+  .jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 20px 0 0; }
+  section { padding: 48px 0 8px; }
+  section + section { border-top: 1px solid var(--page-line); margin-top: 40px; }
+  section > h2 { margin: 0 0 6px; font-size: clamp(22px, 2.8vw, 30px); letter-spacing: -0.015em; text-align: center; }
+  section > .sub { max-width: 680px; margin: 0 auto 24px; color: var(--ink-mid); text-align: center; }
+  .card { padding: 20px 22px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 18px; }
+  .card h3 { margin: 0 0 4px; font-size: 17px; }
+  .card > p { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+  .card > p:last-child { margin-bottom: 0; }
+  .aside { max-width: 680px; margin: 16px auto 0; color: var(--ink-mid); font-size: 14px; text-align: center; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* The request: the text to copy into a prompt. */
+  .cmd { position: relative; width: 100%; }
+  .cmd pre { margin: 0; padding: 32px 12px 10px; overflow-x: auto; color: var(--text); background: var(--inner); border: 1px solid var(--line); border-radius: 10px; font-size: 12.5px; }
+  .cmd code { overflow-wrap: normal; }
+  .cmd.text pre { padding: 40px 18px 16px; white-space: pre-wrap; font: 13.5px/1.6 var(--mono); }
+  .copy { position: absolute; top: 6px; right: 6px; padding: 3px 8px; font: 500 12px/1.2 var(--font); color: var(--muted); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
+  .copy:hover { color: var(--text); }
+  .cmd.text .copy { top: 10px; right: 10px; padding: 5px 12px; font-size: 13px; }
+  .sub-h { margin: 32px 0 6px; font-size: 19px; text-align: center; }
+  .notes { margin: 16px 0 0; padding: 0; list-style: none; }
+  .notes li { padding: 8px 0; font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); }
+  .notes li:first-child { border-top: 0; }
+  .notes .row { margin-top: 8px; }
+  .more { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 24px; }
+
+  /* Submitting: numbered steps. */
+  .easy { margin: 0; padding: 0; list-style: none; counter-reset: easy; }
+  .easy li { counter-increment: easy; position: relative; padding: 14px 0 14px 40px; font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); }
+  .easy li:first-child { border-top: 0; padding-top: 2px; }
+  .easy li::before {
+    content: counter(easy);
+    position: absolute;
+    left: 0;
+    top: 14px;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    font: 600 13px/1 var(--font);
+    color: var(--on-accent);
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .easy li:first-child::before { top: 2px; }
+  .easy b { display: block; color: var(--text); font-size: 15px; font-weight: 600; }
+  .easy .cmd, .easy .row { margin-top: 10px; }
+  .pair { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 16px; align-items: start; }
+  .card h3 + .files { margin-top: 12px; }
+
+  /* Tables: where each file goes, and an audit's findings. */
+  .files { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .files th, .files td { padding: 10px 0; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
+  .files tr:first-child th, .files tr:first-child td { border-top: 0; padding-top: 0; }
+  .files th { padding-right: 16px; font-weight: 500; }
+  .files td { color: var(--muted); }
+  .files td + td { padding-left: 16px; }
+
+  /* What Faraday does. */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .steps .when { margin: 0 0 6px; font: 600 12px/1.4 var(--font); letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+
+  /* An audit's entry. */
+  .entry + .entry { margin-top: 16px; }
+  .entry h3 { display: flex; align-items: center; gap: 8px; font-size: 19px; }
+  .kind { padding: 2px 9px; font: 600 12px/1.5 var(--font); letter-spacing: 0.02em; color: var(--accent); background: color-mix(in oklab, var(--accent) 12%, transparent); border-radius: 999px; }
+  .entry .meta { margin: 0 0 4px; color: var(--muted); font-size: 13.5px; }
+  .entry .credit { margin: 0; color: var(--muted); font-size: 13.5px; }
+  .entry h4 { margin: 18px 0 6px; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-mid); }
+  .entry blockquote { margin: 0; padding: 2px 0 2px 14px; border-left: 3px solid var(--rim); }
+  .entry blockquote p, .entry > p { margin: 0 0 8px; font-size: 14.5px; color: var(--text); }
+  .tally { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+  .tally li { display: flex; align-items: baseline; gap: 6px; padding: 6px 12px; font-size: 13px; color: var(--muted); background: var(--inner); border-radius: 10px; }
+  .tally b { font-size: 16px; color: var(--text); }
+  .tally small { color: var(--warn); font-weight: 600; }
+  .findings { margin: 4px 0 16px; }
+  .findings th { font-weight: 500; color: var(--text); }
+  .findings td:nth-child(2) { white-space: nowrap; }
+  .findings .held th, .findings .held td { color: var(--warn); }
+  .sev { padding: 1px 8px; font: 600 12px/1.5 var(--font); border-radius: 999px; color: var(--muted); background: var(--inner); }
+  .sev.critical, .sev.high { color: var(--bad); background: color-mix(in oklab, var(--bad) 10%, transparent); }
+  .sev.medium { color: var(--warn); background: color-mix(in oklab, var(--warn) 12%, transparent); }
+  .entry .hash { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 18px 0 0; font-size: 13px; color: var(--muted); }
+  .hash code { color: var(--text); font-size: 12.5px; }
+  .none { margin: 0 auto; max-width: 680px; padding: 28px 22px; text-align: center; color: var(--muted); background: var(--surface); border: 1px dashed var(--border); border-radius: 18px; }
+
+  /* Buy me a coffee: a dialog with the two QR codes. */
+  .link { padding: 0; font: inherit; color: var(--ink-hi); background: none; border: 0; cursor: pointer; }
+  .link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .close { position: absolute; top: 14px; right: 14px; display: grid; place-items: center; width: 34px; height: 34px; color: var(--muted); background: none; border: 0; border-radius: 50%; cursor: pointer; }
+  .close:hover { color: var(--text); background: var(--inner); }
+  .close svg { width: 18px; height: 18px; }
+  .coffee-box { width: min(calc(100% - 32px), 520px); padding: 24px 24px 20px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 30px 70px -30px rgb(var(--shadow) / 0.5); }
+  .coffee-box::backdrop { background: rgb(var(--shadow) / 0.35); backdrop-filter: blur(3px); }
+  .coffee-box h2 { margin: 0 34px 4px 0; font-size: 20px; }
+  .coffee-box > p { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
+  .qrs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .qrs figure { margin: 0; text-align: center; }
+  .qr { display: grid; place-items: center; aspect-ratio: 1; padding: 8px; color: var(--dim); font-size: 13px; background: #fff; border: 1px dashed var(--border); border-radius: 12px; }
+  .qrs figcaption { margin-top: 6px; font-weight: 600; font-size: 14px; }
+
+  footer { margin-top: 48px; border-top: 1px solid var(--page-line); color: var(--ink-mid); font-size: 13px; }
+  footer div { max-width: 1440px; margin: 0 auto; padding: 20px 16px 28px; display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
+  footer a { color: var(--ink-hi); }
+
+  @media (max-width: 1100px) { .bar .coffee span { display: none; } .bar .coffee { padding: 0 10px; } }
+  @media (max-width: 820px) { .pair { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 640px) {
+    .bar nav a.plain, .bar nav a.gh { display: none; }
+    main { padding-top: 32px; }
+    .findings td:nth-child(2) { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wordmark" fill-rule="evenodd" d="M97 0L97 -687L751 -687L751 -560L249 -560L249 -394L703 -394L703 -267L249 -267L249 0ZM765 0L1109 -687L1281 -687L1625 0L1458 0L1253 -424Q1248 -435 1238.5 -456.5Q1229 -478 1219.5 -500.5Q1210 -523 1202.5 -539.5Q1195 -556 1194 -557L1186 -557Q1177 -537 1165.5 -511Q1154 -485 1143.5 -461Q1133 -437 1126 -423L921 0ZM1048 -133L1108.1 -256L1270.9 -256L1331 -133ZM1776 0L1776 -687L2320 -687Q2393 -687 2439.5 -657.5Q2486 -628 2509 -579.5Q2532 -531 2532 -472Q2532 -411 2500.5 -357.5Q2469 -304 2403 -274L2549 0L2378 0L2252 -245L1928 -245L1928 0ZM1928 -371L2278 -371Q2325 -371 2350.5 -398.5Q2376 -426 2376 -469Q2376 -498 2365 -518.5Q2354 -539 2332 -549.5Q2310 -560 2278 -560L1928 -560ZM2645 0L2989 -687L3161 -687L3505 0L3338 0L3133 -424Q3128 -435 3118.5 -456.5Q3109 -478 3099.5 -500.5Q3090 -523 3082.5 -539.5Q3075 -556 3074 -557L3066 -557Q3057 -537 3045.5 -511Q3034 -485 3023.5 -461Q3013 -437 3006 -423L2801 0ZM2928 -133L2988.1 -256L3150.9 -256L3211 -133ZM3656 0L3656 -687L4022 -687Q4148 -687 4238.5 -647.5Q4329 -608 4377.5 -531.5Q4426 -455 4426 -343Q4426 -232 4377.5 -155.5Q4329 -79 4238.5 -39.5Q4148 0 4022 0ZM3808 -127L4014 -127Q4069 -127 4115.5 -140Q4162 -153 4196.5 -178.5Q4231 -204 4250 -242.5Q4269 -281 4269 -332L4269 -355Q4269 -406 4250 -444.5Q4231 -483 4196.5 -508.5Q4162 -534 4115.5 -547Q4069 -560 4014 -560L3808 -560ZM4513 0L4857 -687L5029 -687L5373 0L5206 0L5001 -424Q4996 -435 4986.5 -456.5Q4977 -478 4967.5 -500.5Q4958 -523 4950.5 -539.5Q4943 -556 4942 -557L4934 -557Q4925 -537 4913.5 -511Q4902 -485 4891.5 -461Q4881 -437 4874 -423L4669 0ZM4796 -133L4856.1 -256L5018.9 -256L5079 -133ZM5675 0L5675 -278L5339 -687L5522 -687L5750 -400L5760 -400L5991 -687L6164 -687L5827 -278L5827 0Z"/><path id="tagline" d="M311 7Q244 7 196 -17Q148 -41 123 -90Q97 -139 97 -213Q97 -288 123 -336Q148 -385 196 -409Q244 -433 311 -433Q378 -433 425 -409Q473 -385 499 -336Q524 -288 524 -213Q524 -139 499 -90Q473 -41 425 -17Q378 7 311 7ZM311 -51Q344 -51 371 -61Q397 -70 416 -90Q434 -109 444 -138Q453 -167 453 -206V-219Q453 -259 444 -288Q434 -317 416 -336Q397 -356 371 -365Q344 -375 311 -375Q277 -375 251 -365Q224 -356 206 -336Q187 -317 178 -288Q169 -259 169 -219V-206Q169 -167 178 -138Q187 -109 206 -90Q224 -70 251 -61Q277 -51 311 -51ZM814 0V-426H1118V-367H883V-241H1096V-181H883V0ZM1403 0V-426H1707V-367H1472V-241H1685V-181H1472V0ZM1992 0V-426H2061V-60H2274V0ZM2544 0V-426H2613V0ZM2923 0V-426H2990L3185 -159Q3188 -155 3192 -148Q3197 -141 3201 -135Q3206 -128 3208 -123H3211Q3211 -133 3211 -141Q3211 -150 3211 -159V-426H3278V0H3213L3017 -270Q3012 -277 3004 -289Q2997 -301 2993 -307H2990Q2990 -298 2990 -289Q2990 -280 2990 -270V0ZM3588 0V-426H3918V-367H3657V-248H3891V-188H3657V-59H3922V0ZM4506 0 4673 -426H4762L4929 0H4854L4816 -99H4615L4577 0ZM4637 -157H4794L4746 -282Q4744 -288 4740 -298Q4737 -308 4733 -320Q4729 -332 4725 -344Q4721 -356 4717 -366H4714Q4710 -354 4704 -338Q4699 -321 4693 -307Q4688 -292 4685 -282ZM5193 0V-426H5405Q5451 -426 5481 -409Q5511 -393 5526 -363Q5541 -333 5541 -293Q5541 -253 5524 -222Q5508 -192 5478 -175Q5447 -158 5403 -158H5262V0ZM5262 -217H5400Q5433 -217 5452 -237Q5471 -257 5471 -293Q5471 -316 5463 -333Q5455 -349 5439 -358Q5423 -367 5400 -367H5262ZM5817 0V-426H6029Q6074 -426 6104 -409Q6134 -393 6149 -363Q6164 -333 6164 -293Q6164 -253 6148 -222Q6132 -192 6101 -175Q6070 -158 6026 -158H5886V0ZM5886 -217H6023Q6056 -217 6075 -237Q6094 -257 6094 -293Q6094 -316 6086 -333Q6078 -349 6063 -358Q6047 -367 6023 -367H5886Z"/></defs></svg>
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="../" aria-label="Faraday, offline app">
+      <svg class="mark" viewBox="0 0 100 136" aria-hidden="true"><path fill="var(--rim)" fill-rule="evenodd" d="M0 12A12 12 0 0 1 12 0H88A12 12 0 0 1 100 12V81.2Q98 115 50 135.3Q2 115 0 81.2ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z"/><path fill="var(--accent)" fill-rule="evenodd" d="M7 17.3A10.3 10.3 0 0 1 17.3 7H82.7A10.3 10.3 0 0 1 93 17.3V78.1Q91.3 107.7 50 125.5Q8.7 107.7 7 78.1ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z"/></svg>
+      <svg class="name" viewBox="97 -687 6067 687" aria-hidden="true"><use href="#wordmark"/></svg>
+      <svg class="under" viewBox="97 -426 6067 426" aria-hidden="true"><use href="#tagline"/></svg>
+    </a>
+    <nav>
+      <a class="plain" href="../download/">Download</a>
+      <a class="plain" href="./" aria-current="page">Audits</a>
+      <a class="plain" href="../#faq">FAQ</a>
+      <a class="btn gh" href="https://github.com/bitcoinpasada/faraday" aria-label="GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.470 7.59.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.170-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.6 7.6 0 0 1 8 3.86c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <button class="btn coffee" data-coffee title="Buy me a coffee"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v5a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 2.5c-.6.8-.6 1.7 0 2.5M12 2.5c-.6.8-.6 1.7 0 2.5"/></svg><span>Buy me a coffee</span></button>
+      <a class="btn accent" href="../#play">Try it</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="top">
+  <h1>Audits</h1>
+  <p>Faraday invites audits from experts and AIs. Each one is published here with Faraday's response to every finding, and the full prompt and output.</p>
+  <p class="jump">
+    <a class="btn" href="#request">What an audit includes</a>
+    <a class="btn" href="#submit">Submitting</a>
+    <a class="btn" href="#response">What Faraday does</a>
+    <a class="btn accent" href="#audits">Published audits</a>
+  </p>
+</div>
+
+<section id="request">
+  <h2>What an audit includes</h2>
+  <p class="sub">By an expert or an AI. This list is not a prompt by itself: write your own prompt for the audit, then add this list at its end.</p>
+  <div class="cmd text"><pre><code>Faraday's request for this audit. Follow it in the output:
+
+1. Record what was audited: the repository (https://github.com/bitcoinpasada/faraday), the commit (git rev-parse HEAD), the date, any tools run, and for an AI, the model and its version.
+2. State the scope: the areas covered, the parts of the code read, and the parts not read. docs/AUDIT.md lists where the cryptography is.
+3. For each finding, give: a severity, the file and line, what goes wrong, how to trigger it, and whether it was confirmed by running code or only found by reading.
+4. Write the output as Markdown in two files: audit.md for everything except critical and high findings, and private.md for critical and high findings only. Leave out private.md if there are none.
+5. End audit.md with a summary of at most 150 words: what was examined, what was found, and an assessment of whether the code can be trusted with keys. If private.md exists, the summary gives its number of findings without describing them.
+6. Redact personal information from both files: names, email addresses, usernames, and anything about the computer the audit ran on, including home directory paths, hostnames, IP addresses, the operating system and its version, hardware, and environment variables. Replace each with a placeholder such as &lt;home&gt;, &lt;user&gt; or &lt;host&gt;. Leave unchanged the names and addresses in Faraday's own code.
+7. If private.md exists, hash it last, after step 6: run sha256sum private.md &gt; private.md.sha256. If you cannot run commands, do not write a hash; say that it still needs to be made.
+
+Severities:
+- Critical: a key, seed or passphrase can be extracted; the device signs, or shows as approved, something the user did not approve; Faraday's output is wrong in a way that loses funds (an address it cannot spend from, a backup or shares that do not restore); or crafted input runs code on Faraday.
+- High: the same, but only under specific conditions (physical access, a non-default setting, a rare input); a vault slot opens without its passphrase or reveals how many slots are used; the air gap fails; secrets outlive the session; a tampered image or upgrade is accepted; Faraday Starter writes to the wrong disk; the design makes a mistake that loses funds or exposes a key likely, through a missing warning or confirmation or a misleading label.
+- Medium: a protection is weaker than intended but holds (a lower key-stretching cost); a crash from crafted input with no code run; public wallet data leaked.
+- Low: a defect with no direct security effect, including a wrong result that Faraday detects and refuses.
+- Note: an observation, not a defect.</code></pre><button class="copy" type="button">Copy</button></div>
+  <h3 class="sub-h">Areas to cover</h3>
+  <p class="sub">A starting point for the audit's scope. Add them to the prompt as they are, change them, or write your own.</p>
+  <div class="cmd text"><pre><code>Areas to cover:
+- Key material: whether a key, seed or passphrase can leave the device; the randomness and entropy behind key generation; nonces in ECDSA, Schnorr, MuSig2 and FROST signing.
+- Signing: whether what the screen shows (amounts, fee, destinations, change) is what gets signed.
+- Correct results: derivations, addresses, mnemonics, SLIP-39 and codex32 shares, backup files (.oskb, KDBX), MuSig2 and FROST, against published vectors and other implementations.
+- The vault: each slot's passphrase opens only that slot, the key-stretching cost is the one stated, the file does not reveal how many slots are used, and a damaged file is detected.
+- The air gap and what remains: no network interface comes up, secrets are written only where the user chooses, and none outlive the session.
+- Untrusted input: PSBTs, QR codes, images and file systems from the online computer.
+- The image and its tools: release verification, the Secure Boot keys, the upgrade, and Faraday Starter's disk writing and checks.
+- Access: the keyboard code and the passphrase prompts.
+- Mistakes a person can make: where Faraday or Faraday Starter make an easy mistake possible that loses funds, exposes a key or locks a person out of their computer: a misleading label, steps in a confusing order, a risky action with no confirmation, a risky setup with no warning (a TV, a capture card or KVM, a wireless keyboard), a backup that can be skipped or left unchecked, and whether the warnings that exist come at the moment they are needed.</code></pre><button class="copy" type="button">Copy</button></div>
+  <ul class="notes">
+    <li>An expert audit has no prompt.md: audit.md describes its method.</li>
+    <li>The files carry no names. A name or pseudonym for credit goes in the issue form.</li>
+    <li>docs/AUDIT.md lists what Faraday computes, what is written in its own code and what comes from libraries.
+      <div class="row"><a class="btn" href="https://github.com/bitcoinpasada/faraday/blob/main/docs/AUDIT.md">docs/AUDIT.md</a></div>
+    </li>
+  </ul>
+</section>
+
+<section id="submit">
+  <h2>Submitting</h2>
+  <p class="sub">Through GitHub, not by email. A pseudonymous account is enough.</p>
+  <div class="pair">
+    <div class="card">
+      <ol class="easy">
+        <li><b>Save the prompt</b>For an AI audit, the exact prompt, with the list at its end, as prompt.md.</li>
+        <li><b>Check for personal information</b>In every file. A hashed file cannot be corrected afterwards without a new hash.</li>
+        <li><b>Check the hash</b>If there is a private.md. The first command prints private.md: OK. If the AI could not make private.md.sha256, or private.md changed afterwards, the second makes it.
+          <div class="cmd"><pre><code>sha256sum -c private.md.sha256
+sha256sum private.md &gt; private.md.sha256</code></pre><button class="copy" type="button">Copy</button></div>
+        </li>
+        <li><b>Open an audit issue</b>With the audit form. Attach prompt.md and audit.md as files, not pasted text, and give the hash from private.md.sha256 if there is one.
+          <div class="row"><a class="btn accent" href="https://github.com/bitcoinpasada/faraday/issues/new?template=audit.yml">Open an audit issue</a></div>
+        </li>
+        <li><b>Send private.md privately</b>If there is one: in a private vulnerability report on the same repository, with the issue's number. The report takes no files: paste the whole of private.md into its Details field, between a line ~~~~~ above it and the same line below it. Only Faraday and you see it until it is published.
+          <div class="row"><a class="btn" href="https://github.com/bitcoinpasada/faraday/security/advisories/new">Send a private report</a></div>
+        </li>
+        <li><b>Timestamp the hash</b>Optional. OpenTimestamps anchors it in a Bitcoin block, so its date does not depend on GitHub keeping the issue.
+          <div class="row"><a class="btn" href="https://opentimestamps.org/">OpenTimestamps</a></div>
+        </li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Where each file goes</h3>
+      <table class="files">
+        <tr><th>prompt.md</th><td>The public issue</td><td>Everyone</td></tr>
+        <tr><th>audit.md</th><td>The public issue</td><td>Everyone</td></tr>
+        <tr><th>private.md</th><td>A private report, pasted</td><td>Faraday and the submitter, until published</td></tr>
+        <tr><th>The hash of private.md</th><td>The public issue's form</td><td>Everyone, from the day it is sent</td></tr>
+      </table>
+      <ul class="notes">
+        <li>The hash goes in the issue only, never in audit.md. The issue is what dates it.</li>
+        <li>When the prompt itself points at a vulnerability, it goes in the private report too, and the issue carries its hash in its place.</li>
+        <li>When private.md changes after it was sent, the new file goes in the private report and its new hash on the issue. Both hashes stay there.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="response">
+  <h2>What Faraday does</h2>
+  <p class="sub">The same timeline is in the repository's SECURITY.md.</p>
+  <div class="steps">
+    <div class="card">
+      <p class="when">Within 15 days</p>
+      <h3>A reply on the issue</h3>
+      <p>The hash quoted back, and a verdict on each finding: confirmed and fixed, with the fixing commit; confirmed and open; could not reproduce; or not a bug.</p>
+    </div>
+    <div class="card">
+      <p class="when">Within 15 days</p>
+      <h3>A private report with no issue</h3>
+      <p>A reply on it within 15 days of its arrival.</p>
+    </div>
+    <div class="card">
+      <p class="when">Then</p>
+      <h3>The entry, published</h3>
+      <p>The submitter's summary, unedited, Faraday's response, and the full prompt and output, below.</p>
+    </div>
+    <div class="card">
+      <p class="when">Once fixed</p>
+      <h3>private.md, published</h3>
+      <p>No later than 90 days after the private report, fixed or not. Anyone can check it against the hash posted on the issue.</p>
+    </div>
+  </div>
+  <div class="more"><a class="btn" href="https://github.com/bitcoinpasada/faraday/security/policy">SECURITY.md</a></div>
+</section>
+
+<section id="audits">
+  <h2>Published audits</h2>
+  <p class="sub">Newest first. The current release is Faraday 0.1.4.</p>
+  <p class="none">No audits have been published yet.</p>
+  <p class="aside">An entry records what was submitted and Faraday's verdict on each finding. It is not an endorsement, and it does not prove which model wrote the output. The hash shows that private.md, once published, is the file that was sent on the day of the issue.</p>
+</section>
+</main>
+
+<!-- Donations: the QR codes go in the two frames (data-qr), as on the
+     demo page. -->
+<dialog class="coffee-box" id="coffee" aria-labelledby="coffee-title">
+  <button class="close" id="coffee-close" aria-label="Close" title="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <h2 id="coffee-title">Buy me a coffee</h2>
+  <p>Donations to Faraday's development, in bitcoin.</p>
+  <div class="qrs">
+    <figure><div class="qr" data-qr="lightning">QR code to come</div><figcaption>Lightning</figcaption></figure>
+    <figure><div class="qr" data-qr="bitcoin">QR code to come</div><figcaption>Bitcoin</figcaption></figure>
+  </div>
+</dialog>
+
+<footer>
+  <div>
+    <span>Faraday · MIT License</span>
+    <button class="link" data-coffee>Buy me a coffee</button>
+    <a href="https://github.com/bitcoinpasada/faraday">github.com/bitcoinpasada/faraday</a>
+  </div>
+</footer>
+
+<script>
+"use strict";
+// Buy me a coffee, and the Copy buttons, as on the download page.
+const coffee = document.querySelector("#coffee");
+for (const b of document.querySelectorAll("[data-coffee]")) b.addEventListener("click", () => coffee.showModal());
+document.querySelector("#coffee-close").addEventListener("click", () => coffee.close());
+coffee.addEventListener("click", (e) => { if (e.target === coffee) coffee.close(); });
+for (const b of document.querySelectorAll(".copy")) {
+  b.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(b.previousElementSibling.textContent);
+      b.textContent = "Copied";
+    } catch (e) {
+      b.textContent = "Select and copy";
+    }
+    setTimeout(() => { b.textContent = "Copy"; }, 1600);
+  });
+}
+</script>
+</body>
+</html>
