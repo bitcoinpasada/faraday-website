@@ -1,0 +1,593 @@
+<!doctype html>
+<!--
+  The download page, at download/ beside the demo (`just site` writes it
+  to download/index.html, its asset paths one level up). The release
+  files, what each machine needs, the steps by hand, and Faraday Starter
+  (for Windows and Linux, macOS coming soon).
+
+  Its look is the demo page's: the same palette, bar, buttons and cards,
+  copied from web/index.html (keep the two alike). Each label a person
+  reads is on one line of its own, for tools/lint-page.sh.
+
+  The version and the release's file names are in the links below;
+  a new release changes them here.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#e4e7ea">
+<title>Download Faraday: the stick image, the Pi image and Faraday Starter</title>
+<meta name="description" content="Download Faraday, an air-gapped Bitcoin signer: the image for a laptop's USB stick or a Raspberry Pi's microSD card, how to verify and write it, and Faraday Starter.">
+<link rel="canonical" href="https://faradayoffline.app/download/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://faradayoffline.app/download/">
+<meta property="og:site_name" content="Faraday">
+<meta property="og:title" content="Download Faraday">
+<meta property="og:description" content="The image for a laptop's USB stick or a Raspberry Pi's microSD card, how to verify and write it, and Faraday Starter.">
+<meta property="og:image" content="https://faradayoffline.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-23 -10 146 146'%3E%3Cpath fill='%230062a3' fill-rule='evenodd' d='M0 12A12 12 0 0 1 12 0H88A12 12 0 0 1 100 12V81.2Q98 115 50 135.3Q2 115 0 81.2ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z'/%3E%3C/svg%3E">
+<style>
+  /* The app's palette in Cobalt, as the demo page's before it reads the
+     app's (web/index.html). */
+  :root {
+    --surface: #ffffff;
+    --line: #d9e1f0;
+    --inner: #e6ecf7;
+    --border: #c3cfe3;
+    --text: #131b27;
+    --muted: #4d5b6e;
+    --dim: #788699;
+    --accent: #0062a3;
+    --on-accent: #ffffff;
+    --ok: #1d8556;
+    --warn: #9a5d00;
+    --page: #e4e7ea;
+    --page-3: #f6f7f8;
+    --page-line: rgb(20 30 40 / 0.12);
+    --ink-hi: #18212a;
+    --ink-mid: #4f5c67;
+    --shadow: 25 35 45;
+    --accent-hi: color-mix(in oklab, var(--accent), black 8%);
+    --rim: color-mix(in oklab, var(--accent), white 50%);
+    --font: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, sans-serif;
+    --mono: ui-monospace, "Cascadia Mono", "JetBrains Mono", "Noto Sans Mono", Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--ink-hi);
+    background: var(--page);
+    font: 15px/1.55 var(--font);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 3px; border-radius: 6px; }
+  button { font: inherit; }
+  code { font: 0.92em/1.4 var(--mono); overflow-wrap: anywhere; }
+
+  /* The bar, as the demo page's. */
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: color-mix(in oklab, var(--page) 90%, transparent);
+    backdrop-filter: saturate(1.3) blur(14px);
+    -webkit-backdrop-filter: saturate(1.3) blur(14px);
+    border-bottom: 1px solid var(--page-line);
+  }
+  .bar-in { max-width: 1920px; margin: 0 auto; padding: 6px 16px; display: flex; align-items: center; gap: 10px; min-height: 50px; }
+  .brand {
+    --cap: 13px;
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    column-gap: calc(var(--cap) * 0.75);
+    row-gap: calc(var(--cap) * 0.22);
+    width: max-content;
+    color: var(--ink-hi);
+  }
+  .brand:hover { text-decoration: none; }
+  .mark { grid-row: 1 / span 2; grid-column: 1; align-self: center; display: block; width: calc(var(--cap) * 1.6); height: auto; }
+  .name { grid-row: 1; grid-column: 2; display: block; fill: currentColor; height: var(--cap); width: calc(var(--cap) * 6067 / 687); }
+  .under { grid-row: 2; grid-column: 2; display: block; fill: var(--ink-mid); overflow: visible; height: calc(var(--cap) * 426 / 687); width: calc(var(--cap) * 6067 / 687); }
+  .bar nav { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+  .bar nav a.plain { color: var(--ink-mid); padding: 6px 12px; border-radius: 999px; transition: color 200ms, background-color 200ms; }
+  .bar nav a.plain:hover { color: var(--ink-hi); background: var(--page-3); text-decoration: none; }
+  .bar nav a.plain[aria-current] { color: var(--ink-hi); background: var(--page-3); }
+
+  /* Buttons. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 14px;
+    font: 500 14px/1 var(--font);
+    color: var(--ink-hi);
+    background: var(--page-3);
+    border: 1px solid var(--page-line);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 200ms, border-color 200ms, color 200ms, transform 150ms;
+    user-select: none;
+    -webkit-user-select: none;
+    white-space: nowrap;
+  }
+  .btn:hover { text-decoration: none; background: color-mix(in oklab, var(--page-3), var(--accent) 22%); border-color: color-mix(in oklab, var(--page-line), var(--accent-hi) 50%); }
+  .btn:active { transform: scale(0.96); }
+  .btn svg { width: 16px; height: 16px; flex: none; }
+  .btn.accent { background: var(--accent); color: var(--on-accent); border-color: transparent; }
+  .btn.accent:hover { background: color-mix(in oklab, var(--accent), white 10%); }
+  .btn.coffee svg { width: 17px; height: 17px; }
+  /* A download not yet in a release: shown, not offered. */
+  .btn.soon { color: var(--dim); background: transparent; border-style: dashed; cursor: default; }
+  .btn.soon:hover { background: transparent; border-color: var(--page-line); }
+  .btn.soon:active { transform: none; }
+  .btn small { font-weight: 400; color: inherit; opacity: 0.8; }
+
+  /* The page: a heading, then sections, each a heading and cards. */
+  main { max-width: 1100px; margin: 0 auto; padding: 48px 16px 24px; }
+  .top { text-align: center; margin-bottom: 8px; }
+  .top h1 { margin: 0 0 8px; font-size: clamp(28px, 4vw, 42px); letter-spacing: -0.02em; line-height: 1.15; }
+  .top p { max-width: 640px; margin: 0 auto; color: var(--ink-mid); }
+  .jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 20px 0 0; }
+  section { padding: 48px 0 8px; }
+  section + section { border-top: 1px solid var(--page-line); margin-top: 40px; }
+  section > h2 { margin: 0 0 6px; font-size: clamp(22px, 2.8vw, 30px); letter-spacing: -0.015em; text-align: center; }
+  section > .sub { max-width: 680px; margin: 0 auto 24px; color: var(--ink-mid); text-align: center; }
+  .tag {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 9px;
+    font: 600 12px/1.5 var(--font);
+    letter-spacing: 0.02em;
+    color: var(--warn);
+    background: color-mix(in oklab, var(--warn) 12%, transparent);
+    border-radius: 999px;
+    vertical-align: 0.35em;
+  }
+  .card { padding: 20px 22px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 18px; }
+  .card h3 { margin: 0 0 4px; font-size: 17px; }
+  .card > p { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+  .card > p:last-child { margin-bottom: 0; }
+  .note { margin: 12px 0 0; color: var(--muted); font-size: 13.5px; }
+  .note b { display: block; color: var(--text); font-weight: 600; }
+
+  /* Faraday Starter: the app, its downloads, then what it does. */
+  .app { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+  .app + .app { margin-top: 16px; }
+  .app .head { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+  /* The app's name mark (Faraday DECISIONS F16): the shield, FARADAY
+     (#wordmark), and the app's word after it in the secondary grey,
+     its pen 364 font units after FARADAY's right edge (6164), from
+     faraday-core/assets/wordmark-suffix.txt (Archivo Expanded 400,
+     SIL OFL; the A's crossbar cut free). --cap is the capital height. */
+  .lockup { --cap: 15px; display: flex; align-items: center; gap: calc(var(--cap) * 0.75); margin: 0 0 6px; }
+  .lockup .mark { flex: none; width: calc(var(--cap) * 1.6); height: auto; }
+  .lockup .word { display: block; height: var(--cap); width: auto; fill: var(--ink-hi); overflow: visible; }
+  .lockup .sfx { fill: #768191; }
+  .app .row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .easy { margin: 0; padding: 0; list-style: none; counter-reset: easy; }
+  .easy li { counter-increment: easy; position: relative; padding: 12px 0 12px 40px; font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); }
+  .easy li:first-child { border-top: 0; padding-top: 2px; }
+  .easy li::before {
+    content: counter(easy);
+    position: absolute;
+    left: 0;
+    top: 12px;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    font: 600 13px/1 var(--font);
+    color: var(--on-accent);
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .easy li:first-child::before { top: 2px; }
+  .easy b { display: block; color: var(--text); font-size: 15px; font-weight: 600; }
+  details.card p b { display: block; color: var(--text); font-weight: 600; }
+  details.card { padding: 0; margin-top: 16px; }
+  details.card summary { padding: 14px 22px; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  details.card summary::-webkit-details-marker { display: none; }
+  details.card summary::after { content: "+"; color: var(--accent); font-weight: 400; font-size: 20px; line-height: 1; transition: transform 200ms; }
+  details.card[open] summary::after { transform: rotate(45deg); }
+  details.card p { margin: 0; padding: 0 22px 14px; color: var(--muted); font-size: 14px; }
+
+  /* What you need: two routes. */
+  .routes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .needs { margin: 0 0 12px; padding: 0; list-style: none; }
+  .needs li { display: flex; justify-content: space-between; gap: 16px; padding: 8px 0; font-size: 14px; border-top: 1px solid var(--line); }
+  .needs b { flex: none; font-weight: 600; color: var(--muted); white-space: nowrap; }
+  .card .img { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin: 0; color: var(--muted); font-size: 13px; }
+  .untried { margin: 6px 0 0; color: var(--warn); font-size: 13px; }
+  .card h3 .tag { vertical-align: 0.15em; }
+  .aside { max-width: 680px; margin: 16px auto 0; color: var(--ink-mid); font-size: 14px; text-align: center; }
+
+  /* By hand: the four steps. */
+  .how { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; counter-reset: how; }
+  .how li { counter-increment: how; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .how h3::before {
+    content: counter(how);
+    display: inline-grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    margin-right: 8px;
+    font-size: 12px;
+    color: var(--on-accent);
+    background: var(--accent);
+    border-radius: 50%;
+    vertical-align: 2px;
+  }
+  .how p { margin: 0; color: var(--muted); font-size: 14px; }
+  .how .warn { padding: 10px 12px; color: var(--text); background: color-mix(in oklab, var(--warn) 10%, transparent); border-radius: 10px; }
+  .how .warn b { display: block; color: var(--warn); }
+  .fp code { color: var(--text); font-size: 13px; letter-spacing: 0.02em; }
+  .cmd { position: relative; width: 100%; }
+  .cmd pre { margin: 0; padding: 32px 12px 10px; overflow-x: auto; color: var(--text); background: var(--inner); border: 1px solid var(--line); border-radius: 10px; font-size: 12.5px; }
+  .cmd code { overflow-wrap: normal; }
+  .copy { position: absolute; top: 6px; right: 6px; padding: 3px 8px; font: 500 12px/1.2 var(--font); color: var(--muted); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
+  .copy:hover { color: var(--text); }
+
+  /* The release's files. */
+  .files { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .files th, .files td { padding: 10px 0; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
+  .files tr:first-child th, .files tr:first-child td { border-top: 0; padding-top: 0; }
+  .files th { padding-right: 16px; font-weight: 500; }
+  .files td { color: var(--muted); }
+  .files td:last-child { padding-left: 16px; text-align: right; white-space: nowrap; }
+
+  .more { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 40px; }
+
+  /* Buy me a coffee: a dialog with the two QR codes. */
+  .link { padding: 0; font: inherit; color: var(--ink-hi); background: none; border: 0; cursor: pointer; }
+  .link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .close { position: absolute; top: 14px; right: 14px; display: grid; place-items: center; width: 34px; height: 34px; color: var(--muted); background: none; border: 0; border-radius: 50%; cursor: pointer; }
+  .close:hover { color: var(--text); background: var(--inner); }
+  .close svg { width: 18px; height: 18px; }
+  .coffee-box { width: min(calc(100% - 32px), 520px); padding: 24px 24px 20px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 30px 70px -30px rgb(var(--shadow) / 0.5); }
+  .coffee-box::backdrop { background: rgb(var(--shadow) / 0.35); backdrop-filter: blur(3px); }
+  .coffee-box h2 { margin: 0 34px 4px 0; font-size: 20px; }
+  .coffee-box > p { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
+  .qrs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .qrs figure { margin: 0; text-align: center; }
+  .qr { display: grid; place-items: center; aspect-ratio: 1; padding: 8px; color: var(--dim); font-size: 13px; background: #fff; border: 1px dashed var(--border); border-radius: 12px; }
+  .qrs figcaption { margin-top: 6px; font-weight: 600; font-size: 14px; }
+
+  footer { margin-top: 48px; border-top: 1px solid var(--page-line); color: var(--ink-mid); font-size: 13px; }
+  footer div { max-width: 1440px; margin: 0 auto; padding: 20px 16px 28px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px 20px; }
+  footer div > :first-child { justify-self: start; }
+  footer div > :last-child { justify-self: end; }
+  @media (max-width: 640px) { footer div { grid-template-columns: 1fr; justify-items: center; } footer div > :first-child, footer div > :last-child { justify-self: center; } }
+  footer a { color: var(--ink-hi); }
+
+  @media (max-width: 1100px) { .bar .coffee span { display: none; } .bar .coffee { padding: 0 10px; } }
+  @media (max-width: 820px) { .app { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) {
+    .lockup { --cap: 12px; }
+    main { padding-top: 32px; }
+    .files td:nth-child(2) { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  /* The bar's menu: on a narrow screen, where the bar's links and Buy me
+     a coffee have no room, a list of them under a button. */
+  .menu { position: relative; display: none; }
+  .menu-btn { padding: 0 10px; }
+  .menu-btn svg { width: 18px; height: 18px; }
+  .menu-list {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 60;
+    min-width: 210px;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: var(--page);
+    border: 1px solid var(--page-line);
+    border-radius: 14px;
+    box-shadow: 0 18px 40px -18px rgb(var(--shadow) / 0.45);
+  }
+  .menu-list[hidden] { display: none; }
+  .menu-list a, .menu-list button {
+    display: block;
+    width: 100%;
+    padding: 11px 12px;
+    font: 500 15px/1.2 var(--font);
+    color: var(--ink-hi);
+    text-align: left;
+    background: none;
+    border: 0;
+    border-radius: 9px;
+    cursor: pointer;
+  }
+  .menu-list a:hover, .menu-list button:hover, .menu-list :focus-visible { background: var(--page-3); text-decoration: none; }
+  .menu-list a[aria-current] { background: var(--page-3); }
+  /* The menu replaces the bar's links from 720px: with Audits and Blog
+     among them they no longer fit in a row below that. */
+  @media (max-width: 720px) {
+    .bar nav a.plain, .bar nav a.gh { display: none; }
+    .bar .menu { display: block; }
+    .bar nav > .coffee { display: none; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wordmark" fill-rule="evenodd" d="M97 0L97 -687L751 -687L751 -560L249 -560L249 -394L703 -394L703 -267L249 -267L249 0ZM765 0L1109 -687L1281 -687L1625 0L1458 0L1253 -424Q1248 -435 1238.5 -456.5Q1229 -478 1219.5 -500.5Q1210 -523 1202.5 -539.5Q1195 -556 1194 -557L1186 -557Q1177 -537 1165.5 -511Q1154 -485 1143.5 -461Q1133 -437 1126 -423L921 0ZM1048 -133L1108.1 -256L1270.9 -256L1331 -133ZM1776 0L1776 -687L2320 -687Q2393 -687 2439.5 -657.5Q2486 -628 2509 -579.5Q2532 -531 2532 -472Q2532 -411 2500.5 -357.5Q2469 -304 2403 -274L2549 0L2378 0L2252 -245L1928 -245L1928 0ZM1928 -371L2278 -371Q2325 -371 2350.5 -398.5Q2376 -426 2376 -469Q2376 -498 2365 -518.5Q2354 -539 2332 -549.5Q2310 -560 2278 -560L1928 -560ZM2645 0L2989 -687L3161 -687L3505 0L3338 0L3133 -424Q3128 -435 3118.5 -456.5Q3109 -478 3099.5 -500.5Q3090 -523 3082.5 -539.5Q3075 -556 3074 -557L3066 -557Q3057 -537 3045.5 -511Q3034 -485 3023.5 -461Q3013 -437 3006 -423L2801 0ZM2928 -133L2988.1 -256L3150.9 -256L3211 -133ZM3656 0L3656 -687L4022 -687Q4148 -687 4238.5 -647.5Q4329 -608 4377.5 -531.5Q4426 -455 4426 -343Q4426 -232 4377.5 -155.5Q4329 -79 4238.5 -39.5Q4148 0 4022 0ZM3808 -127L4014 -127Q4069 -127 4115.5 -140Q4162 -153 4196.5 -178.5Q4231 -204 4250 -242.5Q4269 -281 4269 -332L4269 -355Q4269 -406 4250 -444.5Q4231 -483 4196.5 -508.5Q4162 -534 4115.5 -547Q4069 -560 4014 -560L3808 -560ZM4513 0L4857 -687L5029 -687L5373 0L5206 0L5001 -424Q4996 -435 4986.5 -456.5Q4977 -478 4967.5 -500.5Q4958 -523 4950.5 -539.5Q4943 -556 4942 -557L4934 -557Q4925 -537 4913.5 -511Q4902 -485 4891.5 -461Q4881 -437 4874 -423L4669 0ZM4796 -133L4856.1 -256L5018.9 -256L5079 -133ZM5675 0L5675 -278L5339 -687L5522 -687L5750 -400L5760 -400L5991 -687L6164 -687L5827 -278L5827 0Z"/><path id="tagline" d="M311 7Q244 7 196 -17Q148 -41 123 -90Q97 -139 97 -213Q97 -288 123 -336Q148 -385 196 -409Q244 -433 311 -433Q378 -433 425 -409Q473 -385 499 -336Q524 -288 524 -213Q524 -139 499 -90Q473 -41 425 -17Q378 7 311 7ZM311 -51Q344 -51 371 -61Q397 -70 416 -90Q434 -109 444 -138Q453 -167 453 -206V-219Q453 -259 444 -288Q434 -317 416 -336Q397 -356 371 -365Q344 -375 311 -375Q277 -375 251 -365Q224 -356 206 -336Q187 -317 178 -288Q169 -259 169 -219V-206Q169 -167 178 -138Q187 -109 206 -90Q224 -70 251 -61Q277 -51 311 -51ZM814 0V-426H1118V-367H883V-241H1096V-181H883V0ZM1403 0V-426H1707V-367H1472V-241H1685V-181H1472V0ZM1992 0V-426H2061V-60H2274V0ZM2544 0V-426H2613V0ZM2923 0V-426H2990L3185 -159Q3188 -155 3192 -148Q3197 -141 3201 -135Q3206 -128 3208 -123H3211Q3211 -133 3211 -141Q3211 -150 3211 -159V-426H3278V0H3213L3017 -270Q3012 -277 3004 -289Q2997 -301 2993 -307H2990Q2990 -298 2990 -289Q2990 -280 2990 -270V0ZM3588 0V-426H3918V-367H3657V-248H3891V-188H3657V-59H3922V0ZM4506 0 4673 -426H4762L4929 0H4854L4816 -99H4615L4577 0ZM4637 -157H4794L4746 -282Q4744 -288 4740 -298Q4737 -308 4733 -320Q4729 -332 4725 -344Q4721 -356 4717 -366H4714Q4710 -354 4704 -338Q4699 -321 4693 -307Q4688 -292 4685 -282ZM5193 0V-426H5405Q5451 -426 5481 -409Q5511 -393 5526 -363Q5541 -333 5541 -293Q5541 -253 5524 -222Q5508 -192 5478 -175Q5447 -158 5403 -158H5262V0ZM5262 -217H5400Q5433 -217 5452 -237Q5471 -257 5471 -293Q5471 -316 5463 -333Q5455 -349 5439 -358Q5423 -367 5400 -367H5262ZM5817 0V-426H6029Q6074 -426 6104 -409Q6134 -393 6149 -363Q6164 -333 6164 -293Q6164 -253 6148 -222Q6132 -192 6101 -175Q6070 -158 6026 -158H5886V0ZM5886 -217H6023Q6056 -217 6075 -237Q6094 -257 6094 -293Q6094 -316 6086 -333Q6078 -349 6063 -358Q6047 -367 6023 -367H5886Z"/><g id="sfx-starter" fill-rule="evenodd"><path d="M430.62 12Q357.68 12 291.74 3.19Q225.81 -5.62 175.04 -28.51Q124.27 -51.41 95.31 -93.34Q66.35 -135.27 66.35 -201.06Q66.35 -205.81 66.58 -209.96Q66.81 -214.11 67.35 -216.11L175.54 -216.11Q174.54 -211.19 174.04 -204.77Q173.54 -198.35 173.54 -189.06Q173.54 -152.54 204.22 -127.99Q234.89 -103.44 292.48 -91.22Q350.06 -79 428.54 -79Q464.89 -79 500.13 -82.42Q535.38 -85.84 566.28 -93.37Q597.19 -100.89 620.98 -113.34Q644.78 -125.79 658.43 -143.88Q672.08 -161.97 672.08 -185.95Q672.08 -219.76 647.66 -240.31Q623.24 -260.86 581.4 -273.62Q539.56 -286.38 487.5 -294.75Q435.43 -303.13 380.09 -311.63Q324.75 -320.13 272.69 -333.48Q220.62 -346.84 178.78 -368.23Q136.94 -389.62 112.53 -424.05Q88.11 -458.49 88.11 -510.11Q88.11 -551.22 107.89 -585.46Q127.68 -619.7 169.23 -645.2Q210.78 -670.7 275.37 -684.62Q339.95 -698.54 430 -698.54Q521.51 -698.54 584.13 -682.93Q646.76 -667.32 684.62 -640.64Q722.49 -613.95 739.08 -580.2Q755.68 -546.46 755.68 -510.65L755.68 -491.89L649.02 -491.89L649.02 -510.4Q649.02 -536.54 623.88 -558.36Q598.73 -580.19 551.75 -593.86Q504.78 -607.54 438.54 -607.54Q358.27 -607.54 305.46 -596.24Q252.65 -584.94 226.37 -564.16Q200.08 -543.38 200.08 -514.27Q200.08 -484.84 224.5 -466.47Q248.92 -448.11 290.76 -436.85Q332.6 -425.6 384.67 -417.45Q436.73 -409.3 492.07 -400.3Q547.41 -391.3 599.48 -377.99Q651.54 -364.68 693.38 -342.33Q735.22 -319.97 759.64 -285.39Q784.06 -250.81 784.06 -199.73Q784.06 -121.57 739.43 -74.91Q694.81 -28.24 615.11 -8.12Q535.41 12 430.62 12Z"/><path transform="translate(847 0)" d="M338.35 0L338.35 -590.67L27.84 -590.67L27.84 -686.54L757.68 -686.54L757.68 -590.67L447.17 -590.67L447.17 0L338.35 0Z"/><path transform="translate(1633 0)" d="M31.35 0L380.4 -686.54L506.46 -686.54L855.52 0L735.84 0L654.3 -161.94L609.46 -251.87L508.32 -455.24Q502.41 -467.16 493.14 -486.82Q483.87 -506.48 474.37 -527.61Q464.87 -548.73 456.68 -566.38Q448.49 -584.02 444.27 -591.46L436.27 -591.46Q426.35 -570.08 413.7 -543.16Q401.06 -516.24 389.87 -492.24Q378.68 -468.24 371.68 -454.7L270.08 -251.87L225.7 -161.94L144.17 0ZM289.4 -161.94L333.78 -251.87L545.76 -251.87L590.6 -161.94Z"/><path transform="translate(2520 0)" d="M107.57 0L107.57 -686.54L623.54 -686.54Q691.95 -686.54 737.76 -659.11Q783.57 -631.68 807.03 -585.01Q830.49 -538.35 830.49 -480.27Q830.49 -416.05 797.38 -363.93Q764.27 -311.81 699.19 -287.32L847.95 0L725.65 0L589.54 -267.97L216.38 -267.97L216.38 0L107.57 0ZM216.38 -359.51L598.08 -359.51Q655.65 -359.51 687.58 -392.99Q719.51 -426.46 719.51 -478.65Q719.51 -514.08 705.3 -540.09Q691.08 -566.11 664.03 -580.28Q636.97 -594.46 598.08 -594.46L216.38 -594.46L216.38 -359.51Z"/><path transform="translate(3423 0)" d="M338.35 0L338.35 -590.67L27.84 -590.67L27.84 -686.54L757.68 -686.54L757.68 -590.67L447.17 -590.67L447.17 0L338.35 0Z"/><path transform="translate(4209 0)" d="M107.57 0L107.57 -686.54L784.19 -686.54L784.19 -594.46L216.38 -594.46L216.38 -397.38L727.41 -397.38L727.41 -305.3L216.38 -305.3L216.38 -92.08L792.19 -92.08L792.19 0L107.57 0Z"/><path transform="translate(5078 0)" d="M107.57 0L107.57 -686.54L623.54 -686.54Q691.95 -686.54 737.76 -659.11Q783.57 -631.68 807.03 -585.01Q830.49 -538.35 830.49 -480.27Q830.49 -416.05 797.38 -363.93Q764.27 -311.81 699.19 -287.32L847.95 0L725.65 0L589.54 -267.97L216.38 -267.97L216.38 0L107.57 0ZM216.38 -359.51L598.08 -359.51Q655.65 -359.51 687.58 -392.99Q719.51 -426.46 719.51 -478.65Q719.51 -514.08 705.3 -540.09Q691.08 -566.11 664.03 -580.28Q636.97 -594.46 598.08 -594.46L216.38 -594.46L216.38 -359.51Z"/></g></defs></svg>
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="../" aria-label="Faraday, offline app">
+      <svg class="mark" viewBox="0 0 100 136" aria-hidden="true"><path fill="var(--rim)" fill-rule="evenodd" d="M0 12A12 12 0 0 1 12 0H88A12 12 0 0 1 100 12V81.2Q98 115 50 135.3Q2 115 0 81.2ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z"/><path fill="var(--accent)" fill-rule="evenodd" d="M7 17.3A10.3 10.3 0 0 1 17.3 7H82.7A10.3 10.3 0 0 1 93 17.3V78.1Q91.3 107.7 50 125.5Q8.7 107.7 7 78.1ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z"/></svg>
+      <svg class="name" viewBox="97 -687 6067 687" aria-hidden="true"><use href="#wordmark"/></svg>
+      <svg class="under" viewBox="97 -426 6067 426" aria-hidden="true"><use href="#tagline"/></svg>
+    </a>
+    <nav>
+      <a class="plain" href="./" aria-current="page">Download</a>
+      <a class="plain" href="../audits/">Audits</a>
+      <a class="plain" href="../blog/">Blog</a>
+      <a class="plain" href="../#faq">FAQ</a>
+      <a class="btn gh" href="https://github.com/bitcoinpasada/faraday" aria-label="GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.470 7.59.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.170-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.6 7.6 0 0 1 8 3.86c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <button class="btn coffee" data-coffee title="Buy me a coffee"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v5a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 2.5c-.6.8-.6 1.7 0 2.5M12 2.5c-.6.8-.6 1.7 0 2.5"/></svg><span>Buy me a coffee</span></button>
+      <div class="menu">
+        <button class="btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <ul class="menu-list" id="menu" hidden>
+          <li><a href="./" aria-current="page">Download</a></li>
+          <li><a href="../audits/">Audits</a></li>
+          <li><a href="../blog/">Blog</a></li>
+          <li><a href="../#faq">FAQ</a></li>
+          <li><a href="https://github.com/bitcoinpasada/faraday">GitHub</a></li>
+          <li><button type="button" data-coffee>Buy me a coffee</button></li>
+        </ul>
+      </div>
+      <a class="btn accent" href="../#play">Try it</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="top">
+  <h1>Download Faraday</h1>
+  <p>Faraday 0.1.6, a pre-release. It runs on a laptop from a USB stick, or on a Raspberry Pi from a microSD card.</p>
+  <p class="jump">
+    <a class="btn" href="#starter">Faraday Starter</a>
+    <a class="btn" href="#need">What you need</a>
+    <a class="btn accent" href="#by-hand">Download and start</a>
+  </p>
+</div>
+
+<section id="starter">
+  <h2>Faraday Starter</h2>
+  <p class="sub">Faraday Starter makes flashing a USB stick and rebooting into Faraday easy. Download it and open it: it puts Faraday on your stick, then guides you step by step through restarting your computer into it.</p>
+  <div class="app">
+    <div class="card head">
+      <div>
+        <h3 class="lockup" aria-label="Faraday Starter"><svg class="mark" viewBox="0 0 100 136" aria-hidden="true"><path fill="var(--rim)" fill-rule="evenodd" d="M0 12A12 12 0 0 1 12 0H88A12 12 0 0 1 100 12V81.2Q98 115 50 135.3Q2 115 0 81.2ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z"/><path fill="var(--accent)" fill-rule="evenodd" d="M7 17.3A10.3 10.3 0 0 1 17.3 7H82.7A10.3 10.3 0 0 1 93 17.3V78.1Q91.3 107.7 50 125.5Q8.7 107.7 7 78.1ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z"/></svg><svg class="word" viewBox="97 -687 12357 687" aria-hidden="true"><use href="#wordmark"/><use href="#sfx-starter" x="6528" class="sfx"/></svg></h3>
+        <p class="note">For Linux and Windows, x86-64. macOS coming soon.</p>
+      </div>
+      <div class="row">
+        <a class="btn accent" href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.6/Faraday-Starter-0.1.6-Linux.tar.gz">Linux<small>33 MB</small></a>
+        <a class="btn accent" href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.6/Faraday-Starter-0.1.6-Windows.exe">Windows<small>38 MB</small></a>
+        <span class="btn soon">macOS<small>coming soon</small></span>
+      </div>
+    </div>
+    <div class="card">
+      <ol class="easy">
+        <li><b>Open Faraday Starter</b>On the computer you use every day. Nothing to install first.</li>
+        <li><b>Make your Faraday stick</b>Plug in a USB stick, or a microSD card for a Raspberry Pi, and choose it. Faraday Starter writes Faraday to it and checks what it wrote.</li>
+        <li><b>Start from the stick</b>Its guide shows the steps for your computer, one at a time, and how to set the computer back afterwards.</li>
+      </ol>
+    </div>
+  </div>
+  <details class="card">
+    <summary>Opening it the first time</summary>
+    <p><b>Linux</b>The file comes in a .tar.gz. Extract it with a double-click, then open the file inside. Writing a stick may ask for your password. It runs on Ubuntu 20.04 and later, Debian 11 and later, Fedora 32 and later, and Arch.</p>
+    <p><b>Windows</b>Windows shows "Windows protected your PC" the first time, because the file is not code-signed: a certificate would name a verified person, and Faraday is published under a pseudonym. Check the file against SHA256SUMS, as in Verify below, then choose More info, Run anyway.</p>
+    <p><b>An antivirus warning</b>An antivirus can flag a new program that is not code-signed. Faraday Starter changes only what you ask it to: the stick it writes, an install if you choose one, a restart when you say. Check the file against SHA256SUMS before running it.</p>
+  </details>
+</section>
+
+<section id="need">
+  <h2>What you need</h2>
+  <p class="sub">A laptop or a Raspberry Pi, and soon a Mac. Prices are rough, in US dollars.</p>
+  <div class="routes">
+    <article class="card">
+      <h3>A laptop</h3>
+      <p>The better machine: its screen, keyboard and webcam are inside the case.</p>
+      <ul class="needs">
+        <li><span>An x86-64 laptop with UEFI firmware: the one you have, or, for the most caution, a dedicated one with its Wi-Fi card and internal disk taken out</span><b>$0, or $100 to $200</b></li>
+        <li><span>A webcam to scan QR codes: the built-in one, or a USB webcam</span><b>$0 to $20</b></li>
+        <li><span>A USB stick of 256 MB or larger for Faraday's image</span><b>about $8</b></li>
+        <li><span>A second USB stick for files, optional</span><b>about $8</b></li>
+      </ul>
+      <p class="img"><span>Image</span><code>faraday-stick-0.1.6-x86_64-uefi.img.xz</code></p>
+    </article>
+    <article class="card">
+      <h3>A Raspberry Pi 3</h3>
+      <p>With a 2.8 inch touch panel; the microSD card is its only storage.</p>
+      <ul class="needs">
+        <li><span>A Raspberry Pi 3 Model B</span><b>about $35</b></li>
+        <li><span>Waveshare's 2.8 inch DPI touch panel</span><b>about $30</b></li>
+        <li><span>A USB webcam</span><b>about $20</b></li>
+        <li><span>A microSD card of 256 MB or larger, and a power supply</span><b>about $18</b></li>
+      </ul>
+      <p class="img"><span>Image</span><code>faraday-pi-0.1.6-pi3-waveshare-28dpi.img.xz</code></p>
+      <p class="untried">The Pi image has not yet been tried on the panel.</p>
+    </article>
+    <article class="card">
+      <h3>A Mac<span class="tag">Coming soon</span></h3>
+      <p>In the works. What it will support, from Apple's and Asahi Linux's documentation:</p>
+      <ul class="needs">
+        <li><span>Intel Macs with 64-bit EFI, which leaves out the 2006 and some 2007 models, start the laptop's stick image. Macs with the T2 chip (2018 to 2020) take a USB keyboard, and their Startup Security is lowered while Faraday is used.</span><b>Intel</b></li>
+        <li><span>M1 and M2 Macs start a stick image of their own, through a start-up file Faraday Starter sets up once and the Mac's recovery system seals. macOS keeps Full Security, and Faraday Starter can remove the file again.</span><b>M1, M2</b></li>
+        <li><span>M3 once Asahi Linux's support for it is released; M4 and M5 once Asahi's boot code starts on them.</span><b>Later</b></li>
+      </ul>
+      <p class="img"><span>Sources</span>Apple's pages that identify each Mac model, and Asahi Linux's feature-support pages. Faraday's README will list each model.</p>
+    </article>
+  </div>
+  <p class="aside">Any USB stick or microSD card of 256 MB or larger will do. Faraday's own boot file is about 14 MB on a stick and 16 MB on a Pi card; the rest of its 64 MiB boot partition is room for later versions to grow, and a 128 MiB partition beside it holds your files.</p>
+  <p class="aside">A desktop PC works too, with a plain monitor. Not a smart TV, a capture card or a KVM switch: each can record what Faraday shows, and a network KVM can also type on it.</p>
+</section>
+
+<section id="by-hand">
+  <h2>Download and start</h2>
+  <p class="sub">With Faraday Starter, or by hand.</p>
+  <ol class="how">
+    <li class="card">
+      <h3>Download</h3>
+      <p>The image for your machine, SHA256SUMS and SHA256SUMS.asc, from the files below or the release on GitHub.</p>
+      <a class="btn" href="https://github.com/bitcoinpasada/faraday/releases/tag/v0.1.6">Release 0.1.6</a>
+    </li>
+    <li class="card">
+      <h3>Verify</h3>
+      <p>The release key was made in Faraday and its secret part has never left a Faraday vault. Its fingerprint:</p>
+      <p class="fp"><code>D1AF A712 ABEF 9010 9A1B 587F F153 6BE0 7E23 4CFD</code></p>
+      <div class="cmd"><pre><code>gpg --import release-key.asc
+gpg --fingerprint F1536BE07E234CFD
+gpg --verify SHA256SUMS.asc SHA256SUMS
+sha256sum -c --ignore-missing SHA256SUMS</code></pre><button class="copy" type="button">Copy</button></div>
+      <p>On Windows, Gpg4win's gpg takes the first three commands, and PowerShell prints a file's sum to compare with its line in SHA256SUMS:</p>
+      <div class="cmd"><pre><code>Get-FileHash -Algorithm SHA256 .\faraday-stick-0.1.6-x86_64-uefi.img.xz</code></pre><button class="copy" type="button">Copy</button></div>
+      <a class="btn" href="https://github.com/bitcoinpasada/faraday/blob/main/faraday/release-key.asc">release-key.asc</a>
+    </li>
+    <li class="card">
+      <h3>Write the stick</h3>
+      <p>Faraday Starter writes the stick or card and reads it back. By hand, use a tool that writes whole disk images, such as Raspberry Pi Imager (Use custom) or balenaEtcher, which take the .img.xz as it is, or dd on Linux. Writing erases the stick: check its name with lsblk first.</p>
+      <div class="cmd"><pre><code>xz -dc faraday-stick-0.1.6-x86_64-uefi.img.xz | sudo dd of=/dev/sdX bs=4M conv=fsync status=progress</code></pre><button class="copy" type="button">Copy</button></div>
+    </li>
+    <li class="card">
+      <h3>Start from the stick</h3>
+      <p>Follow the steps in Faraday Starter, on the computer Faraday will run on. It shows them for that computer's maker, in order, and the steps that put the computer back afterwards.</p>
+      <p class="warn"><b>On Windows, Secure Boot back on first.</b>Turn Secure Boot back on before Windows starts again. Windows started with Secure Boot off asks for the drive's 48-digit recovery key.</p>
+      <p>By hand: turn Secure Boot off in the firmware settings, choose the stick in the boot menu, and turn Secure Boot back on afterwards. On a Pi, put the card in and power it on.</p>
+      <a class="btn" href="../start/">The guides, step by step</a>
+    </li>
+  </ol>
+</section>
+
+<section id="files">
+  <h2>Files in 0.1.6</h2>
+  <p class="sub">SHA256SUMS lists the Starter's, the images' and Faraday Desktop's SHA-256 sums and the commit they were built from. The release key signs it and the release tag.</p>
+  <div class="card">
+    <table class="files">
+      <tr><th><a href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.6/Faraday-Starter-0.1.6-Linux.tar.gz">Faraday-Starter-0.1.6-Linux.tar.gz</a></th><td>Faraday Starter for Linux</td><td>33 MB</td></tr>
+      <tr><th><a href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.6/Faraday-Starter-0.1.6-Windows.exe">Faraday-Starter-0.1.6-Windows.exe</a></th><td>Faraday Starter for Windows</td><td>38 MB</td></tr>
+      <tr><th><a href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.6/faraday-stick-0.1.6-x86_64-uefi.img.xz">faraday-stick-0.1.6-x86_64-uefi.img.xz</a></th><td>The image for a laptop's USB stick</td><td>13 MB</td></tr>
+      <tr><th><a href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.6/faraday-pi-0.1.6-pi3-waveshare-28dpi.img.xz">faraday-pi-0.1.6-pi3-waveshare-28dpi.img.xz</a></th><td>The image for a Raspberry Pi 3's microSD card</td><td>13 MB</td></tr>
+      <tr><th><a href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.6/faraday-desktop-0.1.6-testnet-only-linux-x86_64">faraday-desktop-0.1.6-testnet-only-linux-x86_64</a></th><td>Faraday Desktop for Linux, for trying Faraday on an online computer. It opens in Demo; Testnet, Signet and Regtest are on its mode pill. It has no mainnet.</td><td>14 MB</td></tr>
+      <tr><th><a href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.6/faraday-desktop-0.1.6-testnet-only-windows-x86_64.exe">faraday-desktop-0.1.6-testnet-only-windows-x86_64.exe</a></th><td>Faraday Desktop for Windows, for trying Faraday on an online computer. It opens in Demo; Testnet, Signet and Regtest are on its mode pill. It has no mainnet.</td><td>12 MB</td></tr>
+      <tr><th><a href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.6/SHA256SUMS">SHA256SUMS</a></th><td>Each file's SHA-256, and each image's and the Linux Starter's inside its download</td><td>1 KB</td></tr>
+      <tr><th><a href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.6/SHA256SUMS.asc">SHA256SUMS.asc</a></th><td>Its signature by the release key</td><td>1 KB</td></tr>
+      <tr><th><a href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.6/v0.1.6.tag">v0.1.6.tag</a></th><td>The release tag's text</td><td>1 KB</td></tr>
+      <tr><th><a href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.6/v0.1.6.tag.asc">v0.1.6.tag.asc</a></th><td>Its signature by the release key</td><td>1 KB</td></tr>
+    </table>
+  </div>
+  <p class="aside">Faraday Desktop's sticks are folders in faraday-sticks in the home folder: ~/faraday-sticks on Linux, %USERPROFILE%\faraday-sticks on Windows. BOOTSTICK is the boot stick, empty at first.</p>
+  <div class="more">
+    <a class="btn accent" href="https://github.com/bitcoinpasada/faraday#readme">Read the README</a>
+    <button class="btn coffee" data-coffee><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v5a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 2.5c-.6.8-.6 1.7 0 2.5M12 2.5c-.6.8-.6 1.7 0 2.5"/></svg><span>Buy me a coffee</span></button>
+  </div>
+</section>
+</main>
+
+<!-- Donations: the QR codes go in the two frames (data-qr), as on the
+     demo page. -->
+<dialog class="coffee-box" id="coffee" aria-labelledby="coffee-title">
+  <button class="close" id="coffee-close" aria-label="Close" title="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <h2 id="coffee-title">Buy me a coffee</h2>
+  <p>Donations to Faraday's development, in bitcoin.</p>
+  <div class="qrs">
+    <figure><div class="qr" data-qr="lightning">QR code to come</div><figcaption>Lightning</figcaption></figure>
+    <figure><div class="qr" data-qr="bitcoin">QR code to come</div><figcaption>Bitcoin</figcaption></figure>
+  </div>
+</dialog>
+
+<footer>
+  <div>
+    <span>Faraday · MIT License</span>
+    <button class="link" data-coffee>Buy me a coffee</button>
+    <a href="https://github.com/bitcoinpasada/faraday">github.com/bitcoinpasada/faraday</a>
+  </div>
+</footer>
+
+<script>
+"use strict";
+// Buy me a coffee, and the commands' Copy buttons, as on the demo page.
+const coffee = document.querySelector("#coffee");
+for (const b of document.querySelectorAll("[data-coffee]")) b.addEventListener("click", () => coffee.showModal());
+document.querySelector("#coffee-close").addEventListener("click", () => coffee.close());
+coffee.addEventListener("click", (e) => { if (e.target === coffee) coffee.close(); });
+
+// The bar's menu, on a narrow screen: the button opens the list and
+// Escape, a choice, a tap outside or the focus leaving close it.
+{
+  const button = document.querySelector("#menu-btn");
+  const list = document.querySelector("#menu");
+  const wrap = button.parentElement;
+  const items = () => [...list.querySelectorAll("a, button")];
+  const show = (on, back) => {
+    list.hidden = !on;
+    button.setAttribute("aria-expanded", String(on));
+    if (on) items()[0].focus();
+    else if (back) button.focus();
+  };
+  button.addEventListener("click", () => show(list.hidden, false));
+  list.addEventListener("click", (e) => {
+    const item = e.target.closest("a, button");
+    if (!item) return;
+    show(false, false);
+    // Buy me a coffee: the focus comes back to the menu's button.
+    if (item.hasAttribute("data-coffee")) coffee.addEventListener("close", () => button.focus(), { once: true });
+  });
+  list.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+    e.preventDefault();
+    const all = items();
+    const i = all.indexOf(document.activeElement);
+    all[(i + (e.key === "ArrowDown" ? 1 : all.length - 1)) % all.length].focus();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || list.hidden) return;
+    e.preventDefault();
+    e.stopPropagation();
+    show(false, true);
+  }, true);
+  document.addEventListener("pointerdown", (e) => {
+    if (!list.hidden && !wrap.contains(e.target)) show(false, false);
+  });
+  wrap.addEventListener("focusout", (e) => {
+    if (!list.hidden && e.relatedTarget && !wrap.contains(e.relatedTarget)) show(false, false);
+  });
+}
+for (const b of document.querySelectorAll(".copy")) {
+  b.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(b.previousElementSibling.textContent);
+      b.textContent = "Copied";
+    } catch (e) {
+      b.textContent = "Select and copy";
+    }
+    setTimeout(() => { b.textContent = "Copy"; }, 1600);
+  });
+}
+</script>
+</body>
+</html>

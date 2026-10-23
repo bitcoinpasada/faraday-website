@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#e4e7ea">
+<title>Starting an ASUS computer from the stick · Faraday</title>
+<meta name="description" content="How to start an ASUS computer from the Faraday stick: F2 for the BIOS, Secure Boot off in Advanced Mode, Esc for the boot menu, and Secure Boot back on.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://faradayoffline.app/start/maker-asus/">
+<meta property="og:site_name" content="Faraday">
+<meta property="og:title" content="Starting an ASUS computer from the stick">
+<meta property="og:description" content="How to start an ASUS computer from the Faraday stick: F2 for the BIOS, Secure Boot off in Advanced Mode, Esc for the boot menu, and Secure Boot back on.">
+<meta property="og:image" content="https://faradayoffline.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://faradayoffline.app/start/maker-asus/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-23 -10 146 146'%3E%3Cpath fill='%230062a3' fill-rule='evenodd' d='M0 12A12 12 0 0 1 12 0H88A12 12 0 0 1 100 12V81.2Q98 115 50 135.3Q2 115 0 81.2ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --surface: #ffffff; --line: #d9e1f0; --text: #131b27; --muted: #4d5b6e;
+    --accent: #0062a3; --page: #e4e7ea; --page-line: rgb(20 30 40 / 0.12);
+    --ink-hi: #18212a; --ink-mid: #4f5c67;
+    --rim: color-mix(in oklab, var(--accent), white 50%);
+    --font: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--ink-hi); background: var(--page); font: 18px/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  header { border-bottom: 1px solid var(--page-line); }
+  header div, main, footer div { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+  header div { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; }
+  .brand { --cap: 14px; display: flex; align-items: center; gap: calc(var(--cap) * 0.75); color: var(--ink-hi); }
+  .mark { width: calc(var(--cap) * 1.6); height: auto; }
+  .name { height: var(--cap); width: calc(var(--cap) * 6067 / 687); fill: currentColor; }
+  header nav a { color: var(--ink-mid); text-decoration: none; font-size: 16px; }
+  main { padding-top: 28px; padding-bottom: 40px; }
+  h1 { margin: 0 0 20px; font-size: 30px; line-height: 1.2; letter-spacing: -0.015em; }
+  h2 { margin: 32px 0 8px; font-size: 21px; line-height: 1.3; }
+  p { margin: 0 0 14px; color: var(--text); }
+  .list { margin: 0; padding: 0; list-style: none; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
+  .list li { border-top: 1px solid var(--line); }
+  .list li:first-child { border-top: 0; }
+  .list a { display: block; padding: 14px 18px; text-decoration: none; }
+  footer { border-top: 1px solid var(--page-line); color: var(--ink-mid); font-size: 15px; }
+  footer div { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; padding-top: 18px; padding-bottom: 28px; }
+  footer a { color: var(--ink-hi); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wordmark" fill-rule="evenodd" d="M97 0L97 -687L751 -687L751 -560L249 -560L249 -394L703 -394L703 -267L249 -267L249 0ZM765 0L1109 -687L1281 -687L1625 0L1458 0L1253 -424Q1248 -435 1238.5 -456.5Q1229 -478 1219.5 -500.5Q1210 -523 1202.5 -539.5Q1195 -556 1194 -557L1186 -557Q1177 -537 1165.5 -511Q1154 -485 1143.5 -461Q1133 -437 1126 -423L921 0ZM1048 -133L1108.1 -256L1270.9 -256L1331 -133ZM1776 0L1776 -687L2320 -687Q2393 -687 2439.5 -657.5Q2486 -628 2509 -579.5Q2532 -531 2532 -472Q2532 -411 2500.5 -357.5Q2469 -304 2403 -274L2549 0L2378 0L2252 -245L1928 -245L1928 0ZM1928 -371L2278 -371Q2325 -371 2350.5 -398.5Q2376 -426 2376 -469Q2376 -498 2365 -518.5Q2354 -539 2332 -549.5Q2310 -560 2278 -560L1928 -560ZM2645 0L2989 -687L3161 -687L3505 0L3338 0L3133 -424Q3128 -435 3118.5 -456.5Q3109 -478 3099.5 -500.5Q3090 -523 3082.5 -539.5Q3075 -556 3074 -557L3066 -557Q3057 -537 3045.5 -511Q3034 -485 3023.5 -461Q3013 -437 3006 -423L2801 0ZM2928 -133L2988.1 -256L3150.9 -256L3211 -133ZM3656 0L3656 -687L4022 -687Q4148 -687 4238.5 -647.5Q4329 -608 4377.5 -531.5Q4426 -455 4426 -343Q4426 -232 4377.5 -155.5Q4329 -79 4238.5 -39.5Q4148 0 4022 0ZM3808 -127L4014 -127Q4069 -127 4115.5 -140Q4162 -153 4196.5 -178.5Q4231 -204 4250 -242.5Q4269 -281 4269 -332L4269 -355Q4269 -406 4250 -444.5Q4231 -483 4196.5 -508.5Q4162 -534 4115.5 -547Q4069 -560 4014 -560L3808 -560ZM4513 0L4857 -687L5029 -687L5373 0L5206 0L5001 -424Q4996 -435 4986.5 -456.5Q4977 -478 4967.5 -500.5Q4958 -523 4950.5 -539.5Q4943 -556 4942 -557L4934 -557Q4925 -537 4913.5 -511Q4902 -485 4891.5 -461Q4881 -437 4874 -423L4669 0ZM4796 -133L4856.1 -256L5018.9 -256L5079 -133ZM5675 0L5675 -278L5339 -687L5522 -687L5750 -400L5760 -400L5991 -687L6164 -687L5827 -278L5827 0Z"/></defs></svg>
+<header><div>
+  <a class="brand" href="../../" aria-label="Faraday"><svg class="mark" viewBox="0 0 100 136" aria-hidden="true"><path fill="var(--rim)" fill-rule="evenodd" d="M0 12A12 12 0 0 1 12 0H88A12 12 0 0 1 100 12V81.2Q98 115 50 135.3Q2 115 0 81.2ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z"/><path fill="var(--accent)" fill-rule="evenodd" d="M7 17.3A10.3 10.3 0 0 1 17.3 7H82.7A10.3 10.3 0 0 1 93 17.3V78.1Q91.3 107.7 50 125.5Q8.7 107.7 7 78.1ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z"/></svg><svg class="name" viewBox="97 -687 6067 687" aria-hidden="true"><use href="#wordmark"/></svg></a>
+  <nav><a href="../../start/">Guides</a></nav>
+</div></header>
+<main>
+<h1>Starting an ASUS computer from the stick</h1>
+<h2>Before you start</h2>
+<p>On Linux, have the disk's passphrase or recovery key ready if it is unlocked by the TPM.</p>
+<h2>Steps</h2>
+<p>1. Plug the stick in.</p>
+<p>2. Shut the computer down fully.</p>
+<p>3. Hold F2 and press the power button. Let go of F2 when the BIOS screen appears.</p>
+<p>If it doesn't open: use Faraday Starter's Restart into the BIOS.</p>
+<p>4. Notebooks: press F7 for Advanced Mode, open Security → Secure Boot, and set Secure Boot Control to Disabled. Press F10 and confirm: Save &amp; Reset on newer notebooks, Save &amp; Exit Setup on older ones.</p>
+<p>::sketch asus-secure-boot</p>
+<p>::sketch asus-save</p>
+<p>In MyASUS in UEFI, Advanced Mode is Advanced Settings.</p>
+<p>Desktops: Boot → Secure Boot, and set OS Type to Other OS. Press F10 and choose Ok in the Save Changes &amp; Reset box; the last tab is Exit.</p>
+<p>::sketch asus-desktop-secure-boot</p>
+<p>::sketch asus-desktop-save</p>
+<p>Leave Launch CSM as it is: the stick starts in UEFI mode, and CSM is for legacy BIOS mode.</p>
+<p>If the Secure Boot setting cannot be found: exit the BIOS without saving changes. Windows starts as before.</p>
+<p>5. Hold Esc as the computer starts again, and let go when the boot menu appears. On Windows, do it on this restart, before Windows starts.</p>
+<p>From a computer that is shut down: hold Esc and press the power button. If the menu does not appear: open the BIOS and press F8, or choose Boot Menu.</p>
+<p>6. Choose the stick and press Enter. If it is listed twice, choose the one that starts with UEFI.</p>
+<p>::sketch asus-boot-menu</p>
+<p>The stick is usually listed under its maker's name, the one printed on it (SanDisk, Kingston…), often after "UEFI:". It is not Windows Boot Manager, a Linux name such as ubuntu, or the computer's own disk.</p>
+<p>If the stick is not listed: see "If something is different" below.</p>
+<h2>Afterwards</h2>
+<p>7. Turn the computer off from Faraday and pull the stick out.</p>
+<p>8. Turn Secure Boot back on: open the BIOS with F2, set Security → Secure Boot → Secure Boot Control to Enabled (on desktops, OS Type to Windows UEFI mode), and save with F10. Do it before Windows starts.</p>
+<p>If Secure Boot shows Not Active after that: with Secure Boot Control Enabled, open Key Management, choose Restore Factory Keys and confirm with Yes, then save with F10.</p>
+<p>ASUS's steps also list Reset To Setup Mode before Restore Factory Keys. Reset To Setup Mode removes the keys: use Restore Factory Keys alone first.</p>
+<h2>If something is different</h2>
+<p>The BitLocker recovery key: with Secure Boot off, Windows cannot start without it. Windows may ask for it even after Secure Boot is back on, on a computer whose BIOS changes its Secure Boot keys when the setting is turned off and on. Suspending BitLocker first avoids that: Faraday Starter's Temporarily suspend BitLocker, before the restart, suspends it for the next 3 times Windows starts, after which Windows turns it back on by itself. To see the key on this computer: in Windows, Control Panel → BitLocker Drive Encryption → Back up your recovery key; on Windows Home, manage-bde -protectors -get C: in a terminal run as administrator; Faraday Starter prints it on its sheet when asked to. On a computer signed in with a Microsoft account it is also at aka.ms/myrecoverykey. If Windows asks for it while Secure Boot is still off: turn the computer off and turn Secure Boot back on; Windows then starts without it.</p>
+<p>Stick not in the boot menu: open the Boot screen in Advanced Mode, set Fast Boot to Disabled, and save with F10. On desktops it is Boot → Boot Configuration → Fast Boot.</p>
+<h2>Sources</h2>
+<p>Where Faraday shows a picture of a firmware screen, it is a mock-up: the real screen may look different.</p>
+<p>ASUS: "How to Enable/Disable Secure Boot" (FAQ 1050047), "How to Boot from a USB Flash Drive/CD-ROM (Changing Boot Options)" (FAQ 1013017) and "[Notebook] How to disable Fast Boot in BIOS configuration" (FAQ 1044641), on asus.com/support. All read 2026-10-12; the first two read again, with their screen images, 2026-10-13.</p>
+</main>
+<footer><div>
+  <span>Faraday · MIT License</span>
+  <a href="../../download/">Download Faraday</a>
+</div></footer>
+</body>
+</html>

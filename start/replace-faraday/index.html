@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#e4e7ea">
+<title>Replacing Faraday on a stick · Faraday</title>
+<meta name="description" content="How Faraday Starter writes a new Faraday over a stick's boot partition and leaves its data partition, what the computer can see, and how to avoid that.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://faradayoffline.app/start/replace-faraday/">
+<meta property="og:site_name" content="Faraday">
+<meta property="og:title" content="Replacing Faraday on a stick">
+<meta property="og:description" content="How Faraday Starter writes a new Faraday over a stick's boot partition and leaves its data partition, what the computer can see, and how to avoid that.">
+<meta property="og:image" content="https://faradayoffline.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://faradayoffline.app/start/replace-faraday/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-23 -10 146 146'%3E%3Cpath fill='%230062a3' fill-rule='evenodd' d='M0 12A12 12 0 0 1 12 0H88A12 12 0 0 1 100 12V81.2Q98 115 50 135.3Q2 115 0 81.2ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --surface: #ffffff; --line: #d9e1f0; --text: #131b27; --muted: #4d5b6e;
+    --accent: #0062a3; --page: #e4e7ea; --page-line: rgb(20 30 40 / 0.12);
+    --ink-hi: #18212a; --ink-mid: #4f5c67;
+    --rim: color-mix(in oklab, var(--accent), white 50%);
+    --font: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--ink-hi); background: var(--page); font: 18px/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  header { border-bottom: 1px solid var(--page-line); }
+  header div, main, footer div { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+  header div { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; }
+  .brand { --cap: 14px; display: flex; align-items: center; gap: calc(var(--cap) * 0.75); color: var(--ink-hi); }
+  .mark { width: calc(var(--cap) * 1.6); height: auto; }
+  .name { height: var(--cap); width: calc(var(--cap) * 6067 / 687); fill: currentColor; }
+  header nav a { color: var(--ink-mid); text-decoration: none; font-size: 16px; }
+  main { padding-top: 28px; padding-bottom: 40px; }
+  h1 { margin: 0 0 20px; font-size: 30px; line-height: 1.2; letter-spacing: -0.015em; }
+  h2 { margin: 32px 0 8px; font-size: 21px; line-height: 1.3; }
+  p { margin: 0 0 14px; color: var(--text); }
+  .list { margin: 0; padding: 0; list-style: none; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
+  .list li { border-top: 1px solid var(--line); }
+  .list li:first-child { border-top: 0; }
+  .list a { display: block; padding: 14px 18px; text-decoration: none; }
+  footer { border-top: 1px solid var(--page-line); color: var(--ink-mid); font-size: 15px; }
+  footer div { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; padding-top: 18px; padding-bottom: 28px; }
+  footer a { color: var(--ink-hi); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wordmark" fill-rule="evenodd" d="M97 0L97 -687L751 -687L751 -560L249 -560L249 -394L703 -394L703 -267L249 -267L249 0ZM765 0L1109 -687L1281 -687L1625 0L1458 0L1253 -424Q1248 -435 1238.5 -456.5Q1229 -478 1219.5 -500.5Q1210 -523 1202.5 -539.5Q1195 -556 1194 -557L1186 -557Q1177 -537 1165.5 -511Q1154 -485 1143.5 -461Q1133 -437 1126 -423L921 0ZM1048 -133L1108.1 -256L1270.9 -256L1331 -133ZM1776 0L1776 -687L2320 -687Q2393 -687 2439.5 -657.5Q2486 -628 2509 -579.5Q2532 -531 2532 -472Q2532 -411 2500.5 -357.5Q2469 -304 2403 -274L2549 0L2378 0L2252 -245L1928 -245L1928 0ZM1928 -371L2278 -371Q2325 -371 2350.5 -398.5Q2376 -426 2376 -469Q2376 -498 2365 -518.5Q2354 -539 2332 -549.5Q2310 -560 2278 -560L1928 -560ZM2645 0L2989 -687L3161 -687L3505 0L3338 0L3133 -424Q3128 -435 3118.5 -456.5Q3109 -478 3099.5 -500.5Q3090 -523 3082.5 -539.5Q3075 -556 3074 -557L3066 -557Q3057 -537 3045.5 -511Q3034 -485 3023.5 -461Q3013 -437 3006 -423L2801 0ZM2928 -133L2988.1 -256L3150.9 -256L3211 -133ZM3656 0L3656 -687L4022 -687Q4148 -687 4238.5 -647.5Q4329 -608 4377.5 -531.5Q4426 -455 4426 -343Q4426 -232 4377.5 -155.5Q4329 -79 4238.5 -39.5Q4148 0 4022 0ZM3808 -127L4014 -127Q4069 -127 4115.5 -140Q4162 -153 4196.5 -178.5Q4231 -204 4250 -242.5Q4269 -281 4269 -332L4269 -355Q4269 -406 4250 -444.5Q4231 -483 4196.5 -508.5Q4162 -534 4115.5 -547Q4069 -560 4014 -560L3808 -560ZM4513 0L4857 -687L5029 -687L5373 0L5206 0L5001 -424Q4996 -435 4986.5 -456.5Q4977 -478 4967.5 -500.5Q4958 -523 4950.5 -539.5Q4943 -556 4942 -557L4934 -557Q4925 -537 4913.5 -511Q4902 -485 4891.5 -461Q4881 -437 4874 -423L4669 0ZM4796 -133L4856.1 -256L5018.9 -256L5079 -133ZM5675 0L5675 -278L5339 -687L5522 -687L5750 -400L5760 -400L5991 -687L6164 -687L5827 -278L5827 0Z"/></defs></svg>
+<header><div>
+  <a class="brand" href="../../" aria-label="Faraday"><svg class="mark" viewBox="0 0 100 136" aria-hidden="true"><path fill="var(--rim)" fill-rule="evenodd" d="M0 12A12 12 0 0 1 12 0H88A12 12 0 0 1 100 12V81.2Q98 115 50 135.3Q2 115 0 81.2ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z"/><path fill="var(--accent)" fill-rule="evenodd" d="M7 17.3A10.3 10.3 0 0 1 17.3 7H82.7A10.3 10.3 0 0 1 93 17.3V78.1Q91.3 107.7 50 125.5Q8.7 107.7 7 78.1ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z"/></svg><svg class="name" viewBox="97 -687 6067 687" aria-hidden="true"><use href="#wordmark"/></svg></a>
+  <nav><a href="../../start/">Guides</a></nav>
+</div></header>
+<main>
+<h1>Replacing Faraday on a stick</h1>
+<h2>What it does</h2>
+<p>Make a Faraday stick → Replace Faraday, keep data writes a new Faraday over the stick's boot partition, reads it back and compares. The data partition, with its vaults and settings file, is not read and not written.</p>
+<p>The rules are the stick's own Upgrade a Faraday stick's. A stick that already holds the same build is not written. Writing an older Faraday over a newer one is marked on Confirm and can still be done. The stick's boot partition has to be at least as large as the new one's; a stick whose boot partition is smaller has to be written whole, which empties its data partition.</p>
+<p>A Faraday stick or Pi card needs a USB stick or SD card of 256 MB or larger. Faraday's own boot file takes about 14 MB of the stick's 64 MiB boot partition, and the Pi card's boot files about 16 MB of its 64 MiB; the rest of that partition is room for later versions to grow. The 128 MiB data partition is storage for files: vaults, PSBTs and anything else brought to the device.</p>
+<h2>What the computer can see</h2>
+<p>Plugging the stick into this computer is what exposes its data partition, whatever Faraday Starter does. The computer can read and write it, and Windows gives it a drive letter. The vaults there are encrypted with their passphrases. The settings file is not encrypted. A program on this computer could read the settings file, and could change or delete anything on the data partition.</p>
+<h2>Without a computer</h2>
+<p>Settings → Upgrade a Faraday stick, on a stick that already holds the newer Faraday, copies that Faraday onto the stick that holds vaults. The stick with vaults then never goes into a computer other than the one Faraday runs on.</p>
+<p>Write the new Faraday onto a spare stick here with New Faraday stick, start from the spare, and upgrade the stick with vaults from it. The page "Upgrading a Faraday stick" says how.</p>
+<h2>Where this comes from</h2>
+<p>Faraday's own design: the Starter's specification (sections 3.2 and 4.4) and decisions F2, F5, F11 and F80, in Faraday's repository, as of 2026-10-22.</p>
+</main>
+<footer><div>
+  <span>Faraday · MIT License</span>
+  <a href="../../download/">Download Faraday</a>
+</div></footer>
+</body>
+</html>

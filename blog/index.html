@@ -1,0 +1,362 @@
+<!doctype html>
+<!--
+  The Blog page, at blog/ beside the demo (tools/blog.py writes it to
+  blog/index.html, its asset paths one level up, with the posts from
+  blog/*.md in the list, newest first). The posts are written in
+  Markdown; blog/README.md says how.
+  Its look is the Audits page's (web/audits.html), copied from it; keep
+  the pages alike. Each label a person reads is on one line of its own,
+  for tools/lint-page.sh.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#e4e7ea">
+<title>Blog: notes on Faraday</title>
+<meta name="description" content="News and notes about Faraday, the offline key appliance.">
+<link rel="canonical" href="https://faradayoffline.app/blog/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://faradayoffline.app/blog/">
+<meta property="og:site_name" content="Faraday">
+<meta property="og:title" content="Faraday blog">
+<meta property="og:description" content="News and notes about Faraday, the offline key appliance.">
+<meta property="og:image" content="https://faradayoffline.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="application/atom+xml" title="Faraday blog" href="https://faradayoffline.app/blog/feed.xml">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-23 -10 146 146'%3E%3Cpath fill='%230062a3' fill-rule='evenodd' d='M0 12A12 12 0 0 1 12 0H88A12 12 0 0 1 100 12V81.2Q98 115 50 135.3Q2 115 0 81.2ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z'/%3E%3C/svg%3E">
+<style>
+  /* The app's palette in Cobalt, as the download page's. */
+  :root {
+    --surface: #ffffff;
+    --line: #d9e1f0;
+    --inner: #e6ecf7;
+    --border: #c3cfe3;
+    --text: #131b27;
+    --muted: #4d5b6e;
+    --dim: #788699;
+    --accent: #0062a3;
+    --on-accent: #ffffff;
+    --ok: #1d8556;
+    --warn: #9a5d00;
+    --bad: #b3261e;
+    --page: #e4e7ea;
+    --page-3: #f6f7f8;
+    --page-line: rgb(20 30 40 / 0.12);
+    --ink-hi: #18212a;
+    --ink-mid: #4f5c67;
+    --shadow: 25 35 45;
+    --accent-hi: color-mix(in oklab, var(--accent), black 8%);
+    --rim: color-mix(in oklab, var(--accent), white 50%);
+    --font: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, sans-serif;
+    --mono: ui-monospace, "Cascadia Mono", "JetBrains Mono", "Noto Sans Mono", Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--ink-hi);
+    background: var(--page);
+    font: 15px/1.55 var(--font);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 3px; border-radius: 6px; }
+  button { font: inherit; }
+  code { font: 0.92em/1.4 var(--mono); overflow-wrap: anywhere; }
+
+  /* The bar, as the download page's. */
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: color-mix(in oklab, var(--page) 90%, transparent);
+    backdrop-filter: saturate(1.3) blur(14px);
+    -webkit-backdrop-filter: saturate(1.3) blur(14px);
+    border-bottom: 1px solid var(--page-line);
+  }
+  .bar-in { max-width: 1920px; margin: 0 auto; padding: 6px 16px; display: flex; align-items: center; gap: 10px; min-height: 50px; }
+  .brand {
+    --cap: 13px;
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    column-gap: calc(var(--cap) * 0.75);
+    row-gap: calc(var(--cap) * 0.22);
+    width: max-content;
+    color: var(--ink-hi);
+  }
+  .brand:hover { text-decoration: none; }
+  .mark { grid-row: 1 / span 2; grid-column: 1; align-self: center; display: block; width: calc(var(--cap) * 1.6); height: auto; }
+  .name { grid-row: 1; grid-column: 2; display: block; fill: currentColor; height: var(--cap); width: calc(var(--cap) * 6067 / 687); }
+  .under { grid-row: 2; grid-column: 2; display: block; fill: var(--ink-mid); overflow: visible; height: calc(var(--cap) * 426 / 687); width: calc(var(--cap) * 6067 / 687); }
+  .bar nav { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+  .bar nav a.plain { color: var(--ink-mid); padding: 6px 12px; border-radius: 999px; transition: color 200ms, background-color 200ms; }
+  .bar nav a.plain:hover { color: var(--ink-hi); background: var(--page-3); text-decoration: none; }
+  .bar nav a.plain[aria-current] { color: var(--ink-hi); background: var(--page-3); }
+
+  /* Buttons. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 14px;
+    font: 500 14px/1 var(--font);
+    color: var(--ink-hi);
+    background: var(--page-3);
+    border: 1px solid var(--page-line);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 200ms, border-color 200ms, color 200ms, transform 150ms;
+    user-select: none;
+    -webkit-user-select: none;
+    white-space: nowrap;
+  }
+  .btn:hover { text-decoration: none; background: color-mix(in oklab, var(--page-3), var(--accent) 22%); border-color: color-mix(in oklab, var(--page-line), var(--accent-hi) 50%); }
+  .btn:active { transform: scale(0.96); }
+  .btn svg { width: 16px; height: 16px; flex: none; }
+  .btn.accent { background: var(--accent); color: var(--on-accent); border-color: transparent; }
+  .btn.accent:hover { background: color-mix(in oklab, var(--accent), white 10%); }
+  .btn.coffee svg { width: 17px; height: 17px; }
+
+  /* The page: a heading, then sections, each a heading and cards. */
+  main { max-width: 1100px; margin: 0 auto; padding: 48px 16px 24px; }
+  .top { text-align: center; margin-bottom: 8px; }
+  .top h1 { margin: 0 0 8px; font-size: clamp(28px, 4vw, 42px); letter-spacing: -0.02em; line-height: 1.15; }
+  .top p { max-width: 640px; margin: 0 auto; color: var(--ink-mid); }
+  .jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 20px 0 0; }
+  section { padding: 48px 0 8px; }
+  section + section { border-top: 1px solid var(--page-line); margin-top: 40px; }
+  section > h2 { margin: 0 0 6px; font-size: clamp(22px, 2.8vw, 30px); letter-spacing: -0.015em; text-align: center; }
+  section > .sub { max-width: 680px; margin: 0 auto 24px; color: var(--ink-mid); text-align: center; }
+  .card { padding: 20px 22px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 18px; }
+  .card h3 { margin: 0 0 4px; font-size: 17px; }
+  .card > p { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+  .card > p:last-child { margin-bottom: 0; }
+  .aside { max-width: 680px; margin: 16px auto 0; color: var(--ink-mid); font-size: 14px; text-align: center; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* The blog: the list's cards, and a post's column. */
+  .post + .post { margin-top: 16px; }
+  .post h3 { margin: 0 0 4px; font-size: 19px; }
+  .post .meta { margin: 0 0 8px; color: var(--muted); font-size: 13.5px; }
+  .post > p:last-child { color: var(--text); font-size: 14.5px; }
+  .none { margin: 0 auto; max-width: 680px; padding: 28px 22px; text-align: center; color: var(--muted); background: var(--surface); border: 1px dashed var(--border); border-radius: 18px; }
+  #posts { max-width: 760px; margin: 0 auto; padding-top: 32px; }
+  .article { max-width: 68ch; margin: 0 auto; padding: 8px 0 0; font-size: 17px; line-height: 1.65; }
+  .back { display: inline-block; margin-bottom: 20px; font-size: 14px; }
+  .article h1 { margin: 0 0 6px; font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.02em; line-height: 1.15; }
+  .article .meta { margin: 0 0 28px; color: var(--ink-mid); font-size: 14px; }
+  .article h2 { margin: 36px 0 8px; font-size: 24px; letter-spacing: -0.01em; line-height: 1.25; }
+  .article h3 { margin: 28px 0 6px; font-size: 19px; line-height: 1.3; }
+  .article h4 { margin: 22px 0 4px; font-size: 16px; }
+  .article p, .article ul, .article ol, .article blockquote, .article pre { margin: 0 0 16px; }
+  .article ul, .article ol { padding-left: 1.4em; }
+  .article li { margin: 0 0 4px; }
+  .article blockquote { padding: 2px 0 2px 16px; color: var(--ink-mid); border-left: 3px solid var(--rim); }
+  .article blockquote > :last-child { margin-bottom: 0; }
+  .article pre { padding: 14px 16px; overflow-x: auto; font-size: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+  .article pre code { overflow-wrap: normal; }
+  .article :not(pre) > code { padding: 1px 5px; background: var(--inner); border-radius: 5px; }
+  .article img { display: block; max-width: 100%; height: auto; margin: 0 0 16px; border-radius: 10px; }
+
+  /* Buy me a coffee: a dialog with the two QR codes. */
+  .link { padding: 0; font: inherit; color: var(--ink-hi); background: none; border: 0; cursor: pointer; }
+  .link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .close { position: absolute; top: 14px; right: 14px; display: grid; place-items: center; width: 34px; height: 34px; color: var(--muted); background: none; border: 0; border-radius: 50%; cursor: pointer; }
+  .close:hover { color: var(--text); background: var(--inner); }
+  .close svg { width: 18px; height: 18px; }
+  .coffee-box { width: min(calc(100% - 32px), 520px); padding: 24px 24px 20px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 30px 70px -30px rgb(var(--shadow) / 0.5); }
+  .coffee-box::backdrop { background: rgb(var(--shadow) / 0.35); backdrop-filter: blur(3px); }
+  .coffee-box h2 { margin: 0 34px 4px 0; font-size: 20px; }
+  .coffee-box > p { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
+  .qrs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .qrs figure { margin: 0; text-align: center; }
+  .qr { display: grid; place-items: center; aspect-ratio: 1; padding: 8px; color: var(--dim); font-size: 13px; background: #fff; border: 1px dashed var(--border); border-radius: 12px; }
+  .qrs figcaption { margin-top: 6px; font-weight: 600; font-size: 14px; }
+
+  footer { margin-top: 48px; border-top: 1px solid var(--page-line); color: var(--ink-mid); font-size: 13px; }
+  footer div { max-width: 1440px; margin: 0 auto; padding: 20px 16px 28px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px 20px; }
+  footer div > :first-child { justify-self: start; }
+  footer div > :last-child { justify-self: end; }
+  @media (max-width: 640px) { footer div { grid-template-columns: 1fr; justify-items: center; } footer div > :first-child, footer div > :last-child { justify-self: center; } }
+  footer a { color: var(--ink-hi); }
+
+  @media (max-width: 1100px) { .bar .coffee span { display: none; } .bar .coffee { padding: 0 10px; } }
+  @media (max-width: 640px) {
+    main { padding-top: 32px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  /* The bar's menu: on a narrow screen, where the bar's links and Buy me
+     a coffee have no room, a list of them under a button. */
+  .menu { position: relative; display: none; }
+  .menu-btn { padding: 0 10px; }
+  .menu-btn svg { width: 18px; height: 18px; }
+  .menu-list {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 60;
+    min-width: 210px;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: var(--page);
+    border: 1px solid var(--page-line);
+    border-radius: 14px;
+    box-shadow: 0 18px 40px -18px rgb(var(--shadow) / 0.45);
+  }
+  .menu-list[hidden] { display: none; }
+  .menu-list a, .menu-list button {
+    display: block;
+    width: 100%;
+    padding: 11px 12px;
+    font: 500 15px/1.2 var(--font);
+    color: var(--ink-hi);
+    text-align: left;
+    background: none;
+    border: 0;
+    border-radius: 9px;
+    cursor: pointer;
+  }
+  .menu-list a:hover, .menu-list button:hover, .menu-list :focus-visible { background: var(--page-3); text-decoration: none; }
+  .menu-list a[aria-current] { background: var(--page-3); }
+  /* The menu replaces the bar's links from 720px: with Audits and Blog
+     among them they no longer fit in a row below that. */
+  @media (max-width: 720px) {
+    .bar nav a.plain, .bar nav a.gh { display: none; }
+    .bar .menu { display: block; }
+    .bar nav > .coffee { display: none; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wordmark" fill-rule="evenodd" d="M97 0L97 -687L751 -687L751 -560L249 -560L249 -394L703 -394L703 -267L249 -267L249 0ZM765 0L1109 -687L1281 -687L1625 0L1458 0L1253 -424Q1248 -435 1238.5 -456.5Q1229 -478 1219.5 -500.5Q1210 -523 1202.5 -539.5Q1195 -556 1194 -557L1186 -557Q1177 -537 1165.5 -511Q1154 -485 1143.5 -461Q1133 -437 1126 -423L921 0ZM1048 -133L1108.1 -256L1270.9 -256L1331 -133ZM1776 0L1776 -687L2320 -687Q2393 -687 2439.5 -657.5Q2486 -628 2509 -579.5Q2532 -531 2532 -472Q2532 -411 2500.5 -357.5Q2469 -304 2403 -274L2549 0L2378 0L2252 -245L1928 -245L1928 0ZM1928 -371L2278 -371Q2325 -371 2350.5 -398.5Q2376 -426 2376 -469Q2376 -498 2365 -518.5Q2354 -539 2332 -549.5Q2310 -560 2278 -560L1928 -560ZM2645 0L2989 -687L3161 -687L3505 0L3338 0L3133 -424Q3128 -435 3118.5 -456.5Q3109 -478 3099.5 -500.5Q3090 -523 3082.5 -539.5Q3075 -556 3074 -557L3066 -557Q3057 -537 3045.5 -511Q3034 -485 3023.5 -461Q3013 -437 3006 -423L2801 0ZM2928 -133L2988.1 -256L3150.9 -256L3211 -133ZM3656 0L3656 -687L4022 -687Q4148 -687 4238.5 -647.5Q4329 -608 4377.5 -531.5Q4426 -455 4426 -343Q4426 -232 4377.5 -155.5Q4329 -79 4238.5 -39.5Q4148 0 4022 0ZM3808 -127L4014 -127Q4069 -127 4115.5 -140Q4162 -153 4196.5 -178.5Q4231 -204 4250 -242.5Q4269 -281 4269 -332L4269 -355Q4269 -406 4250 -444.5Q4231 -483 4196.5 -508.5Q4162 -534 4115.5 -547Q4069 -560 4014 -560L3808 -560ZM4513 0L4857 -687L5029 -687L5373 0L5206 0L5001 -424Q4996 -435 4986.5 -456.5Q4977 -478 4967.5 -500.5Q4958 -523 4950.5 -539.5Q4943 -556 4942 -557L4934 -557Q4925 -537 4913.5 -511Q4902 -485 4891.5 -461Q4881 -437 4874 -423L4669 0ZM4796 -133L4856.1 -256L5018.9 -256L5079 -133ZM5675 0L5675 -278L5339 -687L5522 -687L5750 -400L5760 -400L5991 -687L6164 -687L5827 -278L5827 0Z"/><path id="tagline" d="M311 7Q244 7 196 -17Q148 -41 123 -90Q97 -139 97 -213Q97 -288 123 -336Q148 -385 196 -409Q244 -433 311 -433Q378 -433 425 -409Q473 -385 499 -336Q524 -288 524 -213Q524 -139 499 -90Q473 -41 425 -17Q378 7 311 7ZM311 -51Q344 -51 371 -61Q397 -70 416 -90Q434 -109 444 -138Q453 -167 453 -206V-219Q453 -259 444 -288Q434 -317 416 -336Q397 -356 371 -365Q344 -375 311 -375Q277 -375 251 -365Q224 -356 206 -336Q187 -317 178 -288Q169 -259 169 -219V-206Q169 -167 178 -138Q187 -109 206 -90Q224 -70 251 -61Q277 -51 311 -51ZM814 0V-426H1118V-367H883V-241H1096V-181H883V0ZM1403 0V-426H1707V-367H1472V-241H1685V-181H1472V0ZM1992 0V-426H2061V-60H2274V0ZM2544 0V-426H2613V0ZM2923 0V-426H2990L3185 -159Q3188 -155 3192 -148Q3197 -141 3201 -135Q3206 -128 3208 -123H3211Q3211 -133 3211 -141Q3211 -150 3211 -159V-426H3278V0H3213L3017 -270Q3012 -277 3004 -289Q2997 -301 2993 -307H2990Q2990 -298 2990 -289Q2990 -280 2990 -270V0ZM3588 0V-426H3918V-367H3657V-248H3891V-188H3657V-59H3922V0ZM4506 0 4673 -426H4762L4929 0H4854L4816 -99H4615L4577 0ZM4637 -157H4794L4746 -282Q4744 -288 4740 -298Q4737 -308 4733 -320Q4729 -332 4725 -344Q4721 -356 4717 -366H4714Q4710 -354 4704 -338Q4699 -321 4693 -307Q4688 -292 4685 -282ZM5193 0V-426H5405Q5451 -426 5481 -409Q5511 -393 5526 -363Q5541 -333 5541 -293Q5541 -253 5524 -222Q5508 -192 5478 -175Q5447 -158 5403 -158H5262V0ZM5262 -217H5400Q5433 -217 5452 -237Q5471 -257 5471 -293Q5471 -316 5463 -333Q5455 -349 5439 -358Q5423 -367 5400 -367H5262ZM5817 0V-426H6029Q6074 -426 6104 -409Q6134 -393 6149 -363Q6164 -333 6164 -293Q6164 -253 6148 -222Q6132 -192 6101 -175Q6070 -158 6026 -158H5886V0ZM5886 -217H6023Q6056 -217 6075 -237Q6094 -257 6094 -293Q6094 -316 6086 -333Q6078 -349 6063 -358Q6047 -367 6023 -367H5886Z"/></defs></svg>
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="../" aria-label="Faraday, offline app">
+      <svg class="mark" viewBox="0 0 100 136" aria-hidden="true"><path fill="var(--rim)" fill-rule="evenodd" d="M0 12A12 12 0 0 1 12 0H88A12 12 0 0 1 100 12V81.2Q98 115 50 135.3Q2 115 0 81.2ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z"/><path fill="var(--accent)" fill-rule="evenodd" d="M7 17.3A10.3 10.3 0 0 1 17.3 7H82.7A10.3 10.3 0 0 1 93 17.3V78.1Q91.3 107.7 50 125.5Q8.7 107.7 7 78.1ZM45.5 52.2A15 15 0 1 1 54.5 52.2L65 82.5H35Z"/></svg>
+      <svg class="name" viewBox="97 -687 6067 687" aria-hidden="true"><use href="#wordmark"/></svg>
+      <svg class="under" viewBox="97 -426 6067 426" aria-hidden="true"><use href="#tagline"/></svg>
+    </a>
+    <nav>
+      <a class="plain" href="../download/">Download</a>
+      <a class="plain" href="../audits/">Audits</a>
+      <a class="plain" href="./" aria-current="page">Blog</a>
+      <a class="plain" href="../#faq">FAQ</a>
+      <a class="btn gh" href="https://github.com/bitcoinpasada/faraday" aria-label="GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.470 7.59.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.170-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.6 7.6 0 0 1 8 3.86c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <button class="btn coffee" data-coffee title="Buy me a coffee"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v5a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 2.5c-.6.8-.6 1.7 0 2.5M12 2.5c-.6.8-.6 1.7 0 2.5"/></svg><span>Buy me a coffee</span></button>
+      <div class="menu">
+        <button class="btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <ul class="menu-list" id="menu" hidden>
+          <li><a href="../download/">Download</a></li>
+          <li><a href="../audits/">Audits</a></li>
+          <li><a href="./" aria-current="page">Blog</a></li>
+          <li><a href="../#faq">FAQ</a></li>
+          <li><a href="https://github.com/bitcoinpasada/faraday">GitHub</a></li>
+          <li><button type="button" data-coffee>Buy me a coffee</button></li>
+        </ul>
+      </div>
+      <a class="btn accent" href="../#play">Try it</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="top">
+  <h1>Blog</h1>
+  <p>News and notes about Faraday.</p>
+</div>
+<section id="posts">
+  <p class="none">No posts yet.</p>
+</section>
+</main>
+
+<!-- Donations: the QR codes go in the two frames (data-qr), as on the
+     demo page. -->
+<dialog class="coffee-box" id="coffee" aria-labelledby="coffee-title">
+  <button class="close" id="coffee-close" aria-label="Close" title="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <h2 id="coffee-title">Buy me a coffee</h2>
+  <p>Donations to Faraday's development, in bitcoin.</p>
+  <div class="qrs">
+    <figure><div class="qr" data-qr="lightning">QR code to come</div><figcaption>Lightning</figcaption></figure>
+    <figure><div class="qr" data-qr="bitcoin">QR code to come</div><figcaption>Bitcoin</figcaption></figure>
+  </div>
+</dialog>
+
+<footer>
+  <div>
+    <span>Faraday · MIT License</span>
+    <button class="link" data-coffee>Buy me a coffee</button>
+    <a href="https://github.com/bitcoinpasada/faraday">github.com/bitcoinpasada/faraday</a>
+  </div>
+</footer>
+
+<script>
+"use strict";
+// Buy me a coffee, as on the download page.
+const coffee = document.querySelector("#coffee");
+for (const b of document.querySelectorAll("[data-coffee]")) b.addEventListener("click", () => coffee.showModal());
+document.querySelector("#coffee-close").addEventListener("click", () => coffee.close());
+coffee.addEventListener("click", (e) => { if (e.target === coffee) coffee.close(); });
+
+// The bar's menu, on a narrow screen: the button opens the list and
+// Escape, a choice, a tap outside or the focus leaving close it.
+{
+  const button = document.querySelector("#menu-btn");
+  const list = document.querySelector("#menu");
+  const wrap = button.parentElement;
+  const items = () => [...list.querySelectorAll("a, button")];
+  const show = (on, back) => {
+    list.hidden = !on;
+    button.setAttribute("aria-expanded", String(on));
+    if (on) items()[0].focus();
+    else if (back) button.focus();
+  };
+  button.addEventListener("click", () => show(list.hidden, false));
+  list.addEventListener("click", (e) => {
+    const item = e.target.closest("a, button");
+    if (!item) return;
+    show(false, false);
+    // Buy me a coffee: the focus comes back to the menu's button.
+    if (item.hasAttribute("data-coffee")) coffee.addEventListener("close", () => button.focus(), { once: true });
+  });
+  list.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+    e.preventDefault();
+    const all = items();
+    const i = all.indexOf(document.activeElement);
+    all[(i + (e.key === "ArrowDown" ? 1 : all.length - 1)) % all.length].focus();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || list.hidden) return;
+    e.preventDefault();
+    e.stopPropagation();
+    show(false, true);
+  }, true);
+  document.addEventListener("pointerdown", (e) => {
+    if (!list.hidden && !wrap.contains(e.target)) show(false, false);
+  });
+  wrap.addEventListener("focusout", (e) => {
+    if (!list.hidden && e.relatedTarget && !wrap.contains(e.relatedTarget)) show(false, false);
+  });
+}
+</script>
+</body>
+</html>

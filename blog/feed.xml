@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Faraday blog</title>
+  <id>https://faradayoffline.app/blog/</id>
+  <link href="https://faradayoffline.app/blog/"/>
+  <link rel="self" href="https://faradayoffline.app/blog/feed.xml"/>
+  <updated>2026-10-23T11:20:26Z</updated>
+  <author><name>Faraday</name></author>
+</feed>
