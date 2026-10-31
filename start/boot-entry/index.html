@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#faf8ff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111319" media="(prefers-color-scheme: dark)">
+<title>The Faraday boot entry on Linux · Faraday</title>
+<meta name="description" content="The Faraday stick boot entry that Faraday Starter adds on Linux: what it is, when the firmware starts it, who can see it, and how to keep or remove it.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://faradayoffline.app/start/boot-entry/">
+<meta property="og:site_name" content="Faraday">
+<meta property="og:title" content="The Faraday boot entry on Linux">
+<meta property="og:description" content="The Faraday stick boot entry that Faraday Starter adds on Linux: what it is, when the firmware starts it, who can see it, and how to keep or remove it.">
+<meta property="og:image" content="https://faradayoffline.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://faradayoffline.app/start/boot-entry/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-23 -10 146 146'%3E%3Cpath fill='%2300327d' fill-rule='evenodd' d='M50.00 135.30L47.47 134.26L45.01 133.19L42.61 132.11L40.28 131.02L38.02 129.90L35.82 128.76L33.68 127.61L31.61 126.44L29.61 125.25L27.67 124.04L25.80 122.81L23.99 121.57L22.25 120.31L20.57 119.02L18.96 117.72L17.41 116.40L15.93 115.07L14.52 113.71L13.17 112.34L11.88 110.95L10.67 109.54L9.51 108.11L8.42 106.66L7.40 105.20L6.44 103.71L5.55 102.21L4.73 100.69L3.97 99.15L3.27 97.59L2.64 96.02L2.08 94.43L1.58 92.81L1.00 90.57L0.54 88.29L0.21 85.97L0.00 83.62L0.00 11.33L0.06 10.14L0.19 9.26L0.47 8.11L0.86 6.99L1.23 6.18L1.83 5.16L2.34 4.43L3.11 3.53L3.75 2.91L4.43 2.34L5.41 1.67L6.45 1.10L7.27 0.75L8.39 0.39L9.26 0.19L10.44 0.03L11.33 0.00L88.67 0.00L89.86 0.06L90.45 0.14L91.32 0.31L92.17 0.55L93.01 0.86L93.82 1.23L94.34 1.52L95.09 1.99L95.80 2.52L96.25 2.91L96.89 3.53L97.48 4.20L98.01 4.91L98.48 5.66L98.90 6.45L99.25 7.27L99.53 8.11L99.75 8.97L99.86 9.55L99.97 10.44L100.00 11.33L100.00 83.62L99.86 85.33L99.69 86.82L99.42 88.50L99.10 90.16L98.76 91.59L98.31 93.22L97.79 94.83L97.21 96.41L96.65 97.79L95.94 99.34L95.27 100.69L94.45 102.21L93.67 103.53L92.84 104.83L91.84 106.30L90.90 107.57L89.77 109.00L88.73 110.24L87.64 111.47L86.33 112.86L85.13 114.05L83.70 115.40L82.21 116.74L80.84 117.89L79.22 119.18L77.75 120.31L76.23 121.41L74.66 122.50L73.04 123.58L71.12 124.80L69.15 126.00L67.36 127.03L65.52 128.05L63.36 129.19L59.14 131.29L54.69 133.33ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://faradayoffline.app/assets/site.css?v=d453ddfa35">
+<style>
+  body { font: 400 18px/28px var(--md-ref-typeface-plain); letter-spacing: 0.25px; }
+  main p a { text-decoration: underline; text-underline-offset: 3px; }
+  header { background: var(--md-sys-color-surface); }
+  header div, main, footer div { max-width: calc(720px + 2 * var(--margin)); margin: 0 auto; padding: 0 var(--margin); }
+  header div { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; }
+  .brand { --cap: 14px; display: flex; align-items: center; gap: calc(var(--cap) * 0.75); }
+  header nav a { display: inline-flex; align-items: center; height: 48px; padding: 0 12px; font: var(--md-sys-typescale-label-large); letter-spacing: var(--md-sys-typescale-label-large-tracking); color: var(--md-sys-color-on-surface-variant); border-radius: var(--md-sys-shape-corner-full); }
+  main { padding-top: 28px; padding-bottom: 40px; }
+  h1 { margin: 0 0 20px; font: var(--md-sys-typescale-headline-large); }
+  h2 { margin: 32px 0 8px; font: var(--md-sys-typescale-headline-small); }
+  p { margin: 0 0 16px; }
+  .list { margin: 0; padding: 8px 0; list-style: none; background: var(--md-sys-color-surface-container-low); border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-medium); }
+  .list li { border-top: 1px solid var(--md-sys-color-outline-variant); }
+  .list li:first-child { border-top: 0; }
+  .list a { display: flex; align-items: center; min-height: 56px; padding: 8px 16px; }
+  footer { margin-top: 0; font: var(--md-sys-typescale-body-large); }
+  footer div { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; padding-top: 20px; padding-bottom: 28px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wordmark" fill-rule="evenodd" d="M97 0L97 -687L751 -687L751 -560L249 -560L249 -394L703 -394L703 -267L249 -267L249 0ZM765 0L1109 -687L1281 -687L1625 0L1458 0L1253 -424Q1248 -435 1238.5 -456.5Q1229 -478 1219.5 -500.5Q1210 -523 1202.5 -539.5Q1195 -556 1194 -557L1186 -557Q1177 -537 1165.5 -511Q1154 -485 1143.5 -461Q1133 -437 1126 -423L921 0ZM1048 -133L1108.1 -256L1270.9 -256L1331 -133ZM1776 0L1776 -687L2320 -687Q2393 -687 2439.5 -657.5Q2486 -628 2509 -579.5Q2532 -531 2532 -472Q2532 -411 2500.5 -357.5Q2469 -304 2403 -274L2549 0L2378 0L2252 -245L1928 -245L1928 0ZM1928 -371L2278 -371Q2325 -371 2350.5 -398.5Q2376 -426 2376 -469Q2376 -498 2365 -518.5Q2354 -539 2332 -549.5Q2310 -560 2278 -560L1928 -560ZM2645 0L2989 -687L3161 -687L3505 0L3338 0L3133 -424Q3128 -435 3118.5 -456.5Q3109 -478 3099.5 -500.5Q3090 -523 3082.5 -539.5Q3075 -556 3074 -557L3066 -557Q3057 -537 3045.5 -511Q3034 -485 3023.5 -461Q3013 -437 3006 -423L2801 0ZM2928 -133L2988.1 -256L3150.9 -256L3211 -133ZM3656 0L3656 -687L4022 -687Q4148 -687 4238.5 -647.5Q4329 -608 4377.5 -531.5Q4426 -455 4426 -343Q4426 -232 4377.5 -155.5Q4329 -79 4238.5 -39.5Q4148 0 4022 0ZM3808 -127L4014 -127Q4069 -127 4115.5 -140Q4162 -153 4196.5 -178.5Q4231 -204 4250 -242.5Q4269 -281 4269 -332L4269 -355Q4269 -406 4250 -444.5Q4231 -483 4196.5 -508.5Q4162 -534 4115.5 -547Q4069 -560 4014 -560L3808 -560ZM4513 0L4857 -687L5029 -687L5373 0L5206 0L5001 -424Q4996 -435 4986.5 -456.5Q4977 -478 4967.5 -500.5Q4958 -523 4950.5 -539.5Q4943 -556 4942 -557L4934 -557Q4925 -537 4913.5 -511Q4902 -485 4891.5 -461Q4881 -437 4874 -423L4669 0ZM4796 -133L4856.1 -256L5018.9 -256L5079 -133ZM5675 0L5675 -278L5339 -687L5522 -687L5750 -400L5760 -400L5991 -687L6164 -687L5827 -278L5827 0Z"/></defs></svg>
+<header><div>
+  <a class="brand" href="../../" aria-label="Faraday"><svg class="mark" viewBox="0 0 100 136" aria-hidden="true"><path fill="var(--rim)" fill-rule="evenodd" d="M50.00 135.30L47.47 134.26L45.01 133.19L42.61 132.11L40.28 131.02L38.02 129.90L35.82 128.76L33.68 127.61L31.61 126.44L29.61 125.25L27.67 124.04L25.80 122.81L23.99 121.57L22.25 120.31L20.57 119.02L18.96 117.72L17.41 116.40L15.93 115.07L14.52 113.71L13.17 112.34L11.88 110.95L10.67 109.54L9.51 108.11L8.42 106.66L7.40 105.20L6.44 103.71L5.55 102.21L4.73 100.69L3.97 99.15L3.27 97.59L2.64 96.02L2.08 94.43L1.58 92.81L1.00 90.57L0.54 88.29L0.21 85.97L0.00 83.62L0.00 11.33L0.06 10.14L0.19 9.26L0.47 8.11L0.86 6.99L1.23 6.18L1.83 5.16L2.34 4.43L3.11 3.53L3.75 2.91L4.43 2.34L5.41 1.67L6.45 1.10L7.27 0.75L8.39 0.39L9.26 0.19L10.44 0.03L11.33 0.00L88.67 0.00L89.86 0.06L90.45 0.14L91.32 0.31L92.17 0.55L93.01 0.86L93.82 1.23L94.34 1.52L95.09 1.99L95.80 2.52L96.25 2.91L96.89 3.53L97.48 4.20L98.01 4.91L98.48 5.66L98.90 6.45L99.25 7.27L99.53 8.11L99.75 8.97L99.86 9.55L99.97 10.44L100.00 11.33L100.00 83.62L99.86 85.33L99.69 86.82L99.42 88.50L99.10 90.16L98.76 91.59L98.31 93.22L97.79 94.83L97.21 96.41L96.65 97.79L95.94 99.34L95.27 100.69L94.45 102.21L93.67 103.53L92.84 104.83L91.84 106.30L90.90 107.57L89.77 109.00L88.73 110.24L87.64 111.47L86.33 112.86L85.13 114.05L83.70 115.40L82.21 116.74L80.84 117.89L79.22 119.18L77.75 120.31L76.23 121.41L74.66 122.50L73.04 123.58L71.12 124.80L69.15 126.00L67.36 127.03L65.52 128.05L63.36 129.19L59.14 131.29L54.69 133.33ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z"/><path fill="var(--md-sys-color-primary)" fill-rule="evenodd" d="M50.00 127.73L45.83 125.89L41.70 123.92L38.07 122.03L34.41 119.97L31.22 118.00L29.70 117.00L28.03 115.85L26.62 114.84L25.08 113.66L23.79 112.63L22.37 111.44L21.19 110.39L19.90 109.19L18.83 108.12L17.66 106.90L16.70 105.82L15.65 104.58L14.67 103.34L13.76 102.08L13.00 100.98L12.20 99.71L11.46 98.43L10.77 97.14L10.15 95.85L9.58 94.54L9.07 93.22L8.61 91.89L8.03 89.86L7.57 87.80L7.23 85.70L7.00 83.39L7.00 11.21L7.04 10.76L7.12 10.32L7.37 9.57L7.76 8.88L8.04 8.52L8.35 8.19L8.69 7.89L9.07 7.64L9.78 7.29L10.54 7.07L11.37 7.00L88.79 7.00L89.35 7.05L90.01 7.21L90.64 7.47L91.22 7.83L91.73 8.27L92.17 8.78L92.53 9.36L92.79 9.99L92.95 10.65L93.00 11.37L93.00 83.39L92.88 84.81L92.72 86.05L92.53 87.28L92.29 88.49L92.02 89.69L91.70 90.88L91.34 92.05L90.93 93.22L90.42 94.54L89.85 95.85L89.23 97.14L88.63 98.27L87.90 99.55L87.20 100.66L86.35 101.92L85.56 103.02L84.60 104.27L83.70 105.36L82.62 106.59L81.62 107.66L80.41 108.88L79.30 109.94L76.93 112.04L75.48 113.22L74.15 114.25L71.35 116.28L68.34 118.28L65.11 120.24L61.68 122.17L58.03 124.05L54.17 125.89ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z"/></svg><svg class="name" viewBox="97 -687 6067 687" aria-hidden="true"><use href="#wordmark"/></svg></a>
+  <nav><a href="../../start/">Guides</a></nav>
+</div></header>
+<main>
+<h1>The Faraday boot entry on Linux</h1>
+<h2>What a boot entry is</h2>
+<p>A computer's BIOS keeps a list of things it can start, its boot entries. Each has a number, a name and where to start from: Windows Boot Manager, a Linux distribution, a disk. A second list, the boot order, says which entries the BIOS tries at every start, and in which order.</p>
+<p>A third setting, BootNext, names one entry to start at the next start only. The BIOS removes BootNext before it starts that entry, so the start after that follows the boot order again.</p>
+<h2>The Faraday stick entry</h2>
+<p>On Linux, Restart from the stick adds one entry named Faraday stick, the first time it is used. It points at the boot program on a Faraday stick's boot partition. Every Faraday stick's boot partition has the same identity, so the one entry starts any Faraday stick.</p>
+<p>The entry is never in the boot order. The BIOS starts it only when Faraday Starter sets BootNext to it, which it does just before it restarts the computer. The start after that is the usual one, whether or not a stick is plugged in.</p>
+<p>Adding the entry and setting BootNext change the BIOS's settings, so Linux asks for an administrator's password each time.</p>
+<h2>Who can see it</h2>
+<p>Anyone who lists the BIOS's boot entries sees one named Faraday stick: with efibootmgr on Linux, with bcdedit on Windows, and in the boot menu of some computers. It shows that Faraday was used on this computer. It holds nothing else.</p>
+<h2>Keeping it or removing it</h2>
+<p>Kept, the next Restart from the stick uses it again instead of adding another; setting BootNext still asks for the password.</p>
+<p>Removed, nothing of Faraday is left in the BIOS. Once the computer is back from a Faraday session, Home offers Remove the Faraday boot entry. Uninstall removes it too. Removing it also asks for an administrator's password.</p>
+<p>The stick itself never writes a BIOS setting, and so never adds or removes an entry.</p>
+<h2>Where this comes from</h2>
+<p>efibootmgr(8), the manual page of efibootmgr (man.archlinux.org). The UEFI Specification 2.11, chapter 3, Boot Manager: Load Option Processing (BootNext) and Globally Defined Variables (BootOrder) (uefi.org). Both read 2026-10-12. The stick not writing the firmware's variables: EFIVAR_FS in kernel.forbidden of the Faraday image's x86_64-uefi board, in Faraday's repository.</p>
+</main>
+<footer><div>
+  <span>Faraday · MIT License</span>
+  <a href="../../download/">Download Faraday</a>
+</div></footer>
+</body>
+</html>

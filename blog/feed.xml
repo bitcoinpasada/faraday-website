@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Faraday blog</title>
+  <id>https://faradayoffline.app/blog/</id>
+  <link href="https://faradayoffline.app/blog/"/>
+  <link rel="self" href="https://faradayoffline.app/blog/feed.xml"/>
+  <updated>2026-10-27T00:00:00Z</updated>
+  <author><name>Faraday</name></author>
+  <entry>
+    <title>Faraday&#x27;s first audit</title>
+    <id>https://faradayoffline.app/blog/faradays-first-audit/</id>
+    <link href="https://faradayoffline.app/blog/faradays-first-audit/"/>
+    <updated>2026-10-27T00:00:00Z</updated>
+    <summary>The first outside audit of Faraday found two critical and five high issues; what they were, how each was fixed, and what an audit means for a project like this one.</summary>
+  </entry>
+</feed>

@@ -1,0 +1,573 @@
+<!doctype html>
+<!--
+  The hardware page, at hardware/ (tools/hardware.py writes it to
+  hardware/index.html, its asset paths one level up): will Faraday work
+  on this hardware, and which build to pick, with the reasons the
+  download page leaves out (owner, 2026-10-28). A card per piece of
+  hardware, the download page's own, each leading to the hardware's page
+  at download/<id>/ (faraday/builds.toml; owner, 2026-10-29), every
+  platform and how each is kept off the network, the layout each
+  screen gets, its orientation and motion, Strict
+  and Compatible, the boards compared, what every build leaves out,
+  cameras and input, help testing, and what was considered and is not
+  supported. Its placeholders, in capitals between two underscores, are
+  filled by tools/hardware.py from the pinned Faraday's builds.toml and
+  documents; each section's comment names its sources. A fact here is
+  in those documents; Faraday docs/HARDWARE.md says this page is never
+  ahead of it.
+
+  Its look is web/site.css, as the Standards page's; the wordmark's
+  <defs> are copied from index.html, keep the two alike. Each label a
+  person reads is on one line of its own, for tools/lint-page.sh.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#faf8ff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111319" media="(prefers-color-scheme: dark)">
+<title>Faraday's hardware: where it runs and which build to pick</title>
+<meta name="description" content="Where Faraday runs: a laptop or PC from a USB stick, or a Raspberry Pi with its screen. The Strict and Compatible builds, what each carries and leaves out, cameras and input, and how to help test.">
+<link rel="canonical" href="https://faradayoffline.app/hardware/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://faradayoffline.app/hardware/">
+<meta property="og:site_name" content="Faraday">
+<meta property="og:title" content="Faraday's hardware">
+<meta property="og:description" content="Where Faraday runs: a laptop or PC from a USB stick, or a Raspberry Pi with its screen. The Strict and Compatible builds, what each carries and leaves out, cameras and input, and how to help test.">
+<meta property="og:image" content="https://faradayoffline.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-23 -10 146 146'%3E%3Cpath fill='%2300327d' fill-rule='evenodd' d='M50.00 135.30L47.47 134.26L45.01 133.19L42.61 132.11L40.28 131.02L38.02 129.90L35.82 128.76L33.68 127.61L31.61 126.44L29.61 125.25L27.67 124.04L25.80 122.81L23.99 121.57L22.25 120.31L20.57 119.02L18.96 117.72L17.41 116.40L15.93 115.07L14.52 113.71L13.17 112.34L11.88 110.95L10.67 109.54L9.51 108.11L8.42 106.66L7.40 105.20L6.44 103.71L5.55 102.21L4.73 100.69L3.97 99.15L3.27 97.59L2.64 96.02L2.08 94.43L1.58 92.81L1.00 90.57L0.54 88.29L0.21 85.97L0.00 83.62L0.00 11.33L0.06 10.14L0.19 9.26L0.47 8.11L0.86 6.99L1.23 6.18L1.83 5.16L2.34 4.43L3.11 3.53L3.75 2.91L4.43 2.34L5.41 1.67L6.45 1.10L7.27 0.75L8.39 0.39L9.26 0.19L10.44 0.03L11.33 0.00L88.67 0.00L89.86 0.06L90.45 0.14L91.32 0.31L92.17 0.55L93.01 0.86L93.82 1.23L94.34 1.52L95.09 1.99L95.80 2.52L96.25 2.91L96.89 3.53L97.48 4.20L98.01 4.91L98.48 5.66L98.90 6.45L99.25 7.27L99.53 8.11L99.75 8.97L99.86 9.55L99.97 10.44L100.00 11.33L100.00 83.62L99.86 85.33L99.69 86.82L99.42 88.50L99.10 90.16L98.76 91.59L98.31 93.22L97.79 94.83L97.21 96.41L96.65 97.79L95.94 99.34L95.27 100.69L94.45 102.21L93.67 103.53L92.84 104.83L91.84 106.30L90.90 107.57L89.77 109.00L88.73 110.24L87.64 111.47L86.33 112.86L85.13 114.05L83.70 115.40L82.21 116.74L80.84 117.89L79.22 119.18L77.75 120.31L76.23 121.41L74.66 122.50L73.04 123.58L71.12 124.80L69.15 126.00L67.36 127.03L65.52 128.05L63.36 129.19L59.14 131.29L54.69 133.33ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://faradayoffline.app/assets/site.css?v=d453ddfa35">
+<style>
+  /* The hardware page's own rules; the rest is assets/site.css (web/site.css). */
+  #builds .grid, #input .grid { margin-top: 16px; }
+  .card .notes { margin-top: 0; }
+  .study { max-width: 820px; margin: 0 auto 16px; }
+  .study h4 { margin: 24px 0 8px; font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); }
+  .study .way li > p { margin: 0 0 4px; }
+  .study .way ul { margin: 4px 0 0; padding-left: 20px; }
+  .study .row { margin-top: 16px; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wordmark" fill-rule="evenodd" d="M97 0L97 -687L751 -687L751 -560L249 -560L249 -394L703 -394L703 -267L249 -267L249 0ZM765 0L1109 -687L1281 -687L1625 0L1458 0L1253 -424Q1248 -435 1238.5 -456.5Q1229 -478 1219.5 -500.5Q1210 -523 1202.5 -539.5Q1195 -556 1194 -557L1186 -557Q1177 -537 1165.5 -511Q1154 -485 1143.5 -461Q1133 -437 1126 -423L921 0ZM1048 -133L1108.1 -256L1270.9 -256L1331 -133ZM1776 0L1776 -687L2320 -687Q2393 -687 2439.5 -657.5Q2486 -628 2509 -579.5Q2532 -531 2532 -472Q2532 -411 2500.5 -357.5Q2469 -304 2403 -274L2549 0L2378 0L2252 -245L1928 -245L1928 0ZM1928 -371L2278 -371Q2325 -371 2350.5 -398.5Q2376 -426 2376 -469Q2376 -498 2365 -518.5Q2354 -539 2332 -549.5Q2310 -560 2278 -560L1928 -560ZM2645 0L2989 -687L3161 -687L3505 0L3338 0L3133 -424Q3128 -435 3118.5 -456.5Q3109 -478 3099.5 -500.5Q3090 -523 3082.5 -539.5Q3075 -556 3074 -557L3066 -557Q3057 -537 3045.5 -511Q3034 -485 3023.5 -461Q3013 -437 3006 -423L2801 0ZM2928 -133L2988.1 -256L3150.9 -256L3211 -133ZM3656 0L3656 -687L4022 -687Q4148 -687 4238.5 -647.5Q4329 -608 4377.5 -531.5Q4426 -455 4426 -343Q4426 -232 4377.5 -155.5Q4329 -79 4238.5 -39.5Q4148 0 4022 0ZM3808 -127L4014 -127Q4069 -127 4115.5 -140Q4162 -153 4196.5 -178.5Q4231 -204 4250 -242.5Q4269 -281 4269 -332L4269 -355Q4269 -406 4250 -444.5Q4231 -483 4196.5 -508.5Q4162 -534 4115.5 -547Q4069 -560 4014 -560L3808 -560ZM4513 0L4857 -687L5029 -687L5373 0L5206 0L5001 -424Q4996 -435 4986.5 -456.5Q4977 -478 4967.5 -500.5Q4958 -523 4950.5 -539.5Q4943 -556 4942 -557L4934 -557Q4925 -537 4913.5 -511Q4902 -485 4891.5 -461Q4881 -437 4874 -423L4669 0ZM4796 -133L4856.1 -256L5018.9 -256L5079 -133ZM5675 0L5675 -278L5339 -687L5522 -687L5750 -400L5760 -400L5991 -687L6164 -687L5827 -278L5827 0Z"/><path id="tagline" d="M311 7Q244 7 196 -17Q148 -41 123 -90Q97 -139 97 -213Q97 -288 123 -336Q148 -385 196 -409Q244 -433 311 -433Q378 -433 425 -409Q473 -385 499 -336Q524 -288 524 -213Q524 -139 499 -90Q473 -41 425 -17Q378 7 311 7ZM311 -51Q344 -51 371 -61Q397 -70 416 -90Q434 -109 444 -138Q453 -167 453 -206V-219Q453 -259 444 -288Q434 -317 416 -336Q397 -356 371 -365Q344 -375 311 -375Q277 -375 251 -365Q224 -356 206 -336Q187 -317 178 -288Q169 -259 169 -219V-206Q169 -167 178 -138Q187 -109 206 -90Q224 -70 251 -61Q277 -51 311 -51ZM814 0V-426H1118V-367H883V-241H1096V-181H883V0ZM1403 0V-426H1707V-367H1472V-241H1685V-181H1472V0ZM1992 0V-426H2061V-60H2274V0ZM2544 0V-426H2613V0ZM2923 0V-426H2990L3185 -159Q3188 -155 3192 -148Q3197 -141 3201 -135Q3206 -128 3208 -123H3211Q3211 -133 3211 -141Q3211 -150 3211 -159V-426H3278V0H3213L3017 -270Q3012 -277 3004 -289Q2997 -301 2993 -307H2990Q2990 -298 2990 -289Q2990 -280 2990 -270V0ZM3588 0V-426H3918V-367H3657V-248H3891V-188H3657V-59H3922V0ZM4506 0 4673 -426H4762L4929 0H4854L4816 -99H4615L4577 0ZM4637 -157H4794L4746 -282Q4744 -288 4740 -298Q4737 -308 4733 -320Q4729 -332 4725 -344Q4721 -356 4717 -366H4714Q4710 -354 4704 -338Q4699 -321 4693 -307Q4688 -292 4685 -282ZM5193 0V-426H5405Q5451 -426 5481 -409Q5511 -393 5526 -363Q5541 -333 5541 -293Q5541 -253 5524 -222Q5508 -192 5478 -175Q5447 -158 5403 -158H5262V0ZM5262 -217H5400Q5433 -217 5452 -237Q5471 -257 5471 -293Q5471 -316 5463 -333Q5455 -349 5439 -358Q5423 -367 5400 -367H5262ZM5817 0V-426H6029Q6074 -426 6104 -409Q6134 -393 6149 -363Q6164 -333 6164 -293Q6164 -253 6148 -222Q6132 -192 6101 -175Q6070 -158 6026 -158H5886V0ZM5886 -217H6023Q6056 -217 6075 -237Q6094 -257 6094 -293Q6094 -316 6086 -333Q6078 -349 6063 -358Q6047 -367 6023 -367H5886Z"/></defs></svg>
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="../" aria-label="Faraday, offline app">
+      <svg class="mark" viewBox="0 0 100 136" aria-hidden="true"><path fill="var(--rim)" fill-rule="evenodd" d="M50.00 135.30L47.47 134.26L45.01 133.19L42.61 132.11L40.28 131.02L38.02 129.90L35.82 128.76L33.68 127.61L31.61 126.44L29.61 125.25L27.67 124.04L25.80 122.81L23.99 121.57L22.25 120.31L20.57 119.02L18.96 117.72L17.41 116.40L15.93 115.07L14.52 113.71L13.17 112.34L11.88 110.95L10.67 109.54L9.51 108.11L8.42 106.66L7.40 105.20L6.44 103.71L5.55 102.21L4.73 100.69L3.97 99.15L3.27 97.59L2.64 96.02L2.08 94.43L1.58 92.81L1.00 90.57L0.54 88.29L0.21 85.97L0.00 83.62L0.00 11.33L0.06 10.14L0.19 9.26L0.47 8.11L0.86 6.99L1.23 6.18L1.83 5.16L2.34 4.43L3.11 3.53L3.75 2.91L4.43 2.34L5.41 1.67L6.45 1.10L7.27 0.75L8.39 0.39L9.26 0.19L10.44 0.03L11.33 0.00L88.67 0.00L89.86 0.06L90.45 0.14L91.32 0.31L92.17 0.55L93.01 0.86L93.82 1.23L94.34 1.52L95.09 1.99L95.80 2.52L96.25 2.91L96.89 3.53L97.48 4.20L98.01 4.91L98.48 5.66L98.90 6.45L99.25 7.27L99.53 8.11L99.75 8.97L99.86 9.55L99.97 10.44L100.00 11.33L100.00 83.62L99.86 85.33L99.69 86.82L99.42 88.50L99.10 90.16L98.76 91.59L98.31 93.22L97.79 94.83L97.21 96.41L96.65 97.79L95.94 99.34L95.27 100.69L94.45 102.21L93.67 103.53L92.84 104.83L91.84 106.30L90.90 107.57L89.77 109.00L88.73 110.24L87.64 111.47L86.33 112.86L85.13 114.05L83.70 115.40L82.21 116.74L80.84 117.89L79.22 119.18L77.75 120.31L76.23 121.41L74.66 122.50L73.04 123.58L71.12 124.80L69.15 126.00L67.36 127.03L65.52 128.05L63.36 129.19L59.14 131.29L54.69 133.33ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z"/><path fill="var(--md-sys-color-primary)" fill-rule="evenodd" d="M50.00 127.73L45.83 125.89L41.70 123.92L38.07 122.03L34.41 119.97L31.22 118.00L29.70 117.00L28.03 115.85L26.62 114.84L25.08 113.66L23.79 112.63L22.37 111.44L21.19 110.39L19.90 109.19L18.83 108.12L17.66 106.90L16.70 105.82L15.65 104.58L14.67 103.34L13.76 102.08L13.00 100.98L12.20 99.71L11.46 98.43L10.77 97.14L10.15 95.85L9.58 94.54L9.07 93.22L8.61 91.89L8.03 89.86L7.57 87.80L7.23 85.70L7.00 83.39L7.00 11.21L7.04 10.76L7.12 10.32L7.37 9.57L7.76 8.88L8.04 8.52L8.35 8.19L8.69 7.89L9.07 7.64L9.78 7.29L10.54 7.07L11.37 7.00L88.79 7.00L89.35 7.05L90.01 7.21L90.64 7.47L91.22 7.83L91.73 8.27L92.17 8.78L92.53 9.36L92.79 9.99L92.95 10.65L93.00 11.37L93.00 83.39L92.88 84.81L92.72 86.05L92.53 87.28L92.29 88.49L92.02 89.69L91.70 90.88L91.34 92.05L90.93 93.22L90.42 94.54L89.85 95.85L89.23 97.14L88.63 98.27L87.90 99.55L87.20 100.66L86.35 101.92L85.56 103.02L84.60 104.27L83.70 105.36L82.62 106.59L81.62 107.66L80.41 108.88L79.30 109.94L76.93 112.04L75.48 113.22L74.15 114.25L71.35 116.28L68.34 118.28L65.11 120.24L61.68 122.17L58.03 124.05L54.17 125.89ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z"/></svg>
+      <svg class="name" viewBox="97 -687 6067 687" aria-hidden="true"><use href="#wordmark"/></svg>
+      <svg class="under" viewBox="97 -426 6067 426" aria-hidden="true"><use href="#tagline"/></svg>
+    </a>
+    <nav>
+      <a class="plain" href="../download/">Download</a>
+      <a class="plain hw" href="./" aria-current="page">Hardware</a>
+      <a class="plain" href="../guide/">Guide</a>
+      <a class="plain" href="../audits/">Audits</a>
+      <a class="plain" href="../standards/">Standards</a>
+      <a class="plain cr" href="../cryptography/">Cryptography</a>
+      <a class="plain" href="../blog/">Blog</a>
+      <a class="plain" href="../#faq">FAQ</a>
+      <a class="btn gh" href="https://github.com/bitcoinpasada/faraday" aria-label="GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.470 7.59.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.170-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.6 7.6 0 0 1 8 3.86c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <a class="btn x" href="https://x.com/faraday_offline" aria-label="Faraday on X" title="Faraday on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <button class="btn coffee" data-coffee title="Buy me a coffee" aria-label="Buy me a coffee"><svg viewBox="0.5 -1.25 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v5a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 2.5c-.6.8-.6 1.7 0 2.5M12 2.5c-.6.8-.6 1.7 0 2.5"/></svg></button>
+      <div class="menu">
+        <button class="btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <ul class="menu-list" id="menu" hidden>
+          <li><a href="../tour/">Tour</a></li>
+          <li><a href="../download/">Download</a></li>
+          <li><a href="./" aria-current="page">Hardware</a></li>
+          <li><a href="../guide/">Guide</a></li>
+          <li><a href="../audits/">Audits</a></li>
+          <li><a href="../standards/">Standards</a></li>
+          <li><a href="../cryptography/">Cryptography</a></li>
+          <li><a href="../blog/">Blog</a></li>
+          <li><a href="../#faq">FAQ</a></li>
+          <li><a href="https://github.com/bitcoinpasada/faraday">GitHub</a></li>
+        </ul>
+      </div>
+      <a class="btn accent" href="../tour/">Tour</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="top">
+  <h1>Hardware</h1>
+  <p>Where Faraday runs, which build to pick, and what each build carries and leaves out. Every fact here is from Faraday's documents; each section names its source.</p>
+  <p class="jump">
+    <a class="btn accent" href="#supported">Supported hardware</a>
+    <a class="btn" href="#platforms">Platforms</a>
+    <a class="btn" href="#screens">Screens and layout</a>
+    <a class="btn" href="#builds">Strict and Compatible</a>
+    <a class="btn" href="#boards">The boards</a>
+    <a class="btn" href="#left-out">Left out</a>
+    <a class="btn" href="#input">Cameras and input</a>
+    <a class="btn" href="#testing">Help test</a>
+    <a class="btn" href="#considered">Considered</a>
+  </p>
+</div>
+
+<!-- Supported hardware. Sources: Faraday's faraday/builds.toml, its
+     [[hardware]] entries (the cards, their order, names and Pis) and
+     [[build]] entries (Download where an image is built, Coming soon
+     where none is); tools/download.py (the cards and drawings, and each
+     hardware's page, which holds what it needs, its screen, layout,
+     builds and state). -->
+<section id="supported">
+  <h2>Supported hardware</h2>
+  <p class="sub">One card for each piece of hardware the download page offers. Its page says what it needs, its screen and its builds.</p>
+  <div class="tiles hw">
+  <a class="tile card" id="hw-pc" href="https://faradayoffline.app/download/pc/">
+    <div class="pic" style="--mm: 332"><svg class="dev" viewBox="-1 -1 332 212" style="--w: 332; --h: 212" aria-hidden="true"><rect class="body" x="12" y="0" width="306.5" height="201" rx="8"/><image href="https://faradayoffline.app/assets/download/home-pc.webp" x="22" y="11" width="286.5" height="179.1" preserveAspectRatio="none"/><rect class="edge" x="22" y="11" width="286.5" height="179.1"/><path class="body" d="M0 201H330V207Q330 210 326 210H4Q0 210 0 207Z"/><rect class="port" x="145" y="201" width="40" height="3" rx="1.5"/></svg></div>
+    <h3>A laptop or PC</h3>
+    <p class="fits">From a USB stick</p>
+    <p class="go"><span class="btn tonal">Download</span></p>
+  </a>
+  <a class="tile card" id="hw-pi-2-8-inch" href="https://faradayoffline.app/download/pi-2-8-inch/">
+    <div class="pic" style="--mm: 58"><svg class="dev" viewBox="-1 -1 58 89" style="--w: 58; --h: 89" aria-hidden="true"><rect class="board" x="0" y="0" width="56" height="85" rx="3"/><circle class="hole" cx="3.5" cy="3.5" r="1.4"/><circle class="hole" cx="52.5" cy="3.5" r="1.4"/><circle class="hole" cx="3.5" cy="61.5" r="1.4"/><circle class="hole" cx="52.5" cy="61.5" r="1.4"/><rect class="port" x="2" y="68" width="15" height="19" rx="1"/><rect class="port" x="20" y="68" width="15" height="19" rx="1"/><rect class="port" x="38" y="68" width="16" height="19" rx="1"/><rect class="body" x="4" y="2" width="47.9" height="65.7" rx="1.5"/><image href="https://faradayoffline.app/assets/download/home-pi-2-8-inch.webp" x="6.35" y="3.75" width="43.2" height="57.6" preserveAspectRatio="none"/><rect class="edge" x="6.35" y="3.75" width="43.2" height="57.6"/></svg></div>
+    <h3>Pi + 2.8-inch screen</h3>
+    <p class="fits">Pi 3 · Coming: Zero 2 W, Pi 4</p>
+    <p class="go"><span class="btn tonal">Download</span></p>
+  </a>
+  <a class="tile card soon" id="hw-pi-5-inch" href="https://faradayoffline.app/download/pi-5-inch/">
+    <div class="pic" style="--mm: 93.5"><svg class="dev" viewBox="-1 -1 93.5 145.5" style="--w: 93.5; --h: 145.5" aria-hidden="true"><rect class="body" x="0" y="0" width="91.5" height="143.5" rx="5"/><image href="https://faradayoffline.app/assets/download/home-pi-5-inch.webp" x="14.7" y="16.55" width="62.1" height="110.4" preserveAspectRatio="none"/><rect class="edge" x="14.7" y="16.55" width="62.1" height="110.4"/></svg></div>
+    <h3>Pi + 5-inch screen</h3>
+    <p class="fits">Pi 3 · Coming: Pi 4</p>
+    <p class="go"><span class="btn soon">Coming soon</span></p>
+  </a>
+  <a class="tile card soon" id="hw-pi-7-inch" href="https://faradayoffline.app/download/pi-7-inch/">
+    <div class="pic" style="--mm: 194.96"><svg class="dev" viewBox="-1 -1 194.96 112.76" style="--w: 194.96; --h: 112.76" aria-hidden="true"><rect class="body" x="0" y="0" width="192.96" height="110.76" rx="8"/><image href="https://faradayoffline.app/assets/download/home-pi-7-inch.webp" x="19.04" y="11" width="154.88" height="86.72" preserveAspectRatio="none"/><rect class="edge" x="19.04" y="11" width="154.88" height="86.72"/></svg></div>
+    <h3>Pi + 7-inch screen</h3>
+    <p class="fits">Pi 3 · Coming: Pi 4</p>
+    <p class="go"><span class="btn soon">Coming soon</span></p>
+  </a>
+  <a class="tile card soon" id="hw-pi-10-inch" href="https://faradayoffline.app/download/pi-10-inch/">
+    <div class="pic" style="--mm: 241"><svg class="dev" viewBox="-1 -1 241 149" style="--w: 241; --h: 149" aria-hidden="true"><rect class="body" x="0" y="0" width="239" height="147" rx="4"/><image href="https://faradayoffline.app/assets/download/home-pi-10-inch.webp" x="10.91" y="5.52" width="217.18" height="135.96" preserveAspectRatio="none"/><rect class="edge" x="10.91" y="5.52" width="217.18" height="135.96"/></svg></div>
+    <h3>Pi + 10-inch screen</h3>
+    <p class="fits">Pi 3 · Coming: Pi 4</p>
+    <p class="go"><span class="btn soon">Coming soon</span></p>
+  </a>
+  <a class="tile card" id="hw-pi-monitor" href="https://faradayoffline.app/download/pi-monitor/">
+    <div class="pic" style="--mm: 423.8"><svg class="dev" viewBox="-1 -1 423.8 235.5" style="--w: 423.8; --h: 235.5" aria-hidden="true"><rect class="body" x="0" y="0" width="320.8" height="187.5" rx="4"/><image href="https://faradayoffline.app/assets/download/home-pi-monitor.webp" x="8" y="8" width="304.8" height="171.5" preserveAspectRatio="none"/><rect class="edge" x="8" y="8" width="304.8" height="171.5"/><rect class="body" x="146.4" y="187.5" width="28" height="38"/><rect class="body" x="90.4" y="225.5" width="140" height="8" rx="3"/><path class="cable" d="M174.4 207.5C330.8 207.5 332.8 157.5 342.8 165.5"/><rect class="board" x="336.8" y="177.5" width="85" height="56" rx="3"/><circle class="hole" cx="340.3" cy="181" r="1.4"/><circle class="hole" cx="340.3" cy="230" r="1.4"/><circle class="hole" cx="398.3" cy="181" r="1.4"/><circle class="hole" cx="398.3" cy="230" r="1.4"/><rect class="port" x="404.8" y="179.5" width="19" height="15" rx="1"/><rect class="port" x="404.8" y="197.5" width="19" height="15" rx="1"/><rect class="port" x="404.8" y="215.5" width="19" height="16" rx="1"/></svg></div>
+    <h3>Pi + HDMI screen</h3>
+    <p class="fits">Pi 3 or Zero 2 W · Coming: Pi 4</p>
+    <p class="go"><span class="btn tonal">Download</span></p>
+  </a>
+  </div>
+</section>
+
+<!-- Platforms. Sources: docs/HARDWARE.md §1 (the table, without its
+     file names, and the paragraph after it, generated) and §5 (how each
+     is kept off the network, generated). -->
+<section id="platforms">
+  <h2>Platforms</h2>
+  <p class="sub">Where Faraday runs, and the state of each.</p>
+  <div class="card tbl">
+    <table class="std" role="table" aria-label="Platforms">
+      <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Platform</th><th scope="col" role="columnheader">Runs on</th><th scope="col" role="columnheader">State</th></tr></thead>
+      <tbody role="rowgroup">
+        <tr role="row"><th scope="row" role="rowheader">The stick</th><td role="cell" data-label="Runs on">A 64-bit PC with UEFI firmware (Strict has <code>efi=disable_early_pci_dma</code>; Compatible is for PCs that do not start with it); Intel Macs planned</td><td role="cell" data-label="State">Released; booted in QEMU with OVMF, not yet tried on a PC</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">The Pi, 2.8-inch, Strict</th><td role="cell" data-label="Runs on">A Raspberry Pi 3B or 3B+ with the Waveshare 2.8-inch DPI panel</td><td role="cell" data-label="State">Released, tested</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">The Pi, 2.8-inch, Compatible</th><td role="cell" data-label="Runs on">The same Pi and panel, with USB keyboards, mice and sticks</td><td role="cell" data-label="State">Built, not tried: looking for testers; in the release after 0.1.8</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">The Pi, HDMI screen, Compatible</th><td role="cell" data-label="Runs on">A Raspberry Pi 3B, 3B+ or Zero 2 W with an HDMI monitor and a USB keyboard and mouse, or Waveshare's 10.1-inch HDMI LCD (B) with its USB touch</td><td role="cell" data-label="State">Built, not tried: looking for testers; in the release after 0.1.8</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">The Pi Zero 2 W</th><td role="cell" data-label="Runs on">A Raspberry Pi Zero 2 W with the same panel</td><td role="cell" data-label="State">Built, not tried: the Pi image carries its device tree; nobody has booted it on a Zero 2 W</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">The Apple Silicon stick</th><td role="cell" data-label="Runs on">Macs with M1 or M2</td><td role="cell" data-label="State">Planned: its Spec is <a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/MAC.md"><code>docs/MAC.md</code></a></td></tr>
+        <tr role="row"><th scope="row" role="rowheader">Faraday Demo</th><td role="cell" data-label="Runs on">Linux and Windows, x86_64</td><td role="cell" data-label="State">Released, for trying Faraday: not air-gapped</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">The Starter</th><td role="cell" data-label="Runs on">Linux and Windows, x86_64; macOS specified</td><td role="cell" data-label="State">Released on Linux and Windows</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="lead">The Starter writes sticks and Pi cards and holds no keys. Faraday Demo runs on a computer that is on a network. It is a simulator with Practice's samples, not a signing device.</p>
+  <h3 class="sub-h">How each is kept off the network</h3>
+  <div class="grid">
+    <article class="card">
+      <h3>The stick and the Pi</h3>
+      <p>The network stack is not compiled in: no Ethernet, Wi-Fi, Bluetooth or USB network driver, and no socket layer. A Pi 3's Wi-Fi and Bluetooth chip is never given its firmware, so it never runs. A PC's own disks are invisible.</p>
+    </article>
+    <article class="card">
+      <h3>Faraday Demo and the Starter</h3>
+      <p>Faraday Demo and the Starter run on a computer that may be on a network. Neither is a place for real keys.</p>
+    </article>
+  </div>
+</section>
+
+<!-- Screens and layout. Sources: docs/LAYOUT.md §2 (the size classes,
+     generated; what makes a window short or low) and §3 (the navigation
+     of each class, tools/download.py's NAV); docs/HARDWARE.md §2 (the
+     size class from the width in dp and the text size; the table and
+     the paragraph after it, generated) and §3 (motion, generated);
+     docs/ORIENTATION.md (Rotation) and docs/MOTION.md §3.5 (Reduce
+     motion). -->
+<section id="screens">
+  <h2>Screens and layout</h2>
+  <p class="sub">Faraday lays every screen out again at its own size. Its size class comes from its width in dp at its density, divided by the text size: a larger text steps the layout down.</p>
+  <div class="card tbl">
+    <table class="std" role="table" aria-label="Size classes">
+      <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Class</th><th scope="col" role="columnheader">Width</th><th scope="col" role="columnheader">Navigation</th><th scope="col" role="columnheader">Typical screen</th></tr></thead>
+      <tbody role="rowgroup">
+        <tr role="row"><th scope="row" role="rowheader">Compact</th><td role="cell" data-label="Width">under 600 dp</td><td role="cell" data-label="Navigation">The navigation bar at the foot</td><td role="cell" data-label="Typical screen">The Pi panel (268 × 358), a narrow window, a 7-inch panel in portrait (565 × 964 at its 170 dpi)</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">Medium</th><td role="cell" data-label="Width">600 to 839 dp</td><td role="cell" data-label="Navigation">The navigation rail</td><td role="cell" data-label="Typical screen">A half-screen window</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">Expanded</th><td role="cell" data-label="Width">840 to 1199 dp</td><td role="cell" data-label="Navigation">The navigation rail</td><td role="cell" data-label="Typical screen">A 7-inch panel in landscape (964 × 565), a 10-inch panel in portrait (853 × 1365 at its 150 dpi), a small laptop window</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">Large</th><td role="cell" data-label="Width">1200 to 1599 dp</td><td role="cell" data-label="Navigation">The expanded navigation rail</td><td role="cell" data-label="Typical screen">The desktop app's default window (1280 × 800), a 10-inch panel in landscape</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">Extra-large</th><td role="cell" data-label="Width">1600 dp and over</td><td role="cell" data-label="Navigation">The expanded navigation rail</td><td role="cell" data-label="Typical screen">A full monitor at 1×: 1920 × 1080, 2560 × 1440</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="lead">Height counts where it is short. A screen under 480 dp tall is short, as the Pi's 2.8-inch panel is: there Home is the menu. One under 600 dp tall is low, as a 7-inch panel in landscape is. <a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/LAYOUT.md">docs/LAYOUT.md</a> says what each class lays out.</p>
+  <h3 class="sub-h">The layout each screen gets</h3>
+  <div class="card tbl">
+    <table class="std" role="table" aria-label="Screens and layout">
+      <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Screen</th><th scope="col" role="columnheader">Pixels</th><th scope="col" role="columnheader">Density</th><th scope="col" role="columnheader">dp</th><th scope="col" role="columnheader">Class, navigation</th></tr></thead>
+      <tbody role="rowgroup">
+        <tr role="row"><th scope="row" role="rowheader">Waveshare 2.8-inch DPI panel (the Pi)</th><td role="cell" data-label="Pixels">480 × 640, portrait natively</td><td role="cell" data-label="Density">286 dpi</td><td role="cell" data-label="dp">268 × 358</td><td role="cell" data-label="Class, navigation">Compact and short: Home is the menu, every other page has its bar with a back chevron; no Rotation</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">A 7-inch panel, landscape (a small tablet, a panel PC or a portable monitor on the stick)</th><td role="cell" data-label="Pixels">1024 × 600</td><td role="cell" data-label="Density">170 dpi, from its EDID</td><td role="cell" data-label="dp">964 × 565</td><td role="cell" data-label="Class, navigation">Expanded and low: the navigation rail</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">A 7-inch panel, portrait</th><td role="cell" data-label="Pixels">600 × 1024</td><td role="cell" data-label="Density">170 dpi</td><td role="cell" data-label="dp">565 × 964</td><td role="cell" data-label="Class, navigation">Compact: the navigation bar at the foot</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">A 10-inch panel, portrait</th><td role="cell" data-label="Pixels">800 × 1280</td><td role="cell" data-label="Density">150 dpi</td><td role="cell" data-label="dp">853 × 1365</td><td role="cell" data-label="Class, navigation">Expanded: the rail</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">A 10-inch panel, landscape</th><td role="cell" data-label="Pixels">1280 × 800</td><td role="cell" data-label="Density">150 dpi</td><td role="cell" data-label="dp">1365 × 853</td><td role="cell" data-label="Class, navigation">Large: the expanded rail</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">A PC monitor or laptop screen on the stick</th><td role="cell" data-label="Pixels">Its firmware mode</td><td role="cell" data-label="Density"><code>faraday.dpi=160</code>, doubled at 2800 pixels wide or more</td><td role="cell" data-label="dp">Its pixels, or half</td><td role="cell" data-label="Class, navigation">Expanded to extra-large: the rail or the expanded rail</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">An HDMI screen on the Pi</th><td role="cell" data-label="Pixels">The mode the kernel chose from its EDID</td><td role="cell" data-label="Density">Its EDID's on a screen of 11 inches or less, <code>faraday.dpi=160</code> otherwise</td><td role="cell" data-label="dp">By its mode</td><td role="cell" data-label="Class, navigation">By its width, as on the stick</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">Faraday Demo's window</th><td role="cell" data-label="Pixels">1280 × 800 at first, any size</td><td role="cell" data-label="Density">The system's scale</td><td role="cell" data-label="dp">Its size</td><td role="cell" data-label="Class, navigation">Any class, laid out again at every size; the Size menu shows the panels above</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="lead">A 7-inch or 10-inch panel starts in landscape, and Settings › Display › Rotation turns it and its touch. A screen of 11 inches or less takes its density from its EDID. The app lays out every one of these sizes. The Pi images are built for the 2.8-inch panel and for an HDMI screen: <code>faraday/image/panels/</code> holds those two and the PC's firmware framebuffer. A DPI or DSI screen needs its profile in the image: one image per screen and build, as <a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/IMAGES.md"><code>docs/IMAGES.md</code></a> specifies; until the 7-inch DSI's is built, a 7-inch screen is the stick's, on a small PC or tablet, or an HDMI one on the Pi.</p>
+  <div class="grid">
+    <article class="card">
+      <h3>Orientation</h3>
+      <p>The layout follows the screen's width in each orientation: a 7-inch panel is expanded and low in landscape, with the rail, and compact in portrait, with the navigation bar at the foot. The Pi's 2.8-inch panel stays in portrait: it has no Rotation.</p>
+      <p><a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/ORIENTATION.md">docs/ORIENTATION.md</a></p>
+    </article>
+    <article class="card">
+      <h3>Motion</h3>
+      <p>Every platform starts with full motion. Reduce motion (Settings › Appearance) is off on a first start. Where frames are slow, the automatic gate turns fades off by itself: it does so when the steps are more than 55 ms apart, and brings them back after 24 fast frames in a row.</p>
+      <p><a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/MOTION.md">docs/MOTION.md</a></p>
+    </article>
+  </div>
+</section>
+
+<!-- Strict and Compatible. Sources: docs/IMAGES.md §1 (the table and
+     the paragraph after it, generated; the same root filesystem, app
+     and checks; the forbidden lists), §2 (what the Pi's Compatible
+     kernel adds), §3 (the screens without a Strict image) and §7 (safe
+     in practice); F145 and F150 (the two builds and their names);
+     faraday/builds.toml (the builds of each piece of hardware,
+     generated). -->
+<section id="builds">
+  <h2>Strict and Compatible</h2>
+  <p class="sub">Each platform has two builds. A download page offers Strict where it is built, and the other build beside it.</p>
+  <div class="card tbl">
+    <table class="std" role="table" aria-label="What each build carries">
+      <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Platform</th><th scope="col" role="columnheader">Strict</th><th scope="col" role="columnheader">Compatible</th></tr></thead>
+      <tbody role="rowgroup">
+        <tr role="row"><th scope="row" role="rowheader">The Pi</th><td role="cell" data-label="Strict">Today's kernel: no DRM, no HID, no USB storage; the DPI panel's touch is the only input</td><td role="cell" data-label="Compatible">DRM for HDMI and the DSI panels; USB keyboards, mice and touchscreens; USB storage</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">The PC stick</th><td role="cell" data-label="Strict">Today's kernel with <code>efi=disable_early_pci_dma</code> on its built-in command line</td><td role="cell" data-label="Compatible">Today's kernel as it is</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="lead">Strict is the most locked-down build a piece of hardware allows. Compatible works with more hardware. Some older PCs do not start with <code>efi=disable_early_pci_dma</code>. They take Compatible.</p>
+  <div class="grid">
+    <article class="card">
+      <h3>Who needs Compatible</h3>
+      <ul class="notes">
+        <li>A PC that does not start with Strict.</li>
+        <li>A Pi with a USB keyboard, a mouse or a USB stick.</li>
+        <li>A Pi with a DSI screen (5-inch, 7-inch, 10-inch) or an HDMI screen. These have no Strict image: the Strict Pi kernel has no DRM, and they need it.</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h3>What the Pi's Compatible adds</h3>
+      <ul class="notes">
+        <li>DRM for the display only: no GPU render node, no HDMI-CEC, no HDMI audio.</li>
+        <li>HDMI: the kernel reads a monitor's EDID.</li>
+        <li>USB keyboards, mice and touchscreens, under the PC stick's approval rules.</li>
+        <li>The screen's own USB touchscreen, named in the screen's profile, as trusted input.</li>
+        <li>USB storage, one partition at a time, read only while no secret is open, as on the PC.</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h3>Every build offered is safe in practice</h3>
+      <p>Strict is the most each piece of hardware allows. Compatible adds what more hardware needs: the root filesystem, the app and its checks are the same in both builds of a platform, and the kernel and its command line differ.</p>
+      <p>Each build has its own list of forbidden kernel options, and the build fails if one is on. The Strict Pi list keeps DRM, HID and USB storage out, so a Strict image carries none of what Compatible adds.</p>
+    </article>
+  </div>
+  <h3 class="sub-h">The builds of each piece of hardware</h3>
+  <div class="card tbl">
+    <table class="std" role="table" aria-label="The builds of each piece of hardware">
+      <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Hardware</th><th scope="col" role="columnheader">Strict</th><th scope="col" role="columnheader">Compatible</th></tr></thead>
+      <tbody role="rowgroup">
+        <tr role="row"><th scope="row" role="rowheader"><a href="https://faradayoffline.app/download/pc/">A laptop or PC</a></th><td role="cell" data-label="Strict">Built</td><td role="cell" data-label="Compatible">Built</td></tr>
+        <tr role="row"><th scope="row" role="rowheader"><a href="https://faradayoffline.app/download/pi-2-8-inch/">Pi + 2.8-inch screen</a></th><td role="cell" data-label="Strict">Built</td><td role="cell" data-label="Compatible">Built</td></tr>
+        <tr role="row"><th scope="row" role="rowheader"><a href="https://faradayoffline.app/download/pi-5-inch/">Pi + 5-inch screen</a></th><td role="cell" data-label="Strict">Not offered</td><td role="cell" data-label="Compatible">Planned</td></tr>
+        <tr role="row"><th scope="row" role="rowheader"><a href="https://faradayoffline.app/download/pi-7-inch/">Pi + 7-inch screen</a></th><td role="cell" data-label="Strict">Not offered</td><td role="cell" data-label="Compatible">Planned</td></tr>
+        <tr role="row"><th scope="row" role="rowheader"><a href="https://faradayoffline.app/download/pi-10-inch/">Pi + 10-inch screen</a></th><td role="cell" data-label="Strict">Not offered</td><td role="cell" data-label="Compatible">Planned</td></tr>
+        <tr role="row"><th scope="row" role="rowheader"><a href="https://faradayoffline.app/download/pi-monitor/">Pi + HDMI screen</a></th><td role="cell" data-label="Strict">Not offered</td><td role="cell" data-label="Compatible">Built</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- The boards compared. Sources: F150's Why and decision (the Pi 4's
+     EEPROM and recovery.bin, a fresh card a clean start on a Pi 3, the
+     Pi 4's terms) and docs/IMAGES.md §9 step 2; F147 (one card for the
+     3B, 3B+ and Zero 2 W, the Pi 4 on the same images, the Pi 5 after
+     the Pi 4, no DSI on the Zero 2 W); docs/HARDWARE.md §1 (the Zero 2 W
+     not tried) and §5 (the Pi's radio chip); faraday/image/README.md,
+     "Writable non-volatile memory on a Pi" (the OTP rows out of reach);
+     docs/SECURITY-MODEL.md, "Stateless" (the system linked into the
+     kernel), "What the kernel can reach" (no internal storage, the
+     IOMMU) and "What this does not defend against" (firmware, the
+     management processors); the Strict build's kernel.cmdline and the
+     PC's kernel.forbidden and linux.fragment under
+     faraday/image/boards/x86_64-uefi/ (the early DMA window,
+     Thunderbolt). -->
+<section id="boards">
+  <h2>The boards compared</h2>
+  <p class="sub">What starts before Faraday, and where it is kept, differs from board to board.</p>
+  <div class="grid">
+    <article class="card" id="pi-3">
+      <h3>Raspberry Pi 3 and Zero 2 W</h3>
+      <p>Everything they start from is on the card: the firmware, and the kernel with the system linked into it. A fresh card is a clean start.</p>
+      <p>The chip's one-time-programmable memory is out of the app's reach: its mailbox driver is not built. The Wi-Fi and Bluetooth chip is never given its firmware, so it never runs.</p>
+      <p>One card starts the 3B, 3B+ and Zero 2 W: it carries each board's device tree, and the firmware loads the one for the board it starts on. Nobody has started a Zero 2 W with it yet. The Zero 2 W has no DSI connector, so the DSI screens do not fit it.</p>
+    </article>
+    <article class="card" id="pi-4">
+      <h3>Raspberry Pi 4 <span class="tag">Planned</span></h3>
+      <p>The Pi 4 starts from a boot loader kept in an EEPROM on the board, not on the card. A card carrying <code>recovery.bin</code> can rewrite it, so on a Pi 4 a fresh card is not a clean start. Its security is close to a PC's: its boot code is on the board. Its USB sits behind PCIe.</p>
+      <p>It will run the same images as the Pi 3: its 32-bit kernel, firmware and device tree beside the Pi 3's, the system the same. No Faraday card carries a boot loader update, and its kernel leaves out <code>SPI_SPIDEV</code> and <code>SPI_BCM2835</code>.</p>
+      <p>Before first use, restore Raspberry Pi's boot loader with <a href="https://www.raspberrypi.com/software/">Raspberry Pi Imager</a>. A wire to test point TP5 locks the boot loader in hardware.</p>
+      <p>Whether the 2.8-inch screen runs on the Pi 4's firmware display path without DRM, as Strict needs, is to be tried on the board.</p>
+    </article>
+    <article class="card" id="pc">
+      <h3>A laptop or PC</h3>
+      <p>Its firmware runs before Faraday, and Faraday does not defend against compromised firmware. Nor against the management processors below the operating system, Intel's Management Engine and AMD's Platform Security Processor: <a href="https://faradayoffline.app/start/what-else-runs/">What else runs on this computer</a> says which computers have them and what to do.</p>
+      <p>Between the firmware and the kernel's IOMMU there is a window in which a PCI device the firmware left running could write to memory. Strict closes it: its kernel's built-in command line carries <code>efi=disable_early_pci_dma</code>, and its kernel check requires it. The IOMMU is on from boot in strict mode.</p>
+      <p>Thunderbolt is left out. A Thunderbolt or USB4 port is a PCIe slot on the outside of the case; without the Thunderbolt driver it carries USB and DisplayPort and nothing that speaks PCIe. The computer's own SATA, NVMe and eMMC disks are invisible: their drivers are not built.</p>
+    </article>
+    <article class="card" id="pi-5">
+      <h3>Raspberry Pi 5 <span class="tag">Later</span></h3>
+      <p>The Pi 5 comes after the Pi 4.</p>
+    </article>
+  </div>
+</section>
+
+<!-- What every build leaves out. Sources: docs/SECURITY-MODEL.md, "One
+     program, not a desktop", "When root is used", "What the kernel can
+     reach" (no networking, no modules, lockdown, USB devices, also
+     absent) and "Stateless"; docs/HARDWARE.md §5; docs/DEVELOPING.md
+     §6.2 and faraday/image/README.md, "When it does not work" (the
+     release images write nothing). -->
+<section id="left-out">
+  <h2>What every build leaves out</h2>
+  <p class="sub">Strict and Compatible, on the PC and the Pi. Each kernel is built with a fixed list of drivers.</p>
+  <div class="card">
+    <ul class="notes">
+      <li><b>No network stack.</b> No Ethernet, Wi-Fi, Bluetooth or USB network driver, and no socket layer for one to use. A Pi's Wi-Fi and Bluetooth chip is never given its firmware.</li>
+      <li><b>No kernel modules.</b> The drivers are built in, and kernel lockdown is forced to its strictest level from early boot.</li>
+      <li><b>No desktop.</b> No X11, Wayland, window manager, GPU driver, toolkit or browser engine: one Rust program lays out every screen and writes its pixels.</li>
+      <li><b>No login.</b> No getty, <code>su</code>, <code>sudo</code> or <code>passwd</code>, and root's password is locked. Every process that handles input runs as an unprivileged user.</li>
+      <li><b>Nothing written to the computer.</b> No driver for its disk and no access to its firmware variables. The system runs from memory, and nothing is mounted from the boot medium after it starts.</li>
+      <li><b>No swap, suspend, hibernation or core dumps.</b> Nothing in memory is paged out.</li>
+      <li><b>No logs.</b> The release images write no boot report and no timings, and their kernel log stays closed to the app.</li>
+      <li><b>No new keyboard without the code.</b> A keyboard other than the built-in one types nothing until it types a random code shown on the screen (<a href="#input">below</a>).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Cameras and input. Sources: docs/HARDWARE.md §4 (the table,
+     generated; its Pi column is the Strict build's); faraday/image/README.md,
+     "USB is kept for a webcam", "What works" and "What does not";
+     docs/SECURITY-MODEL.md, "What the kernel can reach" (USB devices);
+     docs/IMAGES.md §1 and §2 (what the Pi's Compatible build adds);
+     faraday/image/boards/pi3/linux.fragment, "camera, legacy stack", and
+     faraday/image/panels/hdmi/config.txt (the ribbon camera needs the
+     firmware to own the display, so not under vc4-kms-v3d). -->
+<section id="input">
+  <h2>Cameras and input</h2>
+  <p class="sub">Faraday reads QR codes through a camera, and files from sticks and cards.</p>
+  <div class="card tbl">
+    <table class="std" role="table" aria-label="Input, camera and files">
+      <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader"></th><th scope="col" role="columnheader">The PC stick</th><th scope="col" role="columnheader">The Pi, Strict</th></tr></thead>
+      <tbody role="rowgroup">
+        <tr role="row"><th scope="row" role="rowheader">Touch, keyboard, pointer</th><td role="cell" data-label="The PC stick">Built-in keyboard, touchpad and touchscreen; USB ones once approved</td><td role="cell" data-label="The Pi, Strict">The panel's touch only: no HID driver</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">Camera, for QR codes</th><td role="cell" data-label="The PC stick">A USB webcam, plugged in or built in, that offers uncompressed frames; not a MIPI camera</td><td role="cell" data-label="The Pi, Strict">A Raspberry Pi Camera Module v1 or v2 on the board's camera connector, or a USB webcam that offers uncompressed frames; not Camera Module 3</td></tr>
+        <tr role="row"><th scope="row" role="rowheader">Files</th><td role="cell" data-label="The PC stick">USB sticks; an SD card only in a USB reader</td><td role="cell" data-label="The Pi, Strict">Its own SD slot; no USB storage</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid">
+    <article class="card">
+      <h3>Cameras</h3>
+      <p>A USB webcam that offers uncompressed frames (YUYV) works, plugged in or built in. A webcam that sends only MJPEG frames does not work yet.</p>
+      <p>On a Pi, a USB camera is the camera for every screen. For a housing, a bare USB camera board with screw holes and an adjustable (M12) lens fits well: screw it in place and set its focus once at the distance a QR code is held.</p>
+      <p>The 2.8-inch build also takes a Raspberry Pi Camera Module v1 or v2 on the board's camera connector. The HDMI and DSI builds do not. Camera Module 3 is not supported.</p>
+      <p>Not working yet: a MIPI camera. Most laptop webcams made after about 2020 are sensors on a MIPI lane behind an image processor, and Faraday carries neither their driver nor its firmware. Such a computer shows the scanner's file path and no viewfinder; a USB webcam in a port works. A webcam plugged in after the system starts is not picked up.</p>
+    </article>
+    <article class="card">
+      <h3>Touchscreens</h3>
+      <p>On a PC: a built-in touchscreen, and a USB one once approved.</p>
+      <p>On the Pi's Strict build the panel's own touch is the only input. The Compatible build adds USB touchscreens; the one the screen's profile names, such as the 10-inch HDMI panel's, is trusted input and needs no approval.</p>
+    </article>
+    <article class="card">
+      <h3>Keyboards and pointers</h3>
+      <p>A keyboard other than the computer's built-in one is ignored until it types a random code shown on the screen, and until it is unplugged if it types three codes' worth of letters without it. After three such keyboards, new ones are ignored until Faraday starts again.</p>
+      <p>A new pointer is ignored until a person approves it with trusted input. USB interfaces are authorised one at a time: a stick that also claims to be a keyboard types nothing.</p>
+    </article>
+    <article class="card">
+      <h3>Files</h3>
+      <p>FAT only, read and written by Faraday's own disk process in Rust, not by the kernel. A partition holding anything else is left alone.</p>
+      <p>On a PC: USB sticks, and an SD card in a USB reader. On the Pi's Strict build: its own card slot; the Compatible build adds USB storage.</p>
+    </article>
+  </div>
+</section>
+
+<!-- Help test. Sources: F147 and docs/IMAGES.md §3 (published before it
+     is tried, marked for testers, then tested; whose hardware never
+     said); faraday/builds.toml (the hardware looking for testers,
+     generated); docs/IMAGES.md §9 steps 1 and 4, docs/HARDWARE.md §1 and
+     faraday/image/README.md's boards table (not yet tried: Compatible on
+     a PC, the card on a 3B or a Zero 2 W); docs/DEVELOPING.md §6.2 (the
+     dev image, never for keys
+     that matter) and §6.4 (what to report). -->
+<section id="testing">
+  <h2>Help test</h2>
+  <p class="sub">An image is published before it has been tried on its hardware, marked <b>Looking for testers</b>. Once it has been tried there, its screen's settings are confirmed and its page marks it <b>Tested</b>. The pages never say whose hardware it was tried on.</p>
+  <div class="grid">
+    <article class="card">
+      <h3>Looking for testers</h3>
+      <ul class="notes">
+    <li><a href="https://faradayoffline.app/download/pc/">A laptop or PC</a> · <a href="https://github.com/bitcoinpasada/faraday/issues/new?title=Tried%20on%20A%20laptop%20or%20PC">Tell us how it went</a></li>
+    <li><a href="https://faradayoffline.app/download/pi-monitor/">Pi + HDMI screen</a> · <a href="https://github.com/bitcoinpasada/faraday/issues/new?title=Tried%20on%20Pi%20%2B%20HDMI%20screen">Tell us how it went</a></li>
+  </ul>
+      <p>Not yet tried: the PC stick's Compatible build on a PC, and the Pi card on a Pi 3B or a Zero 2 W.</p>
+    </article>
+    <article class="card">
+      <h3>How to report</h3>
+      <p>Open an issue on <a href="https://github.com/bitcoinpasada/faraday/issues/new">github.com/bitcoinpasada/faraday</a> with the make and model of the computer or board, the screen, the image's file name, and what happened.</p>
+      <p>Where it does not start, <a href="https://faradayoffline.app/start/not-starting/">When the stick does not start</a> goes first.</p>
+    </article>
+    <article class="card">
+      <h3>The dev image</h3>
+      <p>Built from the source with <code>dev=1</code>, it shows the kernel's messages on the screen and writes <code>faraday-boot-report.txt</code> every 30 seconds: the kernel log, the screen and devices found, and no secret. Send that file, and the build ID (<code>uname -r</code> on its console), with the report. Never use the dev image for keys that matter.</p>
+      <p><a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/DEVELOPING.md#62-the-dev-image">DEVELOPING §6.2</a> says how to build it.</p>
+    </article>
+  </div>
+</section>
+
+<!-- Considered, not supported. Sources: docs/HARDWARE.md §6.1 (the
+     board, what stands in the way and the measurements, generated);
+     docs/IMAGES.md §7 (boards under study marked so); docs/MAC.md, its
+     opening and §1 (the Macs, planned). -->
+<section id="considered">
+  <h2>Considered, not supported</h2>
+  <p class="sub">Boards studied and Macs planned. Faraday does not run on them yet.</p>
+  <article class="card study" id="esp32-p4">
+    <h3>Waveshare ESP32-P4-WIFI6-Touch-LCD-7B <span class="tag">Under study</span></h3>
+    <p>A 7-inch 1024 × 600 IPS board with GT911 capacitive touch, MIPI-DSI and MIPI-CSI. It has an ESP32-P4 (two RISC-V cores, up to 400 MHz, 768 KB SRAM, 32 MB PSRAM, 32 MB flash) and an ESP32-C6 module for Wi-Fi 6 and Bluetooth 5. It costs about US $50. Studied without a board on 2026-10-28. Not supported, and not being ported.</p>
+    <h4>What stands in the way</h4>
+    <ol class="way">
+      <li><p><b>Vault memory.</b> Faraday makes vaults of at least 64 MiB of Argon2 memory, and the board has 32 MB in all. A vault it could open would be made at 16 MiB or less, below Light. That is the owner's decision, not taken.</p></li>
+      <li><p><b>The radio.</b> The C6 boots its own flash at power-on, whatever the P4 runs. Without a radio means the C6 module desoldered, or its flash erased and the erase checked. No ESP32-P4 board without a C6 was found. ESP32-S3 boards carry the radio in the chip and are not candidates.</p></li>
+      <li><p><b>The security model.</b> <a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/SECURITY-MODEL.md"><code>docs/SECURITY-MODEL.md</code></a> rests on Linux:</p><ul><li>separate users and processes</li><li>the disk process alone touching sticks</li><li>a fresh process at Lock in pages the kernel zeroes</li><li>lockdown and no modules</li></ul><p>One ESP-IDF image in one address space would need a model of its own.</p></li>
+      <li><p><b>Secure boot.</b> Espressif's advisory AR2026-006 says the P4's ROM ECDSA check may accept invalid signatures, so RSA-3072 secure boot would be used. ESP-IDF is a large body of C that Faraday has not reviewed.</p></li>
+    </ol>
+    <h4>What would decide it</h4>
+    <p>Help is welcome. Before any port, these would be measured on the board:</p>
+    <ul class="notes">
+      <li>A full frame and a scroll step drawn by <code>faraday-draw</code></li>
+      <li>Argon2id at 16 MiB</li>
+      <li>A 640 × 480 QR frame read by rqrr</li>
+      <li>A PSBT signed</li>
+      <li>A check, with a scanner, that an erased C6 stays silent</li>
+    </ul>
+    <p class="row"><a class="btn tonal" href="https://github.com/bitcoinpasada/faraday/issues/new?title=ESP32-P4%20measurements">Share a measurement</a><a class="btn text" href="https://github.com/bitcoinpasada/faraday/blob/main/docs/HARDWARE.md#61-waveshare-esp32-p4-wifi6-touch-lcd-7b">HARDWARE §6.1</a></p>
+  </article>
+  <article class="card study" id="mac">
+    <h3>Macs <span class="tag">Coming</span></h3>
+    <p>Planned, not built. Intel Macs will start the PC stick, with one added keyboard driver. Apple Silicon Macs, M1 and M2 first, will start a stick image of their own, through a start-up file Faraday Starter installs once on the Mac and Apple's own recovery system seals. The M3 comes later; the M4 and M5 cannot start it yet.</p>
+    <p><a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/MAC.md">docs/MAC.md</a> says which Macs and how.</p>
+  </article>
+</section>
+</main>
+
+<!-- Donations: the QR codes go in the two frames (data-qr), as on the
+     home page. -->
+<dialog class="coffee-box" id="coffee" aria-labelledby="coffee-title">
+  <button class="close" id="coffee-close" aria-label="Close" title="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <h2 id="coffee-title">Buy me a coffee</h2>
+  <p>Donations to Faraday's development, in bitcoin.</p>
+  <div class="qrs">
+    <figure><div class="qr" data-qr="lightning">QR code to come</div><figcaption>Lightning</figcaption></figure>
+    <figure><div class="qr" data-qr="bitcoin">QR code to come</div><figcaption>Bitcoin</figcaption></figure>
+  </div>
+</dialog>
+
+<footer>
+  <div>
+    <span>Faraday · MIT License</span>
+    <button class="link" data-coffee>Buy me a coffee</button>
+    <a href="https://github.com/bitcoinpasada/faraday">github.com/bitcoinpasada/faraday</a>
+    <a href="https://x.com/faraday_offline">x.com/faraday_offline</a>
+  </div>
+</footer>
+
+<script>
+"use strict";
+// Buy me a coffee, as on the home page.
+const coffee = document.querySelector("#coffee");
+for (const b of document.querySelectorAll("[data-coffee]")) b.addEventListener("click", () => coffee.showModal());
+document.querySelector("#coffee-close").addEventListener("click", () => coffee.close());
+coffee.addEventListener("click", (e) => { if (e.target === coffee) coffee.close(); });
+
+// The bar's menu, on a narrow screen: the button opens the list and
+// Escape, a choice, a tap outside or the focus leaving close it.
+{
+  const button = document.querySelector("#menu-btn");
+  const list = document.querySelector("#menu");
+  const wrap = button.parentElement;
+  const items = () => [...list.querySelectorAll("a, button")];
+  const show = (on, back) => {
+    list.hidden = !on;
+    button.setAttribute("aria-expanded", String(on));
+    if (on) items()[0].focus();
+    else if (back) button.focus();
+  };
+  button.addEventListener("click", () => show(list.hidden, false));
+  list.addEventListener("click", (e) => {
+    const item = e.target.closest("a, button");
+    if (!item) return;
+    show(false, false);
+    // Buy me a coffee: the focus comes back to the menu's button.
+    if (item.hasAttribute("data-coffee")) coffee.addEventListener("close", () => button.focus(), { once: true });
+  });
+  list.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+    e.preventDefault();
+    const all = items();
+    const i = all.indexOf(document.activeElement);
+    all[(i + (e.key === "ArrowDown" ? 1 : all.length - 1)) % all.length].focus();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || list.hidden) return;
+    e.preventDefault();
+    e.stopPropagation();
+    show(false, true);
+  }, true);
+  document.addEventListener("pointerdown", (e) => {
+    if (!list.hidden && !wrap.contains(e.target)) show(false, false);
+  });
+  wrap.addEventListener("focusout", (e) => {
+    if (!list.hidden && e.relatedTarget && !wrap.contains(e.relatedTarget)) show(false, false);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,834 @@
+/* The site's one stylesheet: Material 3, drawn with Faraday's own look,
+   for every page (web/*.html and the guides, tools/guides.py), served
+   as assets/site.css. A page's own <style> holds only what that page
+   alone has, written in these tokens.
+
+   - Colour: Material 3's roles for Cobalt, the app's default theme, as
+     the app has them (tools/roles.py copies them from Faraday's
+     generated tables; `just lint` fails when they differ), Light and
+     Dark by prefers-color-scheme. Components take the roles Faraday's
+     docs/THEMES.md §7 gives them.
+   - Type, shape, state layers, elevation and motion: Material 3's
+     tokens, below; spacing on a 4 px grid; Material's window classes,
+     compact under 600 px, medium 600, expanded 840, large 1200,
+     extra-large 1600, with a 16 px margin on compact and 24 px from
+     medium up.
+   - Typefaces stay the system's (no font is fetched): Material's type
+     scale in them. */
+
+/* roles: begin (tools/roles.py writes these; not edited by hand) */
+/* Cobalt (#0047AB, fidelity), Standard contrast: Faraday's faraday/faraday-ui/src/pal/schemes.rs
+   at 6b06934dfc6629a5dacce7ff408bdc47040b4919, made by material-color-utilities 0.4.0 (commit eeaf82b8e11b). */
+:root {
+  --md-sys-color-primary: #00327d;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #0047ab;
+  --md-sys-color-on-primary-container: #a5bdff;
+  --md-sys-color-inverse-primary: #b1c5ff;
+  --md-sys-color-secondary: #4e5e85;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #c1d1ff;
+  --md-sys-color-on-secondary-container: #4a5980;
+  --md-sys-color-tertiary: #651f00;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #8b2e01;
+  --md-sys-color-on-tertiary-container: #ffaa8a;
+  --md-sys-color-error: #ba1a1a;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: #ffdad6;
+  --md-sys-color-on-error-container: #93000a;
+  --md-sys-color-surface: #faf8ff;
+  --md-sys-color-surface-dim: #d9d9e2;
+  --md-sys-color-surface-bright: #faf8ff;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #f3f3fc;
+  --md-sys-color-surface-container: #ededf6;
+  --md-sys-color-surface-container-high: #e7e7f0;
+  --md-sys-color-surface-container-highest: #e2e2eb;
+  --md-sys-color-on-surface: #191b22;
+  --md-sys-color-on-surface-variant: #434653;
+  --md-sys-color-outline: #737784;
+  --md-sys-color-outline-variant: #c3c6d5;
+  --md-sys-color-inverse-surface: #2e3037;
+  --md-sys-color-inverse-on-surface: #f0f0f9;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-ok: #006d43;
+  --md-sys-color-on-ok: #ffffff;
+  --md-sys-color-ok-container: #92f7bc;
+  --md-sys-color-on-ok-container: #005231;
+  --md-sys-color-warning: #8b5000;
+  --md-sys-color-on-warning: #ffffff;
+  --md-sys-color-warning-container: #ffdcbe;
+  --md-sys-color-on-warning-container: #693c00;
+  --md-sys-color-checksum: #8b4c50;
+  --md-sys-color-on-checksum: #ffffff;
+  --md-sys-color-checksum-container: #ffdada;
+  --md-sys-color-on-checksum-container: #6f353a;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-sys-color-primary: #b1c5ff;
+    --md-sys-color-on-primary: #002c70;
+    --md-sys-color-primary-container: #0047ab;
+    --md-sys-color-on-primary-container: #a5bdff;
+    --md-sys-color-inverse-primary: #2559bd;
+    --md-sys-color-secondary: #b6c6f3;
+    --md-sys-color-on-secondary: #1f2f54;
+    --md-sys-color-secondary-container: #39486e;
+    --md-sys-color-on-secondary-container: #a8b8e4;
+    --md-sys-color-tertiary: #ffb59a;
+    --md-sys-color-on-tertiary: #5b1b00;
+    --md-sys-color-tertiary-container: #8b2e01;
+    --md-sys-color-on-tertiary-container: #ffaa8a;
+    --md-sys-color-error: #ffb4ab;
+    --md-sys-color-on-error: #690005;
+    --md-sys-color-error-container: #93000a;
+    --md-sys-color-on-error-container: #ffdad6;
+    --md-sys-color-surface: #111319;
+    --md-sys-color-surface-dim: #111319;
+    --md-sys-color-surface-bright: #373940;
+    --md-sys-color-surface-container-lowest: #0c0e14;
+    --md-sys-color-surface-container-low: #191b22;
+    --md-sys-color-surface-container: #1d1f26;
+    --md-sys-color-surface-container-high: #282a30;
+    --md-sys-color-surface-container-highest: #33343b;
+    --md-sys-color-on-surface: #e2e2eb;
+    --md-sys-color-on-surface-variant: #c3c6d5;
+    --md-sys-color-outline: #8d909e;
+    --md-sys-color-outline-variant: #434653;
+    --md-sys-color-inverse-surface: #e2e2eb;
+    --md-sys-color-inverse-on-surface: #2e3037;
+    --md-sys-color-scrim: #000000;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-ok: #76daa1;
+    --md-sys-color-on-ok: #003920;
+    --md-sys-color-ok-container: #005231;
+    --md-sys-color-on-ok-container: #92f7bc;
+    --md-sys-color-warning: #ffb870;
+    --md-sys-color-on-warning: #4a2800;
+    --md-sys-color-warning-container: #693c00;
+    --md-sys-color-on-warning-container: #ffdcbe;
+    --md-sys-color-checksum: #ffb3b6;
+    --md-sys-color-on-checksum: #532025;
+    --md-sys-color-checksum-container: #6f353a;
+    --md-sys-color-on-checksum-container: #ffdada;
+  }
+}
+/* roles: end */
+
+:root {
+  color-scheme: light dark;
+
+  /* Typefaces: the system's, as the site has always used. */
+  --md-ref-typeface-plain: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, sans-serif;
+  --md-ref-typeface-brand: var(--md-ref-typeface-plain);
+  --md-ref-typeface-mono: ui-monospace, "Cascadia Mono", "JetBrains Mono", "Noto Sans Mono", Consolas, monospace;
+
+  /* Material 3's type scale: weight, size/line height, and tracking. */
+  --md-sys-typescale-display-large: 400 57px/64px var(--md-ref-typeface-brand);
+  --md-sys-typescale-display-large-tracking: -0.25px;
+  --md-sys-typescale-display-medium: 400 45px/52px var(--md-ref-typeface-brand);
+  --md-sys-typescale-display-small: 400 36px/44px var(--md-ref-typeface-brand);
+  --md-sys-typescale-headline-large: 400 32px/40px var(--md-ref-typeface-brand);
+  --md-sys-typescale-headline-medium: 400 28px/36px var(--md-ref-typeface-brand);
+  --md-sys-typescale-headline-small: 400 24px/32px var(--md-ref-typeface-brand);
+  --md-sys-typescale-title-large: 400 22px/28px var(--md-ref-typeface-brand);
+  --md-sys-typescale-title-medium: 500 16px/24px var(--md-ref-typeface-plain);
+  --md-sys-typescale-title-medium-tracking: 0.15px;
+  --md-sys-typescale-title-small: 500 14px/20px var(--md-ref-typeface-plain);
+  --md-sys-typescale-title-small-tracking: 0.1px;
+  --md-sys-typescale-body-large: 400 16px/24px var(--md-ref-typeface-plain);
+  --md-sys-typescale-body-large-tracking: 0.5px;
+  --md-sys-typescale-body-medium: 400 14px/20px var(--md-ref-typeface-plain);
+  --md-sys-typescale-body-medium-tracking: 0.25px;
+  --md-sys-typescale-body-small: 400 12px/16px var(--md-ref-typeface-plain);
+  --md-sys-typescale-body-small-tracking: 0.4px;
+  --md-sys-typescale-label-large: 500 14px/20px var(--md-ref-typeface-plain);
+  --md-sys-typescale-label-large-tracking: 0.1px;
+  --md-sys-typescale-label-medium: 500 12px/16px var(--md-ref-typeface-plain);
+  --md-sys-typescale-label-medium-tracking: 0.5px;
+  --md-sys-typescale-label-small: 500 11px/16px var(--md-ref-typeface-plain);
+  --md-sys-typescale-label-small-tracking: 0.5px;
+
+  /* Material 3's shape scale. */
+  --md-sys-shape-corner-none: 0;
+  --md-sys-shape-corner-extra-small: 4px;
+  --md-sys-shape-corner-small: 8px;
+  --md-sys-shape-corner-medium: 12px;
+  --md-sys-shape-corner-large: 16px;
+  --md-sys-shape-corner-extra-large: 28px;
+  --md-sys-shape-corner-full: 9999px;
+
+  /* State layers, as the app (Faraday F113): the content's colour over
+     the control at these opacities. */
+  --md-sys-state-hover-state-layer-opacity: 0.08;
+  --md-sys-state-focus-state-layer-opacity: 0.10;
+  --md-sys-state-pressed-state-layer-opacity: 0.10;
+  --md-sys-state-dragged-state-layer-opacity: 0.16;
+  --md-sys-state-disabled-content-opacity: 0.38;
+  --md-sys-state-disabled-container-opacity: 0.12;
+
+  /* Elevation: Material's two shadows, key and ambient, in the shadow
+     role, by level. */
+  --md-shadow-key: color-mix(in srgb, var(--md-sys-color-shadow) 30%, transparent);
+  --md-shadow-ambient: color-mix(in srgb, var(--md-sys-color-shadow) 15%, transparent);
+  --md-sys-elevation-level0: none;
+  --md-sys-elevation-level1: 0 1px 2px 0 var(--md-shadow-key), 0 1px 3px 1px var(--md-shadow-ambient);
+  --md-sys-elevation-level2: 0 1px 2px 0 var(--md-shadow-key), 0 2px 6px 2px var(--md-shadow-ambient);
+  --md-sys-elevation-level3: 0 1px 3px 0 var(--md-shadow-key), 0 4px 8px 3px var(--md-shadow-ambient);
+  --md-sys-elevation-level4: 0 2px 3px 0 var(--md-shadow-key), 0 6px 10px 4px var(--md-shadow-ambient);
+  --md-sys-elevation-level5: 0 4px 4px 0 var(--md-shadow-key), 0 8px 12px 6px var(--md-shadow-ambient);
+
+  /* Material 3's motion: easing and duration. */
+  --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --md-sys-motion-easing-standard-accelerate: cubic-bezier(0.3, 0, 1, 1);
+  --md-sys-motion-easing-standard-decelerate: cubic-bezier(0, 0, 0, 1);
+  --md-sys-motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --md-sys-motion-easing-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --md-sys-motion-easing-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --md-sys-motion-duration-short1: 50ms;
+  --md-sys-motion-duration-short2: 100ms;
+  --md-sys-motion-duration-short3: 150ms;
+  --md-sys-motion-duration-short4: 200ms;
+  --md-sys-motion-duration-medium1: 250ms;
+  --md-sys-motion-duration-medium2: 300ms;
+  --md-sys-motion-duration-medium3: 350ms;
+  --md-sys-motion-duration-medium4: 400ms;
+  --md-sys-motion-duration-long1: 450ms;
+  --md-sys-motion-duration-long2: 500ms;
+  --md-sys-motion-duration-long3: 550ms;
+  --md-sys-motion-duration-long4: 600ms;
+  --md-sys-motion-duration-extra-long1: 700ms;
+  --md-sys-motion-duration-extra-long2: 800ms;
+
+  /* The window's margin: 16 px on compact, 24 px from medium up. */
+  --margin: 16px;
+
+  /* The shield's rim: primary halfway to white, as the app draws it. */
+  --rim: color-mix(in srgb, var(--md-sys-color-primary), white 50%);
+}
+@media (width >= 600px) { :root { --margin: 24px; } }
+
+/* The page. */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--bar-h, 64px); }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--md-sys-color-on-surface);
+  background: var(--md-sys-color-surface);
+  font: var(--md-sys-typescale-body-large);
+  letter-spacing: var(--md-sys-typescale-body-large-tracking);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+h1, h2, h3, h4 { letter-spacing: 0; }
+a { color: var(--md-sys-color-primary); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--md-sys-color-secondary); outline-offset: 2px; }
+button { font: inherit; letter-spacing: inherit; }
+code { font: 0.92em/1.4 var(--md-ref-typeface-mono); letter-spacing: 0; overflow-wrap: anywhere; }
+main:focus { outline: none; }
+.skip-link {
+  position: absolute; left: 12px; top: -64px; z-index: 100;
+  display: inline-flex; align-items: center; height: 40px; padding: 0 24px;
+  font: var(--md-sys-typescale-label-large); letter-spacing: var(--md-sys-typescale-label-large-tracking);
+  color: var(--md-sys-color-on-primary); background: var(--md-sys-color-primary);
+  border-radius: var(--md-sys-shape-corner-full);
+}
+.skip-link:focus { top: 12px; text-decoration: none; }
+
+/* State layers: the content's colour over the control, at Material's
+   opacities for hover, focus and press. (:where, so a control's own
+   position, fixed or absolute, stands.) */
+:where(.btn, .bar nav a.plain, .menu-list a, .menu-list button, .close, .icon-btn, .skip, .copy, .chip, .fchip, .arrow, .play, .pos-btn, button.more, .less button, details.card summary, details.fold > summary, .fab-s, .efab, .sclear) {
+  position: relative;
+  isolation: isolate;
+}
+:is(.btn, .bar nav a.plain, .menu-list a, .menu-list button, .close, .icon-btn, .skip, .copy, .chip, .fchip, .arrow, .play, .pos-btn, button.more, .less button, details.card summary, details.fold > summary, .fab-s, .efab, .sclear)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+}
+:is(.btn, .bar nav a.plain, .menu-list a, .menu-list button, .close, .icon-btn, .skip, .copy, .chip, .fchip, .arrow, .play, .pos-btn, button.more, .less button, details.card summary, details.fold > summary, .fab-s, .efab, .sclear):hover::before { opacity: var(--md-sys-state-hover-state-layer-opacity); }
+:is(.btn, .bar nav a.plain, .menu-list a, .menu-list button, .close, .icon-btn, .skip, .copy, .chip, .fchip, .arrow, .play, .pos-btn, button.more, .less button, details.card summary, details.fold > summary, .fab-s, .efab, .sclear):focus-visible::before { opacity: var(--md-sys-state-focus-state-layer-opacity); }
+:is(.btn, .bar nav a.plain, .menu-list a, .menu-list button, .close, .icon-btn, .skip, .copy, .chip, .fchip, .arrow, .play, .pos-btn, button.more, .less button, details.card summary, details.fold > summary, .fab-s, .efab, .sclear):active::before { opacity: var(--md-sys-state-pressed-state-layer-opacity); }
+/* A control smaller than 48 px is pressed anywhere in the 48 px around
+   it. */
+:is(.btn, .bar nav a.plain, .close, .icon-btn, .copy, .chip, .fchip, .arrow, .play, .fab-s)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, 48px);
+  height: max(100%, 48px);
+  transform: translate(-50%, -50%);
+}
+
+/* Buttons: 40 px high, full corners, the label in label large. .btn is
+   Material's outlined button; .accent the filled, .tonal the tonal and
+   .text the text button. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 24px;
+  font: var(--md-sys-typescale-label-large);
+  letter-spacing: var(--md-sys-typescale-label-large-tracking);
+  color: var(--md-sys-color-primary);
+  background: none;
+  border: 1px solid var(--md-sys-color-outline);
+  border-radius: var(--md-sys-shape-corner-full);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  white-space: nowrap;
+  transition: box-shadow var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+}
+.btn:hover { text-decoration: none; }
+.btn:has(> svg:first-child) { padding-left: 16px; }
+.btn svg { width: 18px; height: 18px; flex: none; }
+.btn.accent { color: var(--md-sys-color-on-primary); background: var(--md-sys-color-primary); border-color: transparent; }
+.btn.accent:hover { box-shadow: var(--md-sys-elevation-level1); }
+.btn.tonal { color: var(--md-sys-color-on-secondary-container); background: var(--md-sys-color-secondary-container); border-color: transparent; }
+.btn.tonal:hover { box-shadow: var(--md-sys-elevation-level1); }
+.btn.text { padding: 0 12px; border-color: transparent; }
+.btn.text:has(> svg:first-child) { padding: 0 16px 0 12px; }
+/* A download not yet in a release: shown, not offered, as Material's
+   disabled outlined button. */
+.btn.soon {
+  color: color-mix(in srgb, var(--md-sys-color-on-surface) 38%, transparent);
+  border-color: color-mix(in srgb, var(--md-sys-color-on-surface) 12%, transparent);
+  cursor: default;
+}
+.btn.soon::before { display: none; }
+.btn small { font: inherit; opacity: 0.8; }
+/* An icon button: 40 px round, its 24 px icon in on-surface-variant. */
+.icon-btn, .close {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  color: var(--md-sys-color-on-surface-variant);
+  background: none;
+  border: 0;
+  border-radius: var(--md-sys-shape-corner-full);
+  cursor: pointer;
+}
+.icon-btn svg, .close svg { width: 24px; height: 24px; }
+
+/* The top app bar: surface, and surface-container once the page has
+   scrolled under it. */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--md-sys-color-surface);
+  transition: transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized);
+}
+@supports (animation-timeline: scroll()) {
+  @keyframes bar-under { to { background: var(--md-sys-color-surface-container); } }
+  .bar { animation: bar-under linear both; animation-timeline: scroll(root); animation-range: 0 8px; }
+}
+.bar-in {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 12px var(--margin);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 64px;
+}
+/* The lockup, in the bar and on the home page's opening: the shield,
+   centred beside the two lines, the name and, under it, as wide as it,
+   the words. --cap is the name's capital height. The name is the app's
+   wordmark (#wordmark): FARADAY in Archivo Expanded SemiBold,
+   hand-kerned, each A's crossbar cut free of its legs; the words
+   (#tagline) are OFFLINE APP in Archivo Medium, spaced to the name's
+   width, 0.62 of its height; both outlines, so no font. 6067 by 687 and
+   by 426 font units. */
+.brand, .wordmark {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  column-gap: calc(var(--cap) * 0.75);
+  row-gap: calc(var(--cap) * 0.22);
+  width: max-content;
+}
+.brand { --cap: 13px; color: var(--md-sys-color-on-surface); }
+.brand:hover { text-decoration: none; }
+.mark { grid-row: 1 / span 2; grid-column: 1; align-self: center; display: block; width: calc(var(--cap) * 1.6); height: auto; }
+.name { grid-row: 1; grid-column: 2; display: block; fill: currentColor; height: var(--cap); width: calc(var(--cap) * 6067 / 687); }
+.under { grid-row: 2; grid-column: 2; display: block; fill: var(--md-sys-color-on-surface-variant); overflow: visible; height: calc(var(--cap) * 426 / 687); width: calc(var(--cap) * 6067 / 687); }
+.bar nav { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+/* The bar's links: text buttons in on-surface-variant; the page you are
+   on in secondary-container, as a navigation item's active indicator. */
+.bar nav a.plain {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 12px;
+  font: var(--md-sys-typescale-label-large);
+  letter-spacing: var(--md-sys-typescale-label-large-tracking);
+  color: var(--md-sys-color-on-surface-variant);
+  border-radius: var(--md-sys-shape-corner-full);
+}
+.bar nav a.plain:hover { text-decoration: none; }
+.bar nav a.plain[aria-current] { color: var(--md-sys-color-on-secondary-container); background: var(--md-sys-color-secondary-container); }
+/* Buy me a coffee and X are their marks alone, in outlined pill buttons
+   (owner, 2026-10-27); below 1200 px GitHub is too. Below 840 px X
+   stays in the bar and Buy me a coffee is the footer's alone. */
+.btn.coffee, .bar nav .btn.coffee, .bar nav .btn.x { width: auto; padding: 0 16px; }
+@media (width < 1200px) {
+  .bar nav .btn:is(.gh, [aria-label="GitHub"]) { width: 40px; padding: 0; }
+  .bar nav .btn:is(.gh, [aria-label="GitHub"]) span { display: none; }
+}
+
+/* Hardware and Cryptography join the bar's links from 1200 px: between
+   840 and 1200 the row has no room for them, and the hardware page is
+   linked from the download pages there, the cryptography page from the
+   Standards page; below 840 the menu lists them. */
+@media (width < 1200px) { .bar nav a.plain:is(.hw, .cr) { display: none; } }
+
+/* From 840 to 1200 px the bar's links have 8 px beside their labels, not
+   12: with 12 the row needs 865 px and ran past the window's edge at
+   840 px, a 1 px sideways scroll on every page. With 8 it needs 817. */
+@media (840px <= width < 1200px) { .bar nav a.plain { padding: 0 8px; } }
+
+/* The bar's menu: below 840 px, where the bar's links have no room, a
+   Material menu under a button. */
+.menu { position: relative; display: none; }
+.menu-btn { width: 40px; padding: 0; color: var(--md-sys-color-on-surface-variant); border-color: transparent; }
+.menu-btn svg { width: 24px; height: 24px; }
+.menu-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 60;
+  min-width: 200px;
+  max-width: 280px;
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+  background: var(--md-sys-color-surface-container);
+  border-radius: var(--md-sys-shape-corner-extra-small);
+  box-shadow: var(--md-sys-elevation-level2);
+}
+.menu-list[hidden] { display: none; }
+.menu-list a, .menu-list button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 48px;
+  padding: 0 12px;
+  font: var(--md-sys-typescale-label-large);
+  letter-spacing: var(--md-sys-typescale-label-large-tracking);
+  color: var(--md-sys-color-on-surface);
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.menu-list a:hover { text-decoration: none; }
+.menu-list :focus-visible { outline-offset: -3px; }
+.menu-list a[aria-current] { color: var(--md-sys-color-on-secondary-container); background: var(--md-sys-color-secondary-container); }
+@media (width < 840px) {
+  .bar nav a.plain, .bar nav a.gh, .bar nav > .coffee { display: none; }
+  .bar .menu { display: block; }
+}
+
+/* A page: a heading, then sections, each a heading and cards. */
+main { max-width: calc(1100px + 2 * var(--margin)); margin: 0 auto; padding: 48px var(--margin) 24px; }
+.top { text-align: center; margin-bottom: 8px; }
+.top h1 { margin: 0 0 8px; font: var(--md-sys-typescale-headline-large); }
+.top p { max-width: 640px; margin: 0 auto; color: var(--md-sys-color-on-surface-variant); }
+.jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 20px 0 0; }
+section { padding: 48px 0 8px; }
+section + section { border-top: 1px solid var(--md-sys-color-outline-variant); margin-top: 40px; }
+section > h2 { margin: 0 0 8px; font: var(--md-sys-typescale-headline-small); text-align: center; }
+section > .sub { max-width: 680px; margin: 0 auto 24px; color: var(--md-sys-color-on-surface-variant); text-align: center; }
+@media (width >= 840px) {
+  .top h1 { font: var(--md-sys-typescale-display-small); }
+  section > h2 { font: var(--md-sys-typescale-headline-medium); }
+}
+@media (width < 600px) { main { padding-top: 32px; } }
+.sub-h { margin: 36px 0 8px; font: var(--md-sys-typescale-title-large); text-align: center; }
+/* A paragraph after a table or a grid in a section (the hardware and Audits pages). */
+p.lead { max-width: 820px; margin: 16px auto; color: var(--md-sys-color-on-surface-variant); }
+.aside { max-width: 680px; margin: 16px auto 0; color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); text-align: center; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+.more:not(button) { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 40px; }
+
+/* Cards: Faraday's edged card (Faraday docs/THEMES.md §7), the elevated
+   card's colour drawn flat with an outline-variant edge, 12 px corners. */
+.card {
+  padding: 16px;
+  color: var(--md-sys-color-on-surface);
+  background: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-medium);
+  font: var(--md-sys-typescale-body-medium);
+  letter-spacing: var(--md-sys-typescale-body-medium-tracking);
+}
+@media (width >= 840px) { .card { padding: 24px; } }
+.card h3 { margin: 0 0 4px; font: var(--md-sys-typescale-title-medium); letter-spacing: var(--md-sys-typescale-title-medium-tracking); }
+.card > p { margin: 0 0 12px; color: var(--md-sys-color-on-surface-variant); }
+.card > p:last-child { margin-bottom: 0; }
+.note { margin: 12px 0 0; color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-small); letter-spacing: var(--md-sys-typescale-body-small-tracking); }
+.note b { display: block; color: var(--md-sys-color-on-surface); font-weight: 500; }
+.none {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 28px 24px;
+  text-align: center;
+  color: var(--md-sys-color-on-surface-variant);
+  background: var(--md-sys-color-surface-container-low);
+  border: 1px dashed var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-medium);
+}
+/* A label on a heading ("coming soon", "untried"): label medium in a
+   small-cornered container. */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  margin-left: 8px;
+  padding: 0 8px;
+  font: var(--md-sys-typescale-label-medium);
+  letter-spacing: var(--md-sys-typescale-label-medium-tracking);
+  color: var(--md-sys-color-on-warning-container);
+  background: var(--md-sys-color-warning-container);
+  border-radius: var(--md-sys-shape-corner-small);
+  vertical-align: 0.15em;
+}
+
+/* The pills of the cryptography and standards pages (Faraday F177): labels,
+   not chips, as they are not pressed. Outside (a specification or an
+   implementation others wrote) in the ok roles; a cross-check against
+   Faraday's own second implementation in the warning roles; an own
+   specification in the tertiary container roles, Material's accent for
+   what draws attention; no cross-check in the surface roles. */
+.pill { display: inline-flex; align-items: center; height: 24px; padding: 0 8px; font: var(--md-sys-typescale-label-medium); letter-spacing: var(--md-sys-typescale-label-medium-tracking); white-space: nowrap; border-radius: var(--md-sys-shape-corner-small); }
+.pill.p-out { color: var(--md-sys-color-on-ok-container); background: var(--md-sys-color-ok-container); }
+.pill.p-own { color: var(--md-sys-color-on-warning-container); background: var(--md-sys-color-warning-container); }
+.pill.p-spec { color: var(--md-sys-color-on-primary-container); background: var(--md-sys-color-primary-container); }
+.pill.p-none { color: var(--md-sys-color-on-surface-variant); background: var(--md-sys-color-surface-container-highest); }
+/* A line in the warning role, with its icon: what is not checked, an own
+   specification's label, which links to the Audits page in that role. */
+.warn { display: flex; gap: 4px; align-items: flex-start; color: var(--md-sys-color-warning); }
+.warn-i { flex: none; width: 18px; height: 18px; margin-top: 1px; }
+.warn b { color: inherit; }
+.warn a { color: inherit; text-decoration: underline; }
+/* Where a generated page comes from, under its heading: the manifest and its hash. */
+.top .meta { max-width: 640px; margin: 12px auto 20px; color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); overflow-wrap: anywhere; }
+
+/* A piece of hardware's state on the download pages (Faraday
+   docs/IMAGES.md §7): Material's assist chip, 32 px, small corners,
+   label large, shown, not pressed. Tested in the ok roles, Looking for
+   testers in the warning roles, Coming soon outlined. */
+.state {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 16px;
+  font: var(--md-sys-typescale-label-large);
+  letter-spacing: var(--md-sys-typescale-label-large-tracking);
+  white-space: nowrap;
+  border: 1px solid transparent;
+  border-radius: var(--md-sys-shape-corner-small);
+}
+.state.tested { color: var(--md-sys-color-on-ok-container); background: var(--md-sys-color-ok-container); }
+.state.testers { color: var(--md-sys-color-on-warning-container); background: var(--md-sys-color-warning-container); }
+.state.soon { color: var(--md-sys-color-on-surface-variant); border-color: var(--md-sys-color-outline); }
+
+/* The hardware drawn flat, front view, in millimetres to one scale
+   (tools/download.py): its body in surface-container-highest edged in
+   outline, a Pi's board in secondary-container, Faraday's Home on the
+   screen. Its width is set where it is shown; its height follows. */
+.dev { display: block; height: auto; overflow: visible; }
+.dev :is(.body, .board, .port, .edge, .cable) { vector-effect: non-scaling-stroke; stroke-width: 1px; }
+.dev .body { fill: var(--md-sys-color-surface-container-highest); stroke: var(--md-sys-color-outline); }
+.dev .board { fill: var(--md-sys-color-secondary-container); stroke: var(--md-sys-color-outline); }
+.dev .hole { fill: var(--md-sys-color-surface); }
+.dev .port { fill: var(--md-sys-color-outline-variant); stroke: var(--md-sys-color-outline); }
+.dev .edge { fill: none; stroke: var(--md-sys-color-outline-variant); }
+.dev .cable { fill: none; stroke: var(--md-sys-color-outline); stroke-width: 2px; }
+
+/* The hardware cards (the download page and the hardware page alike;
+   owner, 2026-10-29): the drawing, the name, the Pis it fits and one
+   button, the whole card one link to the hardware's page and its button
+   that link's label, not a second target. One column on compact, two
+   on medium, three from expanded, each card as tall as its row with its
+   button at its foot. Every device is drawn at one scale, --px-per-mm,
+   its width in millimetres given as --mm by tools/download.py: 0.7 px a
+   millimetre, less where the widest drawing (the monitor and its Pi,
+   424 mm) would not fit a card with --pic-margin (16 px) at each side
+   (100cqi is the card's inner width); the drawing area is as tall as the
+   tallest drawing, the monitor's 236 mm, at that scale, and --pic-margin
+   above it, so every drawing keeps that margin from the card's top and
+   sides, the monitor's too. */
+.tiles { --pic-margin: 16px; --px-per-mm: min(0.7px, (100cqi - 2 * var(--pic-margin)) / 424); display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 32px; }
+@media (width >= 600px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (width >= 840px) { .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.tile { container-type: inline-size; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; color: var(--md-sys-color-on-surface); }
+a.tile { position: relative; isolation: isolate; }
+a.tile:hover { text-decoration: none; }
+a.tile::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--md-sys-color-on-surface); opacity: 0; transition: opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard); }
+a.tile:hover::before { opacity: var(--md-sys-state-hover-state-layer-opacity); }
+a.tile:focus-visible::before, a.tile:active::before { opacity: var(--md-sys-state-pressed-state-layer-opacity); }
+.tile .pic { box-sizing: border-box; align-self: stretch; display: flex; align-items: flex-end; justify-content: center; height: calc(236 * var(--px-per-mm) + var(--pic-margin)); padding: var(--pic-margin) var(--pic-margin) 0; margin-bottom: 12px; }
+.tile .pic svg { width: calc(var(--mm) * var(--px-per-mm)); }
+.tile :is(h2, h3) { margin: 0; font: var(--md-sys-typescale-title-medium); letter-spacing: var(--md-sys-typescale-title-medium-tracking); }
+.tile .fits { margin: 0; color: var(--md-sys-color-on-surface-variant); }
+.tile .go { margin: auto 0 0; padding-top: 16px; }
+/* The card's own state layer and target stand for its button's. */
+.tile .btn::before, .tile .btn::after { display: none; }
+.tile.soon .pic { opacity: 0.6; }
+
+/* Cards in a grid, at least 300 px each. */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+
+/* A table of facts (the Standards page, the hardware page): a header
+   row, a row header, then cells; on a narrow screen each row is a
+   block, its cells labelled from data-label. */
+.tbl { padding-top: 4px; padding-bottom: 4px; }
+.std { width: 100%; border-collapse: collapse; }
+.std th, .std td { padding: 12px 12px 12px 0; text-align: left; vertical-align: top; border-top: 1px solid var(--md-sys-color-outline-variant); }
+.std thead th { border-top: 0; font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); color: var(--md-sys-color-on-surface-variant); }
+.std tbody th { width: 30%; font-weight: 500; color: var(--md-sys-color-on-surface); }
+.std td { color: var(--md-sys-color-on-surface-variant); }
+.std td:last-child { width: 34%; padding-right: 0; }
+@media (width < 600px) {
+  .std thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .std tr { display: block; padding: 12px 0; border-top: 1px solid var(--md-sys-color-outline-variant); }
+  .std tbody tr:first-child { border-top: 0; }
+  .std th, .std td, .std tbody th, .std td:last-child { display: block; width: auto; padding: 2px 0; border-top: 0; }
+  .std tbody th { margin-bottom: 4px; font: var(--md-sys-typescale-title-small); }
+  .std td::before { content: attr(data-label); display: block; margin-top: 8px; font: var(--md-sys-typescale-label-medium); letter-spacing: var(--md-sys-typescale-label-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+}
+
+/* Labelled facts: each a row under a divider, its label in label
+   medium above its value. */
+.facts { margin: 0; }
+.facts > div { padding: 8px 0; border-top: 1px solid var(--md-sys-color-outline-variant); }
+.facts dt { margin-bottom: 4px; font: var(--md-sys-typescale-label-medium); letter-spacing: var(--md-sys-typescale-label-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+.facts dd { margin: 0; color: var(--md-sys-color-on-surface-variant); overflow-wrap: anywhere; }
+
+/* A numbered list: each number in a primary circle. */
+.ranked { counter-reset: rank; }
+.ranked li { counter-increment: rank; position: relative; padding-left: 36px; }
+.ranked li::before { content: counter(rank); position: absolute; left: 0; top: 8px; display: grid; place-items: center; width: 24px; height: 24px; font: var(--md-sys-typescale-label-medium); color: var(--md-sys-color-on-primary); background: var(--md-sys-color-primary); border-radius: var(--md-sys-shape-corner-full); }
+
+/* A card that opens: its summary a 56 px row with Material's expand
+   icon, turned while open. */
+details.card { padding: 0; }
+details.card summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 16px;
+  font: var(--md-sys-typescale-title-medium);
+  letter-spacing: var(--md-sys-typescale-title-medium-tracking);
+  color: var(--md-sys-color-on-surface);
+  border-radius: inherit;
+  cursor: pointer;
+  list-style: none;
+}
+details[open] > summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+details.card summary::-webkit-details-marker { display: none; }
+details.card summary::after {
+  content: "";
+  flex: none;
+  width: 24px;
+  height: 24px;
+  background: var(--md-sys-color-on-surface-variant);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z'/%3E%3C/svg%3E") center / 24px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z'/%3E%3C/svg%3E") center / 24px no-repeat;
+  transition: transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized);
+}
+details.card[open] summary::after { transform: rotate(180deg); }
+details.card p { margin: 0; padding: 0 16px 16px; color: var(--md-sys-color-on-surface-variant); }
+details.card p b { display: block; color: var(--md-sys-color-on-surface); font-weight: 500; }
+@media (width >= 840px) {
+  details.card summary { padding: 16px 24px; }
+  details.card p { padding: 0 24px 16px; }
+}
+
+/* Numbered steps: each a list row, its number in a primary circle. */
+.easy { margin: 0; padding: 0; list-style: none; counter-reset: easy; }
+.easy li { counter-increment: easy; position: relative; padding: 12px 0 12px 40px; color: var(--md-sys-color-on-surface-variant); border-top: 1px solid var(--md-sys-color-outline-variant); }
+.easy li:first-child { border-top: 0; padding-top: 0; }
+.easy li::before {
+  content: counter(easy);
+  position: absolute;
+  left: 0;
+  top: 12px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  font: var(--md-sys-typescale-label-large);
+  color: var(--md-sys-color-on-primary);
+  background: var(--md-sys-color-primary);
+  border-radius: var(--md-sys-shape-corner-full);
+}
+.easy li:first-child::before { top: 0; }
+.easy b { display: block; color: var(--md-sys-color-on-surface); font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); }
+.notes { margin: 16px 0 0; padding: 0; list-style: none; }
+.notes li { padding: 8px 0; color: var(--md-sys-color-on-surface-variant); border-top: 1px solid var(--md-sys-color-outline-variant); }
+.notes li:first-child { border-top: 0; }
+/* A ranked list of notes keeps the room for its numbers. */
+.notes.ranked li { padding-left: 36px; }
+
+/* A command or a text to copy, with its Copy button. */
+.cmd { position: relative; width: 100%; }
+.cmd pre {
+  margin: 0;
+  padding: 48px 12px 12px;
+  overflow-x: auto;
+  color: var(--md-sys-color-on-surface);
+  background: var(--md-sys-color-surface-container-highest);
+  border-radius: var(--md-sys-shape-corner-small);
+  font-size: 12.5px;
+}
+.cmd code { overflow-wrap: normal; }
+/* Copy: Material's extra-small tonal button, 32 px, in a 48 px target. */
+.copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  font: var(--md-sys-typescale-label-large);
+  letter-spacing: var(--md-sys-typescale-label-large-tracking);
+  color: var(--md-sys-color-on-secondary-container);
+  background: var(--md-sys-color-secondary-container);
+  border: 0;
+  border-radius: var(--md-sys-shape-corner-full);
+  cursor: pointer;
+}
+
+/* A table of files and the like: rows split by outline-variant. */
+.files { width: 100%; border-collapse: collapse; }
+.files th, .files td { padding: 12px 0; text-align: left; vertical-align: top; border-top: 1px solid var(--md-sys-color-outline-variant); }
+.files tr:first-child th, .files tr:first-child td { border-top: 0; padding-top: 0; }
+.files th { padding-right: 16px; font-weight: 500; color: var(--md-sys-color-on-surface); }
+.files td { color: var(--md-sys-color-on-surface-variant); }
+
+/* Buy me a coffee: Material's dialog, with the two QR codes. */
+.link { padding: 0; font: inherit; color: var(--md-sys-color-on-surface); background: none; border: 0; cursor: pointer; }
+.link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.coffee-box {
+  width: min(calc(100% - 2 * var(--margin)), 560px);
+  padding: 24px;
+  color: var(--md-sys-color-on-surface);
+  background: var(--md-sys-color-surface-container-high);
+  border: 0;
+  border-radius: var(--md-sys-shape-corner-extra-large);
+  box-shadow: var(--md-sys-elevation-level3);
+}
+.coffee-box::backdrop { background: color-mix(in srgb, var(--md-sys-color-scrim) 32%, transparent); }
+.coffee-box[open] { animation: dialog-in var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate); }
+@keyframes dialog-in { from { opacity: 0; transform: translateY(-24px) scale(0.98); } }
+.close { position: absolute; top: 12px; right: 12px; }
+.coffee-box h2 { margin: 0 40px 16px 0; font: var(--md-sys-typescale-headline-small); }
+.coffee-box > p { margin: 0 0 16px; color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); }
+.qrs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.qrs figure { margin: 0; text-align: center; }
+/* A QR code is drawn as it is: black on white in either mode. */
+.qr {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  padding: 8px;
+  color: #444;
+  font: var(--md-sys-typescale-body-small);
+  background: #fff;
+  border: 1px dashed var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-medium);
+}
+.qr img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+.qrs figcaption { margin-top: 8px; font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); }
+
+/* Material's search bar (the guide's drawer, the cryptography page's
+   filters): 56 px, full corners, surface-container-high, a clear
+   button once something is typed. */
+.sfield {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 56px;
+  padding: 0 4px 0 16px;
+  color: var(--md-sys-color-on-surface-variant);
+  background: var(--md-sys-color-surface-container-high);
+  border-radius: var(--md-sys-shape-corner-full);
+  isolation: isolate;
+}
+.sfield::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--md-sys-color-on-surface); opacity: 0; transition: opacity var(--md-sys-motion-duration-short2) linear; }
+.sfield:hover::before { opacity: var(--md-sys-state-hover-state-layer-opacity); }
+.sfield:focus-within { outline: 2px solid var(--md-sys-color-primary); outline-offset: -2px; }
+.sfield svg { flex: none; width: 24px; height: 24px; }
+.sfield input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0 8px;
+  font: var(--md-sys-typescale-body-large);
+  letter-spacing: var(--md-sys-typescale-body-large-tracking);
+  color: var(--md-sys-color-on-surface);
+  background: none;
+  border: 0;
+  outline: 0;
+  appearance: none;
+}
+.sfield input::placeholder { color: var(--md-sys-color-on-surface-variant); opacity: 1; }
+.sfield input::-webkit-search-cancel-button { display: none; }
+.sfield .sclear { flex: none; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; color: inherit; background: none; border: 0; border-radius: var(--md-sys-shape-corner-full); cursor: pointer; }
+.sfield .sclear[hidden] { display: none; }
+.sfield .sclear svg { width: 20px; height: 20px; }
+
+/* A list of a page's parts, the one in view marked (the guide's On this
+   page, the cryptography page's Contents). */
+.toc ol { margin: 0; padding: 0 0 8px; list-style: none; }
+.toc a { display: block; padding: 6px 16px; color: var(--md-sys-color-on-surface-variant); border-left: 2px solid var(--md-sys-color-outline-variant); }
+.toc a:hover { color: var(--md-sys-color-on-surface); text-decoration: none; }
+.toc a.here { color: var(--md-sys-color-primary); border-left-color: var(--md-sys-color-primary); font-weight: 500; }
+
+/* The foot of every page. */
+footer {
+  margin-top: 48px;
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-body-medium);
+  letter-spacing: var(--md-sys-typescale-body-medium-tracking);
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+}
+footer div { max-width: calc(1440px + 2 * var(--margin)); margin: 0 auto; padding: 20px var(--margin) 28px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px 20px; }
+footer div > :first-child { justify-self: start; }
+footer div > :last-child { justify-self: end; }
+@media (width < 600px) {
+  footer div { grid-template-columns: 1fr; justify-items: center; }
+  footer div > :first-child, footer div > :last-child { justify-self: center; }
+}
+footer a { color: var(--md-sys-color-on-surface); }
+
+/* Reduced motion: nothing moves. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .bar { background: var(--md-sys-color-surface); }
+}

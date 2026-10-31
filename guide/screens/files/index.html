@@ -1,0 +1,907 @@
+<!doctype html>
+<!--
+  A page of the user guide, at guide/ and below: the index, each
+  walkthrough at guide/<slug>/, and each screen's page at
+  guide/screens/<slug>/ once Faraday has them. tools/guide.py fills it
+  from Faraday's docs/GUIDE.md and docs/guide/ (`just site` runs it);
+  __NAME__ marks what it puts in. The bar, menu, footer and script are
+  the Standards page's (web/standards.html), copied from it; keep the
+  pages alike.
+
+  The guide's own parts: the navigation drawer (a standard drawer from
+  840 px, a modal one below it, opened by Contents), the list "On this
+  page" (on the right from 1200 px, folded at the top below), previous
+  and next at a walkthrough's foot, and a print style. Every page works
+  without script: Contents then opens the drawer by its address
+  (#drawer) and closes it by the address #close, which names nothing, so the page stays where it is.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#faf8ff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111319" media="(prefers-color-scheme: dark)">
+<title>Files · Faraday guide</title>
+<meta name="description" content="Opened from: the sidebar&#x27;s Files, and its Files row at the foot; Open Files on a stick visit; Home&#x27;s Written to … lead; an empty vault&#x27;s &quot;Write it to a stick&quot;. Import and load on…">
+<link rel="canonical" href="https://faradayoffline.app/guide/screens/files/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://faradayoffline.app/guide/screens/files/">
+<meta property="og:site_name" content="Faraday">
+<meta property="og:title" content="Files">
+<meta property="og:description" content="Opened from: the sidebar&#x27;s Files, and its Files row at the foot; Open Files on a stick visit; Home&#x27;s Written to … lead; an empty vault&#x27;s &quot;Write it to a stick&quot;. Import and load on…">
+<meta property="og:image" content="https://faradayoffline.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-23 -10 146 146'%3E%3Cpath fill='%2300327d' fill-rule='evenodd' d='M50.00 135.30L47.47 134.26L45.01 133.19L42.61 132.11L40.28 131.02L38.02 129.90L35.82 128.76L33.68 127.61L31.61 126.44L29.61 125.25L27.67 124.04L25.80 122.81L23.99 121.57L22.25 120.31L20.57 119.02L18.96 117.72L17.41 116.40L15.93 115.07L14.52 113.71L13.17 112.34L11.88 110.95L10.67 109.54L9.51 108.11L8.42 106.66L7.40 105.20L6.44 103.71L5.55 102.21L4.73 100.69L3.97 99.15L3.27 97.59L2.64 96.02L2.08 94.43L1.58 92.81L1.00 90.57L0.54 88.29L0.21 85.97L0.00 83.62L0.00 11.33L0.06 10.14L0.19 9.26L0.47 8.11L0.86 6.99L1.23 6.18L1.83 5.16L2.34 4.43L3.11 3.53L3.75 2.91L4.43 2.34L5.41 1.67L6.45 1.10L7.27 0.75L8.39 0.39L9.26 0.19L10.44 0.03L11.33 0.00L88.67 0.00L89.86 0.06L90.45 0.14L91.32 0.31L92.17 0.55L93.01 0.86L93.82 1.23L94.34 1.52L95.09 1.99L95.80 2.52L96.25 2.91L96.89 3.53L97.48 4.20L98.01 4.91L98.48 5.66L98.90 6.45L99.25 7.27L99.53 8.11L99.75 8.97L99.86 9.55L99.97 10.44L100.00 11.33L100.00 83.62L99.86 85.33L99.69 86.82L99.42 88.50L99.10 90.16L98.76 91.59L98.31 93.22L97.79 94.83L97.21 96.41L96.65 97.79L95.94 99.34L95.27 100.69L94.45 102.21L93.67 103.53L92.84 104.83L91.84 106.30L90.90 107.57L89.77 109.00L88.73 110.24L87.64 111.47L86.33 112.86L85.13 114.05L83.70 115.40L82.21 116.74L80.84 117.89L79.22 119.18L77.75 120.31L76.23 121.41L74.66 122.50L73.04 123.58L71.12 124.80L69.15 126.00L67.36 127.03L65.52 128.05L63.36 129.19L59.14 131.29L54.69 133.33ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://faradayoffline.app/assets/site.css?v=d453ddfa35">
+<script>document.documentElement.classList.add("js");</script>
+<style>
+  /* The guide's own rules; the rest is assets/site.css (web/site.css).
+     Its text is 18 px on 28 px, larger than Material's body large, as
+     the /start/ guides: it is read on a phone held beside a computer. */
+  .guide { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 1440px; margin: 0 auto; }
+  .guide > main { max-width: calc(760px + 2 * var(--margin)); width: 100%; margin: 0 auto; padding: 24px var(--margin) 48px; }
+  @media (width >= 840px) {
+    .guide { grid-template-columns: 280px minmax(0, 1fr); }
+    .guide > main { padding-top: 32px; }
+  }
+  @media (width >= 1200px) {
+    .guide { grid-template-columns: 300px minmax(0, 1fr) 240px; }
+  }
+
+  /* The navigation drawer: Material's standard drawer from 840 px, in
+     surface-container-low beside the page, and its modal drawer below
+     840 px, over a scrim. */
+  .drawer {
+    position: sticky;
+    top: var(--bar-h, 64px);
+    align-self: start;
+    height: calc(100vh - var(--bar-h, 64px));
+    overflow-y: auto;
+    padding: 12px;
+    background: var(--md-sys-color-surface-container-low);
+    border-radius: 0 var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large) 0;
+    overscroll-behavior: contain;
+  }
+  .drawer h2 { margin: 16px 16px 8px; font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .drawer h2:first-child { margin-top: 4px; }
+  .drawer h3 { margin: 12px 16px 4px; font: var(--md-sys-typescale-label-medium); letter-spacing: var(--md-sys-typescale-label-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .drawer ol, .drawer ul { margin: 0; padding: 0; list-style: none; }
+  .drawer hr { margin: 8px 16px; border: 0; border-top: 1px solid var(--md-sys-color-outline-variant); }
+  .drawer .item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 4px 16px;
+    font: var(--md-sys-typescale-label-large);
+    letter-spacing: var(--md-sys-typescale-label-large-tracking);
+    color: var(--md-sys-color-on-surface-variant);
+    border-radius: var(--md-sys-shape-corner-full);
+    isolation: isolate;
+  }
+  .drawer a.item:hover { text-decoration: none; }
+  .drawer a.item::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: currentColor; opacity: 0; transition: opacity var(--md-sys-motion-duration-short2) linear; }
+  .drawer a.item:hover::before { opacity: var(--md-sys-state-hover-state-layer-opacity); }
+  .drawer a.item:focus-visible::before, .drawer a.item:active::before { opacity: var(--md-sys-state-focus-state-layer-opacity); }
+  .drawer a.item[aria-current] { color: var(--md-sys-color-on-secondary-container); background: var(--md-sys-color-secondary-container); font-weight: 600; }
+  .drawer .num { flex: none; min-width: 20px; color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-label-medium); }
+  .drawer .soon-item { opacity: var(--md-sys-state-disabled-content-opacity); }
+  .drawer .soon-item .tag { margin-left: auto; white-space: nowrap; }
+  .drawer-head { display: none; align-items: center; justify-content: space-between; padding: 4px 4px 4px 16px; font: var(--md-sys-typescale-title-medium); letter-spacing: var(--md-sys-typescale-title-medium-tracking); }
+  .scrim { display: none; }
+  .contents { display: none; margin: 0 0 16px; }
+  @media (width < 840px) {
+    .drawer {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 50;
+      width: min(360px, calc(100vw - 56px));
+      height: 100%;
+      background: var(--md-sys-color-surface-container-low);
+      box-shadow: var(--md-sys-elevation-level1);
+      transform: translateX(-105%);
+      visibility: hidden;
+      transition: transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-accelerate), visibility 0s linear var(--md-sys-motion-duration-medium2);
+    }
+    .drawer:target, .drawer.open { transform: none; visibility: visible; transition: transform var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate); }
+    .drawer-head { display: flex; }
+    .scrim { position: fixed; inset: 0; z-index: 45; background: color-mix(in srgb, var(--md-sys-color-scrim) 32%, transparent); }
+    .drawer:target + .scrim, .drawer.open + .scrim { display: block; }
+    .contents { display: inline-flex; }
+  }
+
+  /* The search: Material's search bar at the top of the drawer, its
+     results listed under it in place of the drawer's list; on a phone
+     (below 840 px) a button opens a full-screen search view. Without
+     script none of it is there. */
+  .search, .searchopen, .sview { display: none; }
+  .js .search { display: block; margin: 0 0 8px; }
+  .results { margin: 8px 0 0; padding: 0; list-style: none; }
+  .results[hidden], .snone[hidden], .sstatus[hidden] { display: none; }
+  .results a { position: relative; display: block; padding: 8px 16px; border-radius: var(--md-sys-shape-corner-large); color: var(--md-sys-color-on-surface); isolation: isolate; }
+  .results a:hover { text-decoration: none; }
+  .results a::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: currentColor; opacity: 0; transition: opacity var(--md-sys-motion-duration-short2) linear; }
+  .results a:hover::before { opacity: var(--md-sys-state-hover-state-layer-opacity); }
+  .results .active a { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
+  .results .rt { display: block; font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); }
+  .results .rw { display: block; font: var(--md-sys-typescale-label-medium); letter-spacing: var(--md-sys-typescale-label-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .results .active .rw { color: inherit; }
+  .results .rs { display: block; margin-top: 2px; font: var(--md-sys-typescale-body-small); letter-spacing: var(--md-sys-typescale-body-small-tracking); color: var(--md-sys-color-on-surface-variant); overflow-wrap: anywhere; }
+  .results .active .rs { color: inherit; }
+  .results mark { color: inherit; background: none; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+  .snone, .sstatus { margin: 16px; font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .drawer.searching .drawer-nav { display: none; }
+  @media (width < 840px) {
+    .js .drawer .search { display: none; }
+    .js .searchopen { display: inline-flex; margin: 0 0 16px 8px; }
+    .sview { width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 8px 16px 16px; overflow-y: auto; color: var(--md-sys-color-on-surface); background: var(--md-sys-color-surface); border: 0; }
+    .sview[open] { display: block; }
+    .js .sview .search { display: block; }
+    .sview .sfield { padding-left: 4px; }
+    .sview .sback { flex: none; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; color: inherit; background: none; border: 0; border-radius: var(--md-sys-shape-corner-full); cursor: pointer; }
+    .sview .sback svg { width: 24px; height: 24px; }
+  }
+  @media (width >= 840px) { .sview { display: none !important; } }
+
+  /* A result opened: its section is lit for a moment, then fades. Not
+     under reduced motion. */
+  @keyframes flash { from { background-color: color-mix(in srgb, var(--md-sys-color-primary) 18%, transparent); } to { background-color: transparent; } }
+  .flash { animation: flash 1800ms var(--md-sys-motion-easing-standard) 1; border-radius: var(--md-sys-shape-corner-small); }
+  @media (prefers-reduced-motion: reduce) { .flash { animation: none; } }
+
+  /* On this page: the page's steps or sections, on the right from
+     1200 px, the one in view marked; folded at the top below it. */
+  .toc { font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); }
+  .toc summary { display: flex; align-items: center; min-height: 48px; padding: 0 16px; font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); cursor: pointer; list-style: none; }
+  .toc summary::-webkit-details-marker { display: none; }
+  .toc summary::after { content: ""; margin-left: auto; width: 8px; height: 8px; border: solid currentColor; border-width: 0 2px 2px 0; transform: rotate(45deg) translateY(-2px); transition: transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard); }
+  .toc[open] summary::after { transform: rotate(225deg) translateY(-2px); }
+  .toc-fold { margin: 0 0 24px; background: var(--md-sys-color-surface-container-low); border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-medium); }
+  .toc-fold ol { padding: 0 16px 12px; }
+  .toc-side { display: none; }
+  @media (width >= 1200px) {
+    .toc-fold { display: none; }
+    .toc-side { display: block; position: sticky; top: calc(var(--bar-h, 64px) + 24px); align-self: start; max-height: calc(100vh - var(--bar-h, 64px) - 48px); overflow-y: auto; padding: 32px 0 0; }
+    .toc-side summary { pointer-events: none; padding: 0 0 8px 18px; min-height: 0; }
+    .toc-side summary::after { display: none; }
+  }
+
+  /* The page's text. */
+  .doc { font: 400 18px/28px var(--md-ref-typeface-plain); letter-spacing: 0.25px; }
+  .doc h1 { margin: 0 0 16px; font: var(--md-sys-typescale-headline-large); }
+  .doc h2 { display: flex; align-items: baseline; gap: 12px; margin: 48px 0 12px; font: var(--md-sys-typescale-headline-small); }
+  .doc h3 { margin: 32px 0 8px; font: var(--md-sys-typescale-title-large); }
+  .doc h4 { margin: 24px 0 8px; font: var(--md-sys-typescale-title-medium); }
+  @media (width >= 840px) { .doc h1 { font: var(--md-sys-typescale-display-small); } }
+  .doc p, .doc ul, .doc ol { margin: 0 0 16px; }
+  .doc ul, .doc ol { padding-left: 28px; }
+  .doc li { margin: 0 0 6px; }
+  .doc :is(p, td) a, .doc :is(ul, ol):not(.choose, .walks, .grid) li a { text-decoration: underline; text-underline-offset: 3px; }
+  .doc kbd { padding: 1px 6px; font: 0.85em var(--md-ref-typeface-mono); background: var(--md-sys-color-surface-container-high); border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-extra-small); }
+  /* A step's number, in a primary pill before its heading. */
+  .doc .n { flex: none; display: inline-grid; place-items: center; min-width: 32px; height: 32px; padding: 0 10px; font: var(--md-sys-typescale-label-large); color: var(--md-sys-color-on-primary); background: var(--md-sys-color-primary); border-radius: var(--md-sys-shape-corner-full); transform: translateY(-3px); }
+  .doc pre { margin: 0 0 16px; padding: 12px 16px; overflow-x: auto; background: var(--md-sys-color-surface-container-highest); border-radius: var(--md-sys-shape-corner-small); font-size: 14px; line-height: 22px; }
+  .doc pre code { overflow-wrap: normal; white-space: pre; }
+  .lede { color: var(--md-sys-color-on-surface-variant); }
+  .draft { margin: 0 0 16px; padding: 8px 16px; font: var(--md-sys-typescale-label-large); color: var(--md-sys-color-on-tertiary-container); background: var(--md-sys-color-tertiary-container); border-radius: var(--md-sys-shape-corner-small); }
+
+  /* A screen's picture: as wide as the column, a 1 px outline-variant
+     edge and the medium shape; pressed, it opens at full size. Pictures
+     are drawn in Light only, and the edge sets them off a dark page. */
+  .shot { position: relative; margin: 0 0 24px; }
+  .shot a { position: relative; display: block; overflow: hidden; border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-medium); }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shot figcaption { margin-top: 8px; font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .missing { display: grid; place-items: center; aspect-ratio: 16 / 10; padding: 16px; font: var(--md-sys-typescale-label-large); color: var(--md-sys-color-on-surface-variant); background: var(--md-sys-color-surface-container); border: 1px dashed var(--md-sys-color-outline); border-radius: var(--md-sys-shape-corner-medium); text-align: center; }
+  /* The control pressed next, outlined over the picture from the
+     tour's own rectangle (<name>.mark.json); the PNG stays clean. */
+  .marked { position: absolute; outline: 3px solid var(--md-sys-color-primary); outline-offset: 4px; border-radius: var(--md-sys-shape-corner-small); pointer-events: none; }
+
+  /* Tables: rows split by outline-variant; below 600 px each row is a
+     block, each cell under its column's name. */
+  .table { margin: 0 0 24px; overflow-x: auto; }
+  .table table { width: 100%; border-collapse: collapse; font: var(--md-sys-typescale-body-large); letter-spacing: var(--md-sys-typescale-body-large-tracking); }
+  .table th, .table td { padding: 12px 16px 12px 0; text-align: left; vertical-align: top; border-top: 1px solid var(--md-sys-color-outline-variant); }
+  .table th { font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); color: var(--md-sys-color-on-surface-variant); border-top: 0; }
+  .table td:last-child, .table th:last-child { padding-right: 0; }
+  .table .shot { margin: 0; }
+  .table.pics td { width: 50%; }
+  @media (width < 600px) {
+    .table table, .table tbody, .table tr, .table td { display: block; width: auto; }
+    .table.pics td { width: auto; }
+    .table thead { display: none; }
+    .table tr { padding: 8px 0; border-top: 1px solid var(--md-sys-color-outline-variant); }
+    .table td { padding: 4px 0; border: 0; }
+    .table td[data-label]::before { content: attr(data-label); display: block; font: var(--md-sys-typescale-label-medium); letter-spacing: var(--md-sys-typescale-label-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  }
+
+  /* A box: "With your own key", "You'll need", and a quoted note. */
+  .box { margin: 0 0 24px; padding: 16px 20px; background: var(--md-sys-color-surface-container); border-radius: var(--md-sys-shape-corner-medium); }
+  .box > :last-child { margin-bottom: 0; }
+  .box h2, .box h3 { margin: 0 0 8px; font: var(--md-sys-typescale-title-medium); letter-spacing: var(--md-sys-typescale-title-medium-tracking); }
+  .facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; margin: 0 0 24px; padding: 16px 20px; background: var(--md-sys-color-surface-container-low); border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-medium); }
+  .facts dt { font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); line-height: 28px; }
+  .facts dd { margin: 0; }
+  .facts dd > ul, .facts dd > ol { margin: 0; }
+  @media (width < 600px) { .facts { grid-template-columns: 1fr; } .facts dd + dt { margin-top: 8px; } }
+
+  /* Before the computer restarts: a QR code to carry on reading on a
+     phone. Drawn black on white in either mode. */
+  .phone { display: flex; align-items: center; gap: 20px; margin: 32px 0; padding: 16px 20px; background: var(--md-sys-color-surface-container); border-radius: var(--md-sys-shape-corner-medium); }
+  .phone svg { flex: none; width: 132px; height: 132px; padding: 6px; background: #fff; border-radius: var(--md-sys-shape-corner-small); }
+  .phone p { margin: 0; }
+  .phone b { display: block; font: var(--md-sys-typescale-title-medium); letter-spacing: var(--md-sys-typescale-title-medium-tracking); }
+
+  /* The index: where to start, then the walkthroughs as cards. */
+  .doc .choose { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 0 0 16px; padding: 0; list-style: none; }
+  .choose a { display: flex; flex-direction: column; justify-content: center; min-height: 72px; height: 100%; padding: 12px 16px; color: var(--md-sys-color-on-secondary-container); background: var(--md-sys-color-secondary-container); border-radius: var(--md-sys-shape-corner-medium); }
+  .choose a:hover { text-decoration: none; box-shadow: var(--md-sys-elevation-level1); }
+  .choose b { font: var(--md-sys-typescale-title-medium); letter-spacing: var(--md-sys-typescale-title-medium-tracking); }
+  .choose span { font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); }
+  .doc .walks { display: grid; gap: 8px; margin: 0 0 16px; padding: 0; list-style: none; }
+  .walks > li > :is(a, div) { display: grid; grid-template-columns: 40px 1fr; gap: 0 12px; padding: 16px; color: var(--md-sys-color-on-surface); background: var(--md-sys-color-surface-container-low); border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-medium); }
+  .walks > li > .unnumbered { grid-template-columns: 1fr; }
+  .walks > li { margin: 0; }
+  .walks > li > a:hover { text-decoration: none; background: var(--md-sys-color-surface-container); }
+  .walks .no { grid-row: span 2; display: grid; place-items: center; width: 40px; height: 40px; font: var(--md-sys-typescale-title-medium); color: var(--md-sys-color-on-primary-container); background: var(--md-sys-color-primary-container); border-radius: var(--md-sys-shape-corner-full); }
+  .walks b { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: var(--md-sys-typescale-title-medium); letter-spacing: var(--md-sys-typescale-title-medium-tracking); }
+  .walks span.what { font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .walks .later { opacity: 0.6; }
+  .doc .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin: 0 0 16px; padding: 0; list-style: none; }
+  .grid a { display: block; font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); color: var(--md-sys-color-on-surface); }
+  .grid img, .grid .missing { display: block; width: 100%; height: auto; margin-bottom: 8px; border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-small); }
+
+  /* Previous and next, and the page's foot. */
+  .pager { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; margin: 48px 0 0; padding-top: 24px; border-top: 1px solid var(--md-sys-color-outline-variant); }
+  .pager .btn { height: auto; min-height: 56px; padding: 8px 24px; white-space: normal; text-align: left; max-width: 100%; }
+  .pager .btn span { display: flex; flex-direction: column; }
+  .pager .btn small { font: var(--md-sys-typescale-label-medium); letter-spacing: var(--md-sys-typescale-label-medium-tracking); opacity: 0.8; }
+  .pager .next { margin-left: auto; text-align: right; }
+  .pager .next span { align-items: flex-end; }
+  .about { margin: 32px 0 0; font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .about p { margin: 0 0 4px; }
+  .about a { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* A picture at full size: Material's dialog. */
+  .zoom { width: min(1320px, 96vw); max-width: none; max-height: 96vh; padding: 48px 12px 12px; color: var(--md-sys-color-on-surface); background: var(--md-sys-color-surface-container-high); border: 0; border-radius: var(--md-sys-shape-corner-extra-large); box-shadow: var(--md-sys-elevation-level3); }
+  .zoom::backdrop { background: color-mix(in srgb, var(--md-sys-color-scrim) 32%, transparent); }
+  .zoom img { display: block; width: 100%; height: auto; border-radius: var(--md-sys-shape-corner-medium); }
+  .zoom p { margin: 8px 4px 0; font: var(--md-sys-typescale-body-medium); color: var(--md-sys-color-on-surface-variant); }
+
+  /* Printed: the page's text and pictures alone. */
+  @media print {
+    .bar, .skip-link, .drawer, .scrim, .contents, .searchopen, .sview, .toc, .pager, footer, .phone, .report { display: none !important; }
+    .guide { display: block; max-width: none; }
+    .guide > main { max-width: none; padding: 0; }
+    body { background: #fff; color: #000; }
+    .doc { font-size: 11pt; line-height: 1.45; }
+    .doc h1 { font-size: 20pt; line-height: 1.2; }
+    .doc h2 { font-size: 14pt; line-height: 1.3; break-after: avoid; margin-top: 18pt; }
+    .doc .n { color: #000; background: none; border: 1px solid #000; transform: none; }
+    .doc a { color: inherit; text-decoration: none; }
+    .shot, .table tr, .box, .facts, pre { break-inside: avoid; }
+    .shot a { border-color: #999; }
+    .shot img { max-height: 11cm; width: auto; max-width: 100%; }
+    .marked { outline-color: #000; }
+    .box, .facts, pre { background: none; border: 1px solid #999; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wordmark" fill-rule="evenodd" d="M97 0L97 -687L751 -687L751 -560L249 -560L249 -394L703 -394L703 -267L249 -267L249 0ZM765 0L1109 -687L1281 -687L1625 0L1458 0L1253 -424Q1248 -435 1238.5 -456.5Q1229 -478 1219.5 -500.5Q1210 -523 1202.5 -539.5Q1195 -556 1194 -557L1186 -557Q1177 -537 1165.5 -511Q1154 -485 1143.5 -461Q1133 -437 1126 -423L921 0ZM1048 -133L1108.1 -256L1270.9 -256L1331 -133ZM1776 0L1776 -687L2320 -687Q2393 -687 2439.5 -657.5Q2486 -628 2509 -579.5Q2532 -531 2532 -472Q2532 -411 2500.5 -357.5Q2469 -304 2403 -274L2549 0L2378 0L2252 -245L1928 -245L1928 0ZM1928 -371L2278 -371Q2325 -371 2350.5 -398.5Q2376 -426 2376 -469Q2376 -498 2365 -518.5Q2354 -539 2332 -549.5Q2310 -560 2278 -560L1928 -560ZM2645 0L2989 -687L3161 -687L3505 0L3338 0L3133 -424Q3128 -435 3118.5 -456.5Q3109 -478 3099.5 -500.5Q3090 -523 3082.5 -539.5Q3075 -556 3074 -557L3066 -557Q3057 -537 3045.5 -511Q3034 -485 3023.5 -461Q3013 -437 3006 -423L2801 0ZM2928 -133L2988.1 -256L3150.9 -256L3211 -133ZM3656 0L3656 -687L4022 -687Q4148 -687 4238.5 -647.5Q4329 -608 4377.5 -531.5Q4426 -455 4426 -343Q4426 -232 4377.5 -155.5Q4329 -79 4238.5 -39.5Q4148 0 4022 0ZM3808 -127L4014 -127Q4069 -127 4115.5 -140Q4162 -153 4196.5 -178.5Q4231 -204 4250 -242.5Q4269 -281 4269 -332L4269 -355Q4269 -406 4250 -444.5Q4231 -483 4196.5 -508.5Q4162 -534 4115.5 -547Q4069 -560 4014 -560L3808 -560ZM4513 0L4857 -687L5029 -687L5373 0L5206 0L5001 -424Q4996 -435 4986.5 -456.5Q4977 -478 4967.5 -500.5Q4958 -523 4950.5 -539.5Q4943 -556 4942 -557L4934 -557Q4925 -537 4913.5 -511Q4902 -485 4891.5 -461Q4881 -437 4874 -423L4669 0ZM4796 -133L4856.1 -256L5018.9 -256L5079 -133ZM5675 0L5675 -278L5339 -687L5522 -687L5750 -400L5760 -400L5991 -687L6164 -687L5827 -278L5827 0Z"/><path id="tagline" d="M311 7Q244 7 196 -17Q148 -41 123 -90Q97 -139 97 -213Q97 -288 123 -336Q148 -385 196 -409Q244 -433 311 -433Q378 -433 425 -409Q473 -385 499 -336Q524 -288 524 -213Q524 -139 499 -90Q473 -41 425 -17Q378 7 311 7ZM311 -51Q344 -51 371 -61Q397 -70 416 -90Q434 -109 444 -138Q453 -167 453 -206V-219Q453 -259 444 -288Q434 -317 416 -336Q397 -356 371 -365Q344 -375 311 -375Q277 -375 251 -365Q224 -356 206 -336Q187 -317 178 -288Q169 -259 169 -219V-206Q169 -167 178 -138Q187 -109 206 -90Q224 -70 251 -61Q277 -51 311 -51ZM814 0V-426H1118V-367H883V-241H1096V-181H883V0ZM1403 0V-426H1707V-367H1472V-241H1685V-181H1472V0ZM1992 0V-426H2061V-60H2274V0ZM2544 0V-426H2613V0ZM2923 0V-426H2990L3185 -159Q3188 -155 3192 -148Q3197 -141 3201 -135Q3206 -128 3208 -123H3211Q3211 -133 3211 -141Q3211 -150 3211 -159V-426H3278V0H3213L3017 -270Q3012 -277 3004 -289Q2997 -301 2993 -307H2990Q2990 -298 2990 -289Q2990 -280 2990 -270V0ZM3588 0V-426H3918V-367H3657V-248H3891V-188H3657V-59H3922V0ZM4506 0 4673 -426H4762L4929 0H4854L4816 -99H4615L4577 0ZM4637 -157H4794L4746 -282Q4744 -288 4740 -298Q4737 -308 4733 -320Q4729 -332 4725 -344Q4721 -356 4717 -366H4714Q4710 -354 4704 -338Q4699 -321 4693 -307Q4688 -292 4685 -282ZM5193 0V-426H5405Q5451 -426 5481 -409Q5511 -393 5526 -363Q5541 -333 5541 -293Q5541 -253 5524 -222Q5508 -192 5478 -175Q5447 -158 5403 -158H5262V0ZM5262 -217H5400Q5433 -217 5452 -237Q5471 -257 5471 -293Q5471 -316 5463 -333Q5455 -349 5439 -358Q5423 -367 5400 -367H5262ZM5817 0V-426H6029Q6074 -426 6104 -409Q6134 -393 6149 -363Q6164 -333 6164 -293Q6164 -253 6148 -222Q6132 -192 6101 -175Q6070 -158 6026 -158H5886V0ZM5886 -217H6023Q6056 -217 6075 -237Q6094 -257 6094 -293Q6094 -316 6086 -333Q6078 -349 6063 -358Q6047 -367 6023 -367H5886Z"/></defs></svg>
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="https://faradayoffline.app/" aria-label="Faraday, offline app">
+      <svg class="mark" viewBox="0 0 100 136" aria-hidden="true"><path fill="var(--rim)" fill-rule="evenodd" d="M50.00 135.30L47.47 134.26L45.01 133.19L42.61 132.11L40.28 131.02L38.02 129.90L35.82 128.76L33.68 127.61L31.61 126.44L29.61 125.25L27.67 124.04L25.80 122.81L23.99 121.57L22.25 120.31L20.57 119.02L18.96 117.72L17.41 116.40L15.93 115.07L14.52 113.71L13.17 112.34L11.88 110.95L10.67 109.54L9.51 108.11L8.42 106.66L7.40 105.20L6.44 103.71L5.55 102.21L4.73 100.69L3.97 99.15L3.27 97.59L2.64 96.02L2.08 94.43L1.58 92.81L1.00 90.57L0.54 88.29L0.21 85.97L0.00 83.62L0.00 11.33L0.06 10.14L0.19 9.26L0.47 8.11L0.86 6.99L1.23 6.18L1.83 5.16L2.34 4.43L3.11 3.53L3.75 2.91L4.43 2.34L5.41 1.67L6.45 1.10L7.27 0.75L8.39 0.39L9.26 0.19L10.44 0.03L11.33 0.00L88.67 0.00L89.86 0.06L90.45 0.14L91.32 0.31L92.17 0.55L93.01 0.86L93.82 1.23L94.34 1.52L95.09 1.99L95.80 2.52L96.25 2.91L96.89 3.53L97.48 4.20L98.01 4.91L98.48 5.66L98.90 6.45L99.25 7.27L99.53 8.11L99.75 8.97L99.86 9.55L99.97 10.44L100.00 11.33L100.00 83.62L99.86 85.33L99.69 86.82L99.42 88.50L99.10 90.16L98.76 91.59L98.31 93.22L97.79 94.83L97.21 96.41L96.65 97.79L95.94 99.34L95.27 100.69L94.45 102.21L93.67 103.53L92.84 104.83L91.84 106.30L90.90 107.57L89.77 109.00L88.73 110.24L87.64 111.47L86.33 112.86L85.13 114.05L83.70 115.40L82.21 116.74L80.84 117.89L79.22 119.18L77.75 120.31L76.23 121.41L74.66 122.50L73.04 123.58L71.12 124.80L69.15 126.00L67.36 127.03L65.52 128.05L63.36 129.19L59.14 131.29L54.69 133.33ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z"/><path fill="var(--md-sys-color-primary)" fill-rule="evenodd" d="M50.00 127.73L45.83 125.89L41.70 123.92L38.07 122.03L34.41 119.97L31.22 118.00L29.70 117.00L28.03 115.85L26.62 114.84L25.08 113.66L23.79 112.63L22.37 111.44L21.19 110.39L19.90 109.19L18.83 108.12L17.66 106.90L16.70 105.82L15.65 104.58L14.67 103.34L13.76 102.08L13.00 100.98L12.20 99.71L11.46 98.43L10.77 97.14L10.15 95.85L9.58 94.54L9.07 93.22L8.61 91.89L8.03 89.86L7.57 87.80L7.23 85.70L7.00 83.39L7.00 11.21L7.04 10.76L7.12 10.32L7.37 9.57L7.76 8.88L8.04 8.52L8.35 8.19L8.69 7.89L9.07 7.64L9.78 7.29L10.54 7.07L11.37 7.00L88.79 7.00L89.35 7.05L90.01 7.21L90.64 7.47L91.22 7.83L91.73 8.27L92.17 8.78L92.53 9.36L92.79 9.99L92.95 10.65L93.00 11.37L93.00 83.39L92.88 84.81L92.72 86.05L92.53 87.28L92.29 88.49L92.02 89.69L91.70 90.88L91.34 92.05L90.93 93.22L90.42 94.54L89.85 95.85L89.23 97.14L88.63 98.27L87.90 99.55L87.20 100.66L86.35 101.92L85.56 103.02L84.60 104.27L83.70 105.36L82.62 106.59L81.62 107.66L80.41 108.88L79.30 109.94L76.93 112.04L75.48 113.22L74.15 114.25L71.35 116.28L68.34 118.28L65.11 120.24L61.68 122.17L58.03 124.05L54.17 125.89ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z"/></svg>
+      <svg class="name" viewBox="97 -687 6067 687" aria-hidden="true"><use href="#wordmark"/></svg>
+      <svg class="under" viewBox="97 -426 6067 426" aria-hidden="true"><use href="#tagline"/></svg>
+    </a>
+    <nav>
+      <a class="plain" href="https://faradayoffline.app/download/">Download</a>
+      <a class="plain hw" href="https://faradayoffline.app/hardware/">Hardware</a>
+      <a class="plain" href="https://faradayoffline.app/guide/" aria-current="page">Guide</a>
+      <a class="plain" href="https://faradayoffline.app/audits/">Audits</a>
+      <a class="plain" href="https://faradayoffline.app/standards/">Standards</a>
+      <a class="plain cr" href="https://faradayoffline.app/cryptography/">Cryptography</a>
+      <a class="plain" href="https://faradayoffline.app/blog/">Blog</a>
+      <a class="plain" href="https://faradayoffline.app/#faq">FAQ</a>
+      <a class="btn gh" href="https://github.com/bitcoinpasada/faraday" aria-label="GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.470 7.59.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.170-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.6 7.6 0 0 1 8 3.86c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <a class="btn x" href="https://x.com/faraday_offline" aria-label="Faraday on X" title="Faraday on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <button class="btn coffee" data-coffee title="Buy me a coffee" aria-label="Buy me a coffee"><svg viewBox="0.5 -1.25 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v5a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 2.5c-.6.8-.6 1.7 0 2.5M12 2.5c-.6.8-.6 1.7 0 2.5"/></svg></button>
+      <div class="menu">
+        <button class="btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <ul class="menu-list" id="menu" hidden>
+          <li><a href="https://faradayoffline.app/tour/">Tour</a></li>
+          <li><a href="https://faradayoffline.app/download/">Download</a></li>
+          <li><a href="https://faradayoffline.app/hardware/">Hardware</a></li>
+          <li><a href="https://faradayoffline.app/guide/" aria-current="page">Guide</a></li>
+          <li><a href="https://faradayoffline.app/audits/">Audits</a></li>
+          <li><a href="https://faradayoffline.app/standards/">Standards</a></li>
+          <li><a href="https://faradayoffline.app/cryptography/">Cryptography</a></li>
+          <li><a href="https://faradayoffline.app/blog/">Blog</a></li>
+          <li><a href="https://faradayoffline.app/#faq">FAQ</a></li>
+          <li><a href="https://github.com/bitcoinpasada/faraday">GitHub</a></li>
+        </ul>
+      </div>
+      <a class="btn accent" href="https://faradayoffline.app/tour/">Tour</a>
+    </nav>
+  </div>
+</header>
+
+<div class="guide">
+<nav class="drawer" id="drawer" aria-label="Guide">
+  <div class="drawer-head"><span>Guide</span><a class="icon-btn" href="#close" id="drawer-close" aria-label="Close" title="Close"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></a></div>
+<div class="search" role="search" data-index="../../../guide/search.json">
+  <div class="sfield">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+    <input type="search" placeholder="Search the guide" aria-label="Search the guide" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" role="combobox" aria-expanded="false" aria-autocomplete="list">
+    <button type="button" class="sclear" aria-label="Clear" title="Clear" hidden><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <p class="sstatus" role="status" hidden></p>
+  <ul class="results" role="listbox" aria-label="Search results" hidden></ul>
+  <p class="snone" hidden>No match. <a href="../../../guide/screens/">Browse the guide</a>.</p>
+</div>
+<div class="drawer-nav">
+<ul><li><a class="item" href="https://faradayoffline.app/guide/">Overview</a></li></ul>
+<h2>Start here</h2><ol>
+<li><a class="item" href="https://faradayoffline.app/guide/new-key/"><span class="num">1</span>Make a key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/faraday-demo/"><span class="num">2</span>Faraday Demo</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/starter-tour/"><span class="num">3</span>Faraday Starter</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/get-faraday/"><span class="num">4</span>Get Faraday on a stick</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/start-from-the-stick/"><span class="num">5</span>Start a PC from the stick</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/first-start/"><span class="num">6</span>First start, Home and the session</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/back-up/"><span class="num">7</span>Back it up</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/make-a-wallet/"><span class="num">8</span>Make a wallet, single key or multisig</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/receive/"><span class="num">9</span>Receive</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/spend/"><span class="num">10</span>Spend</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/restore/"><span class="num">11</span>Restore a wallet</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/before-you-rely/"><span class="num">12</span>Before you rely on a key</a></li>
+</ol>
+<h2>More</h2><ol>
+<li><a class="item" href="https://faradayoffline.app/guide/multisig-with-others/"><span class="num"></span>Multisig with other people and devices</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/codex32/"><span class="num"></span>codex32 shares</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/spend-from-a-backup/"><span class="num"></span>Spend from a backup, step by step</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/vaults-and-passwords/"><span class="num"></span>Vaults, passwords and codes</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/files-and-sticks/"><span class="num"></span>Files, sticks and QR codes</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/gpg/"><span class="num"></span>A GPG key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/secure-boot-keys/"><span class="num"></span>Your own Secure Boot keys</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/messages/"><span class="num"></span>Sign and check a message</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/more-from-a-key/"><span class="num"></span>More from a key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/check-and-decode/"><span class="num"></span>Check and decode</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/starter-tools/"><span class="num"></span>The Starter&#x27;s other tools</a></li>
+</ol>
+<h2>Screens</h2><ul><li><a class="item" href="https://faradayoffline.app/guide/screens/">Every screen</a></li></ul>
+<h3>Home</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/home/">Home</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/lock-and-power/">Lock and Power off</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/mode/">Mode and Load samples</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/prompts/">Prompts</a></li>
+</ul>
+<h3>Vaults</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/codes/">TOTP codes</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/create-vault/">Create a vault</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/vault/">Vault contents</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/vaults/">Vaults and Unlock</a></li>
+</ul>
+<h3>Files</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/files/" aria-current="page">Files</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/qr-and-scan/">QR codes and the camera</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/stick-visit/">Stick visit</a></li>
+</ul>
+<h3>Wallets</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/add-a-key/">Add a key: typing a key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/back-up-wallet/">Back up a wallet</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/backup-flow/">The backup flow</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/backups/">Backups and the chart</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/make-a-wallet/">Make a new wallet</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/new-key/">Add a key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/restore/">Restore an existing wallet</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/sign/">Sign a transaction</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/spend-tab/">Spend</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/wallets/">Wallets</a></li>
+</ul>
+<h3>Tools</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/calculators/">Tools: the calculators</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/child-seeds/">Derive with BIP-85</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/decode/">Decode a transaction</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/explore/">Explore</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/lightning/">Lightning node key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/messages/">Sign a message and Check a signed message</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/nonce-check/">Nonce check</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/silent-payments/">Silent payments</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/sweep/">Sweep a private key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/tools/">Tools</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/vanity/">Vanity address</a></li>
+</ul>
+<h3>Learn</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/learn/">Learn</a></li>
+</ul>
+<h3>Settings</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/settings/">Settings</a></li>
+</ul>
+<h3>Starter</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/starter-home/">Faraday Starter: Home</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/starter-learn-and-boot/">Faraday Starter: Start from the stick, and Learn</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/starter-make/">Faraday Starter: Make</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/starter-menu/">Faraday Starter: Install, Appearance and About</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/starter-tools/">Faraday Starter: Tools</a></li>
+</ul>
+<h3>Other</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/README/">Screen reference</a></li>
+</ul>
+</div>
+</nav>
+<a class="scrim" href="#close" tabindex="-1" aria-hidden="true"></a>
+
+<main id="main" tabindex="-1" class="doc">
+<a class="btn tonal contents" href="#drawer" id="drawer-open" aria-controls="drawer" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Contents</a><button type="button" class="btn tonal searchopen" id="search-open" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>Search</button>
+<details class="toc toc-fold" open><summary>On this page</summary><ol><li><a href="#on-this-screen">On this screen</a></li><li><a href="#an-open-vault">An open vault</a></li><li><a href="#what-the-files-give">What the files give</a></li><li><a href="#the--menu">The ⋮ menu</a></li><li><a href="#make-it-a-wallet">Make it a wallet</a></li><li><a href="#this-is-a-secret">This is a secret</a></li><li><a href="#on-a-narrow-window">On a narrow window</a></li><li><a href="#why">Why</a></li><li><a href="#used-in">Used in</a></li></ol></details>
+<h1>Files</h1>
+<p class="lede"><strong>Opened from:</strong> the sidebar&#x27;s <strong>Files</strong>, and its <strong>Files</strong> row at the foot; <strong>Open Files</strong> on a stick visit; Home&#x27;s <strong>Written to …</strong> lead; an empty vault&#x27;s &quot;Write it to a stick&quot;. <strong>Import and load</strong> on a stick visit opens it with the files just copied in.</p>
+<p>Files is what Faraday holds in memory: <strong>From the stick</strong>, the files copied in, and <strong>For the stick</strong>, the files waiting to be written. Both are emptied at power-off.</p>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/files-both.webp"><img src="https://faradayoffline.app/assets/guide/files-both.webp" width="1280" height="800" alt="Files with a wallet&#x27;s description and a PSBT from the stick, a signed PSBT and a finished transaction for the stick" loading="lazy" decoding="async"></a><figcaption>Files with a wallet&#x27;s description and a PSBT from the stick, a signed PSBT and a finished transaction for the stick</figcaption></figure>
+<p><em>Files: <strong>From the stick</strong> holds a wallet&#x27;s description and a PSBT, with <strong>Load the wallet</strong> and <strong>Sign</strong>; <strong>For the stick</strong> holds a signed PSBT and a finished transaction, each <strong>Ready</strong>.</em></p>
+<h2 id="on-this-screen">On this screen</h2>
+<div class="table"><table><thead><tr><th scope="col">Control</th><th scope="col">What it does</th></tr></thead><tbody><tr><td data-label="Control">the stick chip</td><td data-label="What it does">at the top right: &quot;Waiting for a stick&quot;; &quot;Stick attached · lock to use it&quot; while a secret is held, which locks; &quot;Visit&quot; and the stick&#x27;s name (&quot;Visit TRANSFER&quot;), which opens the <a href="https://faradayoffline.app/guide/screens/stick-visit/">stick visit</a></td></tr><tr><td data-label="Control"><strong>Scan a QR code</strong></td><td data-label="What it does">opens the camera (<a href="https://faradayoffline.app/guide/screens/qr-and-scan/#scan">Scan</a>); what it reads lands in <strong>From the stick</strong></td></tr><tr><td data-label="Control"><strong>In memory · emptied at power-off</strong></td><td data-label="What it does">a label beside it</td></tr><tr><td data-label="Control">&quot;Two sticks of this build are in&quot;, &quot;The stick Faraday started from was not found&quot;</td><td data-label="What it does">in the error tone, on a PC, when the stick it started from is not known: two sticks of the running build were in at start, or none was found. No data partition is then the device&#x27;s own, and no settings are kept (<a href="#why">Why</a>)</td></tr><tr><td data-label="Control">&quot;Remove the stick when you are done&quot;</td><td data-label="What it does">in the warning tone, after <strong>Import and load</strong>, while the stick is still in: the keys copied in load once it is out (&quot;1 key copied in · remove the stick to load it&quot;)</td></tr><tr><td data-label="Control">an open vault&#x27;s panel</td><td data-label="What it does">see <a href="#an-open-vault">An open vault</a></td></tr><tr><td data-label="Control">what the files give</td><td data-label="What it does">a panel headed <strong>From the stick</strong>, above the two lists: see <a href="#what-the-files-give">What the files give</a></td></tr><tr><td data-label="Control"><strong>From the stick</strong></td><td data-label="What it does">the files copied in, with their count; each row its name, what it is and its size, its button, and its <strong>⋮</strong></td></tr><tr><td data-label="Control"><strong>For the stick</strong></td><td data-label="What it does">the files waiting to be written, with their count, in three groups</td></tr><tr><td data-label="Control">&quot;Power off asks first while files wait for the stick&quot;</td><td data-label="What it does">at the foot, while <strong>For the stick</strong> holds a file</td></tr></tbody></table></div>
+<h3 id="a-file-from-the-stick">A file from the stick</h3>
+<p>Each row has one button for what its kind is for, and <strong>⋮</strong> for the rest.</p>
+<div class="table"><table><thead><tr><th scope="col">Kind</th><th scope="col">Button</th><th scope="col">What it does</th></tr></thead><tbody><tr><td data-label="Kind">a PSBT</td><td data-label="Button"><strong>Sign</strong></td><td data-label="What it does">starts its spend: <a href="https://faradayoffline.app/guide/screens/sign/">Sign a transaction</a></td></tr><tr><td data-label="Kind">a PSBT signed elsewhere that no key here is left to sign</td><td data-label="Button"><strong>Nonce check</strong></td><td data-label="What it does">opens its <a href="https://faradayoffline.app/guide/check-and-decode/#4-nonce-check">nonce check</a></td></tr><tr><td data-label="Kind">a PSBT of the spend under way, from another file</td><td data-label="Button"><strong>Add to signatures</strong></td><td data-label="What it does">adds its signatures to the spend</td></tr><tr><td data-label="Kind">a wallet</td><td data-label="Button"><strong>Load the wallet</strong></td><td data-label="What it does">loads it and opens its card</td></tr><tr><td data-label="Kind">seed words</td><td data-label="Button"><strong>Load this key</strong></td><td data-label="What it does">loads the key</td></tr><tr><td data-label="Kind">a vault</td><td data-label="Button"><strong>Unlock</strong>, or <strong>Contents</strong> while it is open</td><td data-label="What it does">opens its <a href="https://faradayoffline.app/guide/screens/vaults/#unlock">Unlock</a> or its <a href="https://faradayoffline.app/guide/screens/vault/">contents</a></td></tr><tr><td data-label="Kind">entries</td><td data-label="Button"><strong>Import into the vault</strong></td><td data-label="What it does">adds them to the open vault. Shown while a vault is open</td></tr><tr><td data-label="Kind">a text file</td><td data-label="Button"><strong>Add to vault</strong></td><td data-label="What it does">adds it to the open vault as a note. Shown while a vault is open</td></tr><tr><td data-label="Kind">a finished transaction</td><td data-label="Button"><strong>Nonce check</strong></td><td data-label="What it does">opens its <a href="https://faradayoffline.app/guide/check-and-decode/#4-nonce-check">nonce check</a>, with <strong>Decode it</strong> on it</td></tr><tr><td data-label="Kind">a signed message</td><td data-label="Button"><strong>Check the signature</strong></td><td data-label="What it does">opens Check a signed message on it</td></tr><tr><td data-label="Kind">shares of a wallet</td><td data-label="Button">&quot;Restore the wallet · 3 shares&quot;</td><td data-label="What it does">opens Restore with them; &quot;2 of 3 keys in hand&quot; while some are missing</td></tr><tr><td data-label="Kind">a recovery sheet</td><td data-label="Button"><strong>Make PDF</strong></td><td data-label="What it does">Faraday Demo only: makes its PDF</td></tr></tbody></table></div>
+<p>Any other file has only its <strong>⋮</strong>. An xpub&#x27;s way on is <strong>Make it a watch-only wallet</strong>, under <strong>Xpubs with no wallet</strong> in the panel above.</p>
+<p><strong>Empty · files are copied in on a stick visit</strong> while there is none.</p>
+<h3 id="files-for-the-stick">Files for the stick</h3>
+<div class="table"><table><thead><tr><th scope="col">Group</th><th scope="col">Line</th><th scope="col">A row&#x27;s state</th></tr></thead><tbody><tr><td data-label="Group"><strong>Public</strong></td><td data-label="Line"><strong>Anyone may read these</strong></td><td data-label="A row&#x27;s state"><strong>Ready</strong></td></tr><tr><td data-label="Group"><strong>Written sealed</strong></td><td data-label="Line"><strong>Sealed under their passphrases before they reach a stick</strong></td><td data-label="A row&#x27;s state"><strong>Ready</strong>; <strong>Written after Lock</strong> for an open vault, whose row reads &quot;Vault, open · 2 unsaved changes · sealed and locked at Lock&quot;</td></tr><tr><td data-label="Group"><strong>Unprotected secrets</strong></td><td data-label="Line"><strong>Anyone who has the stick can use these</strong>, in the error tone</td><td data-label="A row&#x27;s state"><strong>Unprotected</strong></td></tr></tbody></table></div>
+<p>A file there has no button; its <strong>⋮</strong> holds the rest. <strong>Empty</strong> while there is none. After a stick visit wrote, the receipt follows under it, in the ok tone: &quot;Written to KEYSTICK&quot; (with &quot;at 14:02&quot; once the clock is set), then each file with <strong>verified</strong> or why it was not.</p>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/files-and-sticks-receipt.webp"><img src="https://faradayoffline.app/assets/guide/files-and-sticks-receipt.webp" width="1280" height="800" alt="Files after a write: For the stick empty, and under it Written to KEYSTICK with two files verified" loading="lazy" decoding="async"></a><figcaption>Files after a write: For the stick empty, and under it Written to KEYSTICK with two files verified</figcaption></figure>
+<p><em>After a stick visit wrote: <strong>For the stick</strong> is <strong>Empty</strong>, and the receipt reads &quot;Written to KEYSTICK&quot;, each file <strong>verified</strong>; the vault written stays in <strong>From the stick</strong>, locked, to <strong>Unlock</strong> again.</em></p>
+<h2 id="an-open-vault">An open vault</h2>
+<p>A panel for each open vault, headed by its file and name (&quot;vault.fvlt · Vault 1 · open&quot;).</p>
+<div class="table"><table><thead><tr><th scope="col">Control</th><th scope="col">What it does</th></tr></thead><tbody><tr><td data-label="Control"><strong>Select all</strong></td><td data-label="What it does">ticks every key and wallet not loaded yet, or none</td></tr><tr><td data-label="Control"><strong>Wallets with their seeds</strong></td><td data-label="What it does">each wallet the vault holds with its seeds: &quot;2 of 3 keys in this vault&quot;, and <strong>Ready to sign once loaded</strong> where they are enough; a press ticks it</td></tr><tr><td data-label="Control"><strong>Load wallet with keys</strong>, <strong>Load 1 wallet with keys</strong>, &quot;Load 2 wallets with keys&quot;</td><td data-label="What it does">loads the wallets ticked, with their seeds. <strong>Nothing chosen</strong> while none is</td></tr><tr><td data-label="Control">&quot;Each seed and wallet · 5&quot;</td><td data-label="What it does">opens the full list, each row ticked to load or <strong>Loaded</strong>; <strong>Hide each seed and wallet</strong> closes it</td></tr><tr><td data-label="Control">&quot;Load 2 keys and 1 wallet&quot;</td><td data-label="What it does">loads what the full list ticks. <strong>Everything is loaded</strong> once nothing is left</td></tr><tr><td data-label="Control"><strong>Go to Wallets</strong></td><td data-label="What it does">shown once something has loaded</td></tr></tbody></table></div>
+<h2 id="what-the-files-give">What the files give</h2>
+<p>A panel headed <strong>From the stick</strong>, above the two lists, shown while the files from the stick give something to load. Its parts are <strong>Wallets</strong>, <strong>Keys with no wallet</strong>, <strong>Xpubs with no wallet</strong> and <strong>Not complete or sealed</strong>, each shown where it has a row.</p>
+<div class="table"><table><thead><tr><th scope="col">Control</th><th scope="col">What it does</th></tr></thead><tbody><tr><td data-label="Control"><strong>Wallets</strong></td><td data-label="What it does">each wallet the files describe, once each: its shape, &quot;2 of 3 keys here&quot;, &quot;· 2 files say it&quot; or &quot;· from split sheets&quot;, and <strong>Ready to sign once loaded</strong>; a press ticks it</td></tr><tr><td data-label="Control"><strong>Load the wallet with its seeds</strong>, <strong>Load the wallet</strong>, &quot;Load 2 wallets with their seeds&quot;</td><td data-label="What it does">loads the wallets ticked. <strong>Nothing chosen</strong> while none is. &quot;Keys load once the stick is out&quot; while a stick is in</td></tr><tr><td data-label="Control"><strong>Keys with no wallet</strong></td><td data-label="What it does">each seed no wallet names, by fingerprint, with <strong>Make it a wallet</strong>, which opens <a href="#make-it-a-wallet">Make it a wallet</a></td></tr><tr><td data-label="Control"><strong>Xpubs with no wallet</strong></td><td data-label="What it does">each xpub, by its fingerprint or <strong>no origin</strong>, with <strong>Make it a watch-only wallet</strong></td></tr><tr><td data-label="Control"><strong>Not complete or sealed</strong></td><td data-label="What it does">a backup short of parts, or sealed</td></tr></tbody></table></div>
+<h2 id="the--menu">The ⋮ menu</h2>
+<p><strong>Opened from:</strong> a file row&#x27;s <strong>⋮</strong>: a menu under it, a sheet on a small window.</p>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/files-menu.webp"><img src="https://faradayoffline.app/assets/guide/files-menu.webp" width="1280" height="800" alt="The ⋮ menu of payment-signed.psbt on For the stick: Show as QR, Rename, Details, Remove" loading="lazy" decoding="async"></a><figcaption>The ⋮ menu of payment-signed.psbt on For the stick: Show as QR, Rename, Details, Remove</figcaption></figure>
+<p><em>A file&#x27;s <strong>⋮</strong> on <strong>For the stick</strong>: the file&#x27;s name over <strong>Show as QR</strong>, <strong>Rename</strong>, <strong>Details</strong> and <strong>Remove</strong>.</em></p>
+<div class="table"><table><thead><tr><th scope="col">Row</th><th scope="col">Choices</th></tr></thead><tbody><tr><td data-label="Row">a file from the stick</td><td data-label="Choices"><strong>Add to vault</strong> (a wallet or seed words, while a vault is open), <strong>Details</strong>, <strong>Remove</strong></td></tr><tr><td data-label="Row">a file for the stick</td><td data-label="Choices"><strong>Make PDF</strong> (a recovery sheet, Faraday Demo only), <strong>Show as QR</strong> (where it fits in codes; never a vault), <strong>Rename</strong>, <strong>Details</strong>, <strong>Remove</strong></td></tr><tr><td data-label="Row">a file on a stick visited</td><td data-label="Choices"><strong>Rename</strong>, &quot;Delete from the stick&quot;, <strong>Details</strong></td></tr></tbody></table></div>
+<p><strong>Remove</strong> takes the file out of Files. &quot;Delete from the stick&quot; opens <a href="https://faradayoffline.app/guide/screens/stick-visit/#delete-files">Delete files</a> with that file alone chosen.</p>
+<h3 id="rename">Rename</h3>
+<p>Its title is <strong>Rename …</strong> and the file&#x27;s name.</p>
+<div class="table"><table><thead><tr><th scope="col">Control</th><th scope="col">What it does</th></tr></thead><tbody><tr><td data-label="Control">the field</td><td data-label="What it does">the name before its extension; the extension stays as it is</td></tr><tr><td data-label="Control">the line under it</td><td data-label="What it does">why a name cannot be used: <strong>Type a name</strong>, <strong>A name cannot start with a dot</strong>, the characters a stick&#x27;s names cannot hold, <strong>A name is at most 255 characters with its extension</strong>, &quot;Another file for the stick is named …&quot;</td></tr><tr><td data-label="Control"><strong>Rename</strong></td><td data-label="What it does">renames the file; on a stick, the stick visit&#x27;s line says &quot;… renamed …&quot;, or why not</td></tr><tr><td data-label="Control"><strong>Cancel</strong></td><td data-label="What it does">closes the sheet</td></tr></tbody></table></div>
+<h3 id="details">Details</h3>
+<div class="table"><table><thead><tr><th scope="col">Field</th><th scope="col">What it is</th></tr></thead><tbody><tr><td data-label="Field"><strong>Name</strong></td><td data-label="What it is">the file&#x27;s name</td></tr><tr><td data-label="Field"><strong>Kind</strong></td><td data-label="What it is">what it is</td></tr><tr><td data-label="Field"><strong>Size</strong></td><td data-label="What it is">&quot;… bytes&quot;</td></tr><tr><td data-label="Field"><strong>SHA-256</strong></td><td data-label="What it is">its hash in groups of eight; <strong>Reading…</strong> while a stick is read for it; &quot;Not read: …&quot;</td></tr><tr><td data-label="Field"><strong>Close</strong></td><td data-label="What it is">closes the sheet</td></tr></tbody></table></div>
+<h2 id="make-it-a-wallet">Make it a wallet</h2>
+<p><strong>Opened from:</strong> <strong>Make it a wallet</strong> beside a seed with no wallet, and <strong>Make it a watch-only wallet</strong> beside an xpub. Its title is &quot;A wallet from 3dca6805&quot;, &quot;A watch-only wallet from 3dca6805&quot;, or <strong>A watch-only wallet from an xpub</strong>.</p>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/files-make-it-a-wallet.webp"><img src="https://faradayoffline.app/assets/guide/files-make-it-a-wallet.webp" width="1280" height="800" alt="A wallet from 3dca6805: the passphrase field, the fingerprint, and the four single-key kinds with native SegWit chosen" loading="lazy" decoding="async"></a><figcaption>A wallet from 3dca6805: the passphrase field, the fingerprint, and the four single-key kinds with native SegWit chosen</figcaption></figure>
+<p><em>&quot;A wallet from 3dca6805&quot;, from new-key-1-words.txt: <strong>BIP-39 passphrase · none if left empty</strong>, the <strong>Fingerprint</strong>, <strong>Single-key wallet</strong> with native SegWit chosen, and <strong>Make the wallet</strong>.</em></p>
+<div class="table"><table><thead><tr><th scope="col">Control</th><th scope="col">What it does</th></tr></thead><tbody><tr><td data-label="Control">&quot;From …&quot;</td><td data-label="What it does">the files the seed came from</td></tr><tr><td data-label="Control"><strong>BIP-39 passphrase · none if left empty</strong></td><td data-label="What it does">the seed&#x27;s passphrase field (<strong>SLIP-39 passphrase · none if left empty</strong> for SLIP-39 shares); its eye shows what is typed. <strong>Fingerprint</strong> under it gives the key it makes</td></tr><tr><td data-label="Control">&quot;A key of New wallet 1: it loads with that wallet&quot;</td><td data-label="What it does">in the ok tone, where the key is one of a wallet&#x27;s</td></tr><tr><td data-label="Control"><strong>Single-key wallet</strong></td><td data-label="What it does">otherwise, with the kinds to choose: native SegWit, <strong>Taproot</strong>, nested SegWit, legacy</td></tr><tr><td data-label="Control">the xpub</td><td data-label="What it does">for an xpub: the key, and its kind, chosen, or &quot;… · as its path says&quot;</td></tr><tr><td data-label="Control"><strong>Make the wallet</strong>, or &quot;Load New wallet 1&quot;</td><td data-label="What it does">makes the wallet, or loads the wallet the key belongs to</td></tr><tr><td data-label="Control"><strong>Cancel</strong></td><td data-label="What it does">closes the sheet</td></tr></tbody></table></div>
+<h2 id="this-is-a-secret">This is a secret</h2>
+<p><strong>Opened from:</strong> a secret about to leave Faraday: a seed&#x27;s file from a backup&#x27;s checklist, a child seed, a Lightning or silent payments key, a GPG revocation, and a secret file ticked on a stick visit to be copied to another stick. Its title is <strong>This is a secret</strong>, or <strong>This may be a secret</strong> for text Faraday cannot tell about.</p>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/files-this-is-a-secret.webp"><img src="https://faradayoffline.app/assets/guide/files-this-is-a-secret.webp" width="1280" height="800" alt="This is a secret for a child seed&#x27;s words file, with Save into vault.fvlt and Put it for the stick unprotected" loading="lazy" decoding="async"></a><figcaption>This is a secret for a child seed&#x27;s words file, with Save into vault.fvlt and Put it for the stick unprotected</figcaption></figure>
+<p><em>The sheet <strong>This is a secret</strong> for 6d6ea9fe-words.txt, a child seed&#x27;s words: <strong>Sealed in a vault</strong> over &quot;Save into vault.fvlt&quot;, then &quot;Unprotected, for the stick&quot; over &quot;Put it for the stick unprotected&quot;.</em></p>
+<div class="table"><table><thead><tr><th scope="col">Control</th><th scope="col">What it does</th></tr></thead><tbody><tr><td data-label="Control"><strong>File</strong>, <strong>What it is</strong>, <strong>Who can use it</strong></td><td data-label="What it does">the file&#x27;s name, what it holds, and who can use it</td></tr><tr><td data-label="Control"><strong>Sealed in a vault</strong></td><td data-label="What it does">in the ok tone, where the secret can go into a vault</td></tr><tr><td data-label="Control">&quot;Save into vault.fvlt&quot;</td><td data-label="What it does">puts the secret into the open vault, sealed; the button names the open vault by its file. &quot;In vault.fvlt&quot; in its place where the vault holds it already</td></tr><tr><td data-label="Control">&quot;Make a vault&quot;, &quot;Unlock vault.fvlt&quot;, <strong>Unlock a vault</strong></td><td data-label="What it does">with no vault open: opens <a href="https://faradayoffline.app/guide/screens/create-vault/">Create a vault</a> or <a href="https://faradayoffline.app/guide/screens/vaults/#unlock">Unlock</a>; the sheet opens again after</td></tr><tr><td data-label="Control">&quot;Unprotected, for the stick&quot;</td><td data-label="What it does">in the error tone: what the other way is; &quot;Unprotected, on the stick&quot; for a file a stick visit copies</td></tr><tr><td data-label="Control">the forms</td><td data-label="What it does">where the secret has more than one form (a seed&#x27;s <strong>Words</strong> or <strong>SeedQR</strong>), a button each</td></tr><tr><td data-label="Control">&quot;Put it for the stick unprotected&quot;</td><td data-label="What it does">at the foot: opens <a href="#save-without-encryption">Save without encryption?</a></td></tr><tr><td data-label="Control"><strong>Cancel</strong></td><td data-label="What it does">beside it: closes the sheet; the secret goes nowhere</td></tr></tbody></table></div>
+<h3 id="save-without-encryption">Save without encryption?</h3>
+<div class="table"><table><thead><tr><th scope="col">Control</th><th scope="col">What it does</th></tr></thead><tbody><tr><td data-label="Control">the two lines</td><td data-label="What it does">&quot;… goes on the stick as a plain file, outside any vault. Anyone who has the stick can read it.&quot; and &quot;That is as safe as writing it on paper: …&quot;</td></tr><tr><td data-label="Control"><strong>Hold to save without encryption</strong></td><td data-label="What it does">held until it fills: puts the file in Files under <strong>Unprotected secrets</strong>; a file from a stick visit is ticked there instead, and written with the rest</td></tr><tr><td data-label="Control"><strong>Put it in a vault</strong></td><td data-label="What it does">while a vault is open: puts the secret into it instead</td></tr><tr><td data-label="Control"><strong>Cancel</strong></td><td data-label="What it does">closes the sheet</td></tr></tbody></table></div>
+<p>The same sheet comes before a key&#x27;s words or SeedQR are saved to a stick from a vault, before a backup&#x27;s plan keeps a seed as a plain file at a place, and before Transfer saves a secret.</p>
+<h2 id="on-a-narrow-window">On a narrow window</h2>
+<p>One column: the stick&#x27;s status and <strong>Scan a QR code</strong>, the vault panels and what the files give, then <strong>From the stick</strong>, then <strong>For the stick</strong>, each row&#x27;s button under its name.</p>
+<h2 id="why">Why</h2>
+<ul><li><a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/learn/07-air-gap.md">The air gap</a></li><li><a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/learn/19-coordinators.md">Coordinator files</a></li><li><a href="https://faradayoffline.app/start/replace-faraday/">Replacing Faraday on a stick</a></li></ul>
+<h2 id="used-in">Used in</h2>
+<ul><li><a href="https://faradayoffline.app/guide/multisig-with-others/">Multisig with other people and devices</a></li><li><a href="https://faradayoffline.app/guide/gpg/">A GPG key</a></li><li><a href="https://faradayoffline.app/guide/more-from-a-key/">More from a key</a></li><li><a href="https://faradayoffline.app/guide/check-and-decode/">Check and decode</a></li><li><a href="https://faradayoffline.app/guide/starter-tools/">The Starter&#x27;s other tools</a></li></ul>
+
+<div class="about">
+<p>This page describes Faraday 0.1.9.</p>
+<p class="report"><a href="https://github.com/bitcoinpasada/faraday/issues/new?template=bug.yml&title=Guide%3A%20Files&app=The%20website&version=0.1.9&what=On%20the%20guide%27s%20page%20https%3A%2F%2Ffaradayoffline.app%2Fguide%2Fscreens%2Ffiles%2F%3A%20">Something wrong on this page?</a> It opens a GitHub issue with the page named.</p>
+</div>
+</main>
+<aside class="toc-side" aria-label="On this page"><details class="toc" open><summary>On this page</summary><ol><li><a href="#on-this-screen">On this screen</a></li><li><a href="#an-open-vault">An open vault</a></li><li><a href="#what-the-files-give">What the files give</a></li><li><a href="#the--menu">The ⋮ menu</a></li><li><a href="#make-it-a-wallet">Make it a wallet</a></li><li><a href="#this-is-a-secret">This is a secret</a></li><li><a href="#on-a-narrow-window">On a narrow window</a></li><li><a href="#why">Why</a></li><li><a href="#used-in">Used in</a></li></ol></details></aside>
+</div>
+
+<dialog class="zoom" id="zoom" aria-label="The screen at full size">
+  <button class="close" id="zoom-close" aria-label="Close" title="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <img alt="">
+  <p></p>
+</dialog>
+
+<!-- Donations: the QR codes go in the two frames (data-qr), as on the
+     home page. -->
+<dialog class="coffee-box" id="coffee" aria-labelledby="coffee-title">
+  <button class="close" id="coffee-close" aria-label="Close" title="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <h2 id="coffee-title">Buy me a coffee</h2>
+  <p>Donations to Faraday's development, in bitcoin.</p>
+  <div class="qrs">
+    <figure><div class="qr" data-qr="lightning">QR code to come</div><figcaption>Lightning</figcaption></figure>
+    <figure><div class="qr" data-qr="bitcoin">QR code to come</div><figcaption>Bitcoin</figcaption></figure>
+  </div>
+</dialog>
+
+<footer>
+  <div>
+    <span>Faraday · MIT License</span>
+    <button class="link" data-coffee>Buy me a coffee</button>
+    <a href="https://github.com/bitcoinpasada/faraday">github.com/bitcoinpasada/faraday</a>
+    <a href="https://x.com/faraday_offline">x.com/faraday_offline</a>
+  </div>
+</footer>
+
+<script>
+"use strict";
+const root = document.documentElement;
+const bar = document.querySelector(".bar");
+new ResizeObserver(() => root.style.setProperty("--bar-h", bar.offsetHeight + "px")).observe(bar);
+
+// Buy me a coffee, as on the home page.
+const coffee = document.querySelector("#coffee");
+for (const b of document.querySelectorAll("[data-coffee]")) b.addEventListener("click", () => coffee.showModal());
+document.querySelector("#coffee-close").addEventListener("click", () => coffee.close());
+coffee.addEventListener("click", (e) => { if (e.target === coffee) coffee.close(); });
+
+// The bar's menu, on a narrow screen: the button opens the list and
+// Escape, a choice, a tap outside or the focus leaving close it.
+{
+  const button = document.querySelector("#menu-btn");
+  const list = document.querySelector("#menu");
+  const wrap = button.parentElement;
+  const items = () => [...list.querySelectorAll("a, button")];
+  const show = (on, back) => {
+    list.hidden = !on;
+    button.setAttribute("aria-expanded", String(on));
+    if (on) items()[0].focus();
+    else if (back) button.focus();
+  };
+  button.addEventListener("click", () => show(list.hidden, false));
+  list.addEventListener("click", (e) => {
+    const item = e.target.closest("a, button");
+    if (!item) return;
+    show(false, false);
+    if (item.hasAttribute("data-coffee")) coffee.addEventListener("close", () => button.focus(), { once: true });
+  });
+  list.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+    e.preventDefault();
+    const all = items();
+    const i = all.indexOf(document.activeElement);
+    all[(i + (e.key === "ArrowDown" ? 1 : all.length - 1)) % all.length].focus();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || list.hidden) return;
+    e.preventDefault();
+    e.stopPropagation();
+    show(false, true);
+  }, true);
+  document.addEventListener("pointerdown", (e) => {
+    if (!list.hidden && !wrap.contains(e.target)) show(false, false);
+  });
+  wrap.addEventListener("focusout", (e) => {
+    if (!list.hidden && e.relatedTarget && !wrap.contains(e.relatedTarget)) show(false, false);
+  });
+}
+
+// The modal drawer, below 840 px: Contents opens it and the close
+// button, the scrim, Escape or a choice close it, without touching the
+// address (without script, the address #drawer opens it).
+{
+  const drawer = document.querySelector("#drawer");
+  const open = document.querySelector("#drawer-open");
+  const close = document.querySelector("#drawer-close");
+  const scrim = document.querySelector(".scrim");
+  const modal = matchMedia("(width < 840px)");
+  const show = (on) => {
+    drawer.classList.toggle("open", on);
+    open.setAttribute("aria-expanded", String(on));
+    if (on) {
+      drawer.setAttribute("role", "dialog");
+      drawer.setAttribute("aria-modal", "true");
+      (drawer.querySelector("[aria-current]") || close).focus({ preventScroll: true });
+      drawer.querySelector("[aria-current]")?.scrollIntoView({ block: "center" });
+    } else {
+      drawer.removeAttribute("role");
+      drawer.removeAttribute("aria-modal");
+    }
+  };
+  open.addEventListener("click", (e) => { e.preventDefault(); show(true); });
+  for (const b of [close, scrim]) b.addEventListener("click", (e) => { e.preventDefault(); show(false); open.focus(); });
+  drawer.addEventListener("click", (e) => { if (e.target.closest("a.item")) show(false); });
+  document.addEventListener("keydown", (e) => {
+    if (!drawer.classList.contains("open")) return;
+    if (e.key === "Escape") { e.preventDefault(); show(false); open.focus(); return; }
+    if (e.key !== "Tab") return;
+    // The focus stays in the drawer while it is open.
+    const all = [...drawer.querySelectorAll("a[href]")];
+    const first = all[0], last = all[all.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+  modal.addEventListener("change", () => { if (!modal.matches) show(false); });
+  if (location.hash === "#drawer") history.replaceState(null, "", location.pathname);
+}
+
+// On this page: open on the right from 1200 px, folded below; the
+// section in view is marked.
+{
+  const side = document.querySelector(".toc-side");
+  const fold = document.querySelector(".toc-fold");
+  if (fold) fold.open = false;
+  if (side) {
+    const links = [...side.querySelectorAll("a")];
+    const byId = new Map(links.map((a) => [decodeURIComponent(a.hash.slice(1)), a]));
+    const heads = [...byId.keys()].map((id) => document.getElementById(id)).filter(Boolean);
+    const mark = () => {
+      const line = (parseFloat(getComputedStyle(root).getPropertyValue("--bar-h")) || 64) + 24;
+      let here = heads[0];
+      for (const h of heads) if (h.getBoundingClientRect().top <= line) here = h;
+      for (const a of links) a.classList.toggle("here", byId.get(here.id) === a);
+    };
+    if (heads.length) {
+      addEventListener("scroll", mark, { passive: true });
+      mark();
+    }
+  }
+}
+
+// A picture, pressed, opens at full size in a dialog.
+{
+  const zoom = document.querySelector("#zoom");
+  const img = zoom.querySelector("img");
+  const text = zoom.querySelector("p");
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest(".shot a");
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    const pic = a.querySelector("img");
+    img.src = a.href;
+    img.alt = pic.alt;
+    text.textContent = pic.alt;
+    zoom.showModal();
+  });
+  document.querySelector("#zoom-close").addEventListener("click", () => zoom.close());
+  zoom.addEventListener("click", (e) => { if (e.target === zoom) zoom.close(); });
+}
+// The search. The index, guide/search.json, is fetched from this site
+// the first time a search field takes focus; nothing else is fetched
+// and no library is used. Ranking: a control's name or a title equal to
+// the query first, then names and titles that start with it or hold it,
+// then the words in the text; ties go to the title match, a screen
+// before a step, and the order of the guide. tools/lint-search.py runs
+// the part between the two marks on the built index.
+// search:rank begin
+const fold = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+const kindRank = { control: 0, screen: 0, section: 0, step: 1, walk: 1 };
+const prepare = (entries) => entries.map((e) => ({ ...e, f: { t: fold(e.t), c: (e.c || []).map(fold), x: fold(e.x || "") } }));
+const nameScore = (name, q) => name === q ? 100 : name.startsWith(q) ? 60 : (" " + name).includes(" " + q) ? 40 : 0;
+function rank(entries, query, limit) {
+  const q = fold(query);
+  if (!q) return [];
+  const words = q.split(" ");
+  const found = [];
+  entries.forEach((e, order) => {
+    const hay = e.f.t + " " + e.f.c.join(" ") + " " + e.f.x;
+    if (!words.every((w) => hay.includes(w))) return;
+    const title = nameScore(e.f.t, q);
+    let ctrl = 0;
+    for (const c of e.f.c) ctrl = Math.max(ctrl, nameScore(c, q), c.includes(q) ? 30 : 0);
+    let main = Math.max(title, ctrl);
+    let hits = 0;
+    for (const w of words) hits += Math.min(e.f.x.split(w).length - 1, 20);
+    if (!main) {
+      main = 0;
+      for (const w of words) main += e.f.t.includes(w) ? 9 : e.f.c.some((c) => c.includes(w)) ? 6 : 3;
+      main = Math.min(main, 29);
+    }
+    // A heading named exactly as searched (a step, a section) comes before a control row of that name.
+    const heading = title === 100 && e.k !== "control" ? 1 : 0;
+    found.push({ e, order, key: [main, title, heading, kindRank[e.k] === 0 ? 1 : 0, Math.min(hits, 50)] });
+  });
+  found.sort((a, b) => {
+    for (let i = 0; i < a.key.length; i++) if (a.key[i] !== b.key[i]) return b.key[i] - a.key[i];
+    return a.order - b.order;
+  });
+  return found.slice(0, limit).map((r) => r.e);
+}
+// search:rank end
+
+{
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  const wide = matchMedia("(width >= 840px)");
+  const drawer = document.querySelector("#drawer");
+  const proto = drawer.querySelector(".search");
+  const open = document.querySelector("#search-open");
+  const kinds = { walk: "Walkthrough", screen: "Screen", control: "Control" };
+  let index = null;
+  let loading = null;
+  let openPhone = null;
+  const load = (url) => loading ||= fetch(url).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then((entries) => (index = prepare(entries)));
+
+  // A result opened: the section there is lit for a moment.
+  const flash = (hash) => {
+    if (reduced.matches || !hash) return;
+    const head = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (!head) return;
+    const els = [head];
+    for (let el = head.nextElementSibling; el && !/^H[1-6]$/.test(el.tagName) && els.length < 12; el = el.nextElementSibling) els.push(el);
+    for (const el of els) {
+      el.classList.remove("flash");
+      void el.offsetWidth;
+      el.classList.add("flash");
+      el.addEventListener("animationend", () => el.classList.remove("flash"), { once: true });
+    }
+  };
+  const store = (v) => { try { v === null ? sessionStorage.removeItem("guide-flash") : sessionStorage.setItem("guide-flash", v); } catch (e) { /* no storage: no flash */ } };
+  try {
+    if (sessionStorage.getItem("guide-flash") === location.pathname + location.hash) flash(location.hash);
+  } catch (e) { /* no storage */ }
+  store(null);
+  const go = (href) => {
+    const url = new URL(href, location.href);
+    if (url.pathname === location.pathname) {
+      history.pushState(null, "", url.pathname + url.hash);
+      if (url.hash) document.getElementById(decodeURIComponent(url.hash.slice(1)))?.scrollIntoView();
+      else scrollTo(0, 0);
+      flash(url.hash);
+    } else {
+      store(url.pathname + url.hash);
+      location.href = url.href;
+    }
+  };
+
+  const attach = (box, view) => {
+    const input = box.querySelector("input");
+    const list = box.querySelector(".results");
+    const none = box.querySelector(".snone");
+    const status = box.querySelector(".sstatus");
+    const clear = box.querySelector(".sclear");
+    const base = new URL(box.dataset.index, location.href);
+    const id = "r" + Math.random().toString(36).slice(2, 7);
+    list.id = id;
+    input.setAttribute("aria-controls", id);
+    let shown = [];
+    let active = -1;
+
+    const setActive = (i) => {
+      const items = [...list.children];
+      items.forEach((li, k) => li.classList.toggle("active", k === i));
+      active = i;
+      if (i >= 0) {
+        input.setAttribute("aria-activedescendant", items[i].id);
+        items[i].scrollIntoView({ block: "nearest" });
+      } else input.removeAttribute("aria-activedescendant");
+    };
+    const snippet = (e, words) => {
+      const x = e.x || "";
+      const low = x.toLowerCase();
+      let at = -1;
+      for (const w of words) { const i = low.indexOf(w); if (i >= 0 && (at < 0 || i < at)) at = i; }
+      const from = at > 60 ? low.lastIndexOf(" ", at - 40) + 1 : 0;
+      const end = from + 150 >= x.length ? x.length : Math.max(x.lastIndexOf(" ", from + 150), from + 100);
+      const part = (from > 0 ? "… " : "") + x.slice(from, end) + (end < x.length ? " …" : "");
+      const span = document.createElement("span");
+      span.className = "rs";
+      const re = words.length ? new RegExp("(" + words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")", "ig") : null;
+      (re ? part.split(re) : [part]).forEach((piece, k) => {
+        if (k % 2) { const m = document.createElement("mark"); m.textContent = piece; span.append(m); }
+        else span.append(piece);
+      });
+      return span;
+    };
+    const render = () => {
+      const query = input.value;
+      clear.hidden = !query;
+      drawer.classList.toggle("searching", !!query && !view);
+      list.replaceChildren();
+      none.hidden = true;
+      status.hidden = true;
+      setActive(-1);
+      if (!query.trim()) { list.hidden = true; input.setAttribute("aria-expanded", "false"); shown = []; return; }
+      if (!index) {
+        status.textContent = loading ? "Loading the index." : "The search is not available.";
+        status.hidden = false;
+        list.hidden = true;
+        return;
+      }
+      shown = rank(index, query, 8);
+      const words = fold(query).split(" ").filter(Boolean);
+      const raw = query.toLowerCase().split(/\s+/).filter(Boolean);
+      shown.forEach((e, k) => {
+        const li = document.createElement("li");
+        li.id = id + "-" + k;
+        li.setAttribute("role", "option");
+        const a = document.createElement("a");
+        a.href = new URL(e.u, base).href;
+        const t = document.createElement("span");
+        t.className = "rt";
+        t.textContent = (e.n ? e.n + " " : "") + e.t;
+        const w = document.createElement("span");
+        w.className = "rw";
+        w.textContent = [kinds[e.k], e.k === "walk" || e.k === "screen" ? "" : e.p].filter(Boolean).join(" · ") || e.p;
+        a.append(t, w, snippet(e, raw.length ? raw : words));
+        li.append(a);
+        list.append(li);
+      });
+      list.hidden = !shown.length;
+      none.hidden = !!shown.length;
+      input.setAttribute("aria-expanded", String(!list.hidden));
+    };
+    const leave = (href) => { if (view) view.close(); input.value = ""; render(); go(href); };
+
+    const ready = () => load(base.href).then(render, () => { loading = null; render(); });
+    input.addEventListener("focus", ready);
+    input.addEventListener("input", () => { ready(); render(); });
+    clear.addEventListener("click", () => { input.value = ""; render(); input.focus(); });
+    list.addEventListener("click", (e) => {
+      const a = e.target.closest("a");
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      e.preventDefault();
+      leave(a.href);
+    });
+    list.addEventListener("pointermove", (e) => {
+      const li = e.target.closest("li");
+      if (li && [...list.children].indexOf(li) !== active) setActive([...list.children].indexOf(li));
+    });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        if (!shown.length) return;
+        e.preventDefault();
+        const n = shown.length;
+        setActive(e.key === "ArrowDown" ? (active + 1) % n : active <= 0 ? n - 1 : active - 1);
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (shown.length) leave(list.children[active < 0 ? 0 : active].querySelector("a").href);
+      } else if (e.key === "Escape") {
+        if (input.value) { e.preventDefault(); input.value = ""; render(); }
+        else if (!view) { e.stopPropagation(); input.blur(); }
+      }
+    });
+    return { input, render };
+  };
+
+  const desk = attach(proto, null);
+  if (open) {
+    const view = document.createElement("dialog");
+    view.className = "sview";
+    view.setAttribute("aria-label", "Search the guide");
+    const box = proto.cloneNode(true);
+    const back = document.createElement("button");
+    back.type = "button";
+    back.className = "sback";
+    back.setAttribute("aria-label", "Close");
+    back.title = "Close";
+    back.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
+    box.querySelector(".sfield > svg").replaceWith(back);
+    view.append(box);
+    document.body.append(view);
+    const phone = attach(box, view);
+    back.addEventListener("click", () => view.close());
+    view.addEventListener("close", () => { phone.input.value = ""; phone.render(); open.focus(); });
+    const show = () => { view.showModal(); phone.input.focus(); };
+    open.addEventListener("click", show);
+    wide.addEventListener("change", () => { if (wide.matches && view.open) view.close(); });
+    openPhone = show;
+  }
+
+  // "/" starts a search, unless the cursor is in a field.
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target.closest?.("input, textarea, select, [contenteditable], dialog[open]")) return;
+    e.preventDefault();
+    if (wide.matches) desk.input.focus();
+    else if (openPhone) openPhone();
+  });
+}
+
+</script>
+</body>
+</html>

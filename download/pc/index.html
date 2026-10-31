@@ -1,0 +1,282 @@
+<!doctype html>
+<!--
+  A piece of hardware's page, at download/<hardware id>/
+  (tools/download.py writes one per [[hardware]] entry of the pinned
+  Faraday's faraday/builds.toml, its asset paths two levels up): the one
+  place for everything about it that its card on the download and
+  hardware pages leaves out (owner, 2026-10-29). The hardware drawn, its
+  name and state, what it needs, its screen, layout and builds; then,
+  where an image of it is built, Faraday Starter and the image and the
+  folded notes on opening the Starter and checking the files, the part
+  between the "built" comments, which a page with no image built leaves
+  out (F147: Coming soon leads to no download). Faraday docs/IMAGES.md
+  §7. Its placeholders, in capitals between two underscores, are filled
+  by tools/download.py.
+
+  Its look is web/site.css, as the download page's; each label a person
+  reads is on one line of its own, for tools/lint-page.sh.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#faf8ff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111319" media="(prefers-color-scheme: dark)">
+<title>A laptop or PC · Download Faraday</title>
+<meta name="description" content="Download Faraday 0.1.9, an offline Bitcoin signer: Faraday Starter and the image for this hardware, A laptop or PC, and how to check them.">
+<link rel="canonical" href="https://faradayoffline.app/download/pc/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://faradayoffline.app/download/pc/">
+<meta property="og:site_name" content="Faraday">
+<meta property="og:title" content="A laptop or PC · Download Faraday">
+<meta property="og:description" content="Download Faraday 0.1.9, an offline Bitcoin signer: Faraday Starter and the image for this hardware, A laptop or PC, and how to check them.">
+<meta property="og:image" content="https://faradayoffline.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-23 -10 146 146'%3E%3Cpath fill='%2300327d' fill-rule='evenodd' d='M50.00 135.30L47.47 134.26L45.01 133.19L42.61 132.11L40.28 131.02L38.02 129.90L35.82 128.76L33.68 127.61L31.61 126.44L29.61 125.25L27.67 124.04L25.80 122.81L23.99 121.57L22.25 120.31L20.57 119.02L18.96 117.72L17.41 116.40L15.93 115.07L14.52 113.71L13.17 112.34L11.88 110.95L10.67 109.54L9.51 108.11L8.42 106.66L7.40 105.20L6.44 103.71L5.55 102.21L4.73 100.69L3.97 99.15L3.27 97.59L2.64 96.02L2.08 94.43L1.58 92.81L1.00 90.57L0.54 88.29L0.21 85.97L0.00 83.62L0.00 11.33L0.06 10.14L0.19 9.26L0.47 8.11L0.86 6.99L1.23 6.18L1.83 5.16L2.34 4.43L3.11 3.53L3.75 2.91L4.43 2.34L5.41 1.67L6.45 1.10L7.27 0.75L8.39 0.39L9.26 0.19L10.44 0.03L11.33 0.00L88.67 0.00L89.86 0.06L90.45 0.14L91.32 0.31L92.17 0.55L93.01 0.86L93.82 1.23L94.34 1.52L95.09 1.99L95.80 2.52L96.25 2.91L96.89 3.53L97.48 4.20L98.01 4.91L98.48 5.66L98.90 6.45L99.25 7.27L99.53 8.11L99.75 8.97L99.86 9.55L99.97 10.44L100.00 11.33L100.00 83.62L99.86 85.33L99.69 86.82L99.42 88.50L99.10 90.16L98.76 91.59L98.31 93.22L97.79 94.83L97.21 96.41L96.65 97.79L95.94 99.34L95.27 100.69L94.45 102.21L93.67 103.53L92.84 104.83L91.84 106.30L90.90 107.57L89.77 109.00L88.73 110.24L87.64 111.47L86.33 112.86L85.13 114.05L83.70 115.40L82.21 116.74L80.84 117.89L79.22 119.18L77.75 120.31L76.23 121.41L74.66 122.50L73.04 123.58L71.12 124.80L69.15 126.00L67.36 127.03L65.52 128.05L63.36 129.19L59.14 131.29L54.69 133.33ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://faradayoffline.app/assets/site.css?v=d453ddfa35">
+<style>
+  /* A build's page's own rules; the rest is assets/site.css (web/site.css). */
+  main { max-width: calc(720px + 2 * var(--margin)); }
+  .back { margin: -24px 0 16px; }
+  .pic { display: flex; justify-content: center; margin-bottom: 24px; }
+  /* The drawing at 3 px a millimetre, and no wider than the page. */
+  .pic svg { width: min(100%, calc(var(--w) * 3px)); }
+  .top .state { margin-top: 12px; }
+  /* A board the image is offered for that nobody has started it on: its own chip and Tried it? Tell us. */
+  .top .board { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 12px; margin-top: 12px; }
+  .top .board .state { margin-top: 0; }
+  .need { margin-top: 32px; }
+  .need h2 { margin: 0 0 8px; font: var(--md-sys-typescale-title-medium); letter-spacing: var(--md-sys-typescale-title-medium-tracking); }
+  .need .facts { margin-top: 12px; }
+  .get { margin: 32px 0 0; }
+  .get li { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .get li::before { top: 18px; }
+  .get li:first-child::before { top: 6px; }
+  .get b { padding-top: 4px; }
+  /* A long file name wraps inside its button rather than leaving the page (the image's and the other build's). */
+  .get .file, details.card .build .file { max-width: 100%; height: auto; min-height: 40px; padding-top: 10px; padding-bottom: 10px; white-space: normal; overflow-wrap: anywhere; text-align: left; }
+  details.card { margin-top: 16px; }
+  details.card .in { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; justify-items: start; padding: 0 16px 16px; }
+  details.card .in p { padding: 0; }
+  /* The other build: its name, its state, its file and, looking for testers, Tried it? Tell us. */
+  details.card .build { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .fp code { color: var(--md-sys-color-on-surface); font-size: 13px; letter-spacing: 0.02em; }
+  @media (width >= 840px) { details.card .in { padding: 0 24px 16px; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wordmark" fill-rule="evenodd" d="M97 0L97 -687L751 -687L751 -560L249 -560L249 -394L703 -394L703 -267L249 -267L249 0ZM765 0L1109 -687L1281 -687L1625 0L1458 0L1253 -424Q1248 -435 1238.5 -456.5Q1229 -478 1219.5 -500.5Q1210 -523 1202.5 -539.5Q1195 -556 1194 -557L1186 -557Q1177 -537 1165.5 -511Q1154 -485 1143.5 -461Q1133 -437 1126 -423L921 0ZM1048 -133L1108.1 -256L1270.9 -256L1331 -133ZM1776 0L1776 -687L2320 -687Q2393 -687 2439.5 -657.5Q2486 -628 2509 -579.5Q2532 -531 2532 -472Q2532 -411 2500.5 -357.5Q2469 -304 2403 -274L2549 0L2378 0L2252 -245L1928 -245L1928 0ZM1928 -371L2278 -371Q2325 -371 2350.5 -398.5Q2376 -426 2376 -469Q2376 -498 2365 -518.5Q2354 -539 2332 -549.5Q2310 -560 2278 -560L1928 -560ZM2645 0L2989 -687L3161 -687L3505 0L3338 0L3133 -424Q3128 -435 3118.5 -456.5Q3109 -478 3099.5 -500.5Q3090 -523 3082.5 -539.5Q3075 -556 3074 -557L3066 -557Q3057 -537 3045.5 -511Q3034 -485 3023.5 -461Q3013 -437 3006 -423L2801 0ZM2928 -133L2988.1 -256L3150.9 -256L3211 -133ZM3656 0L3656 -687L4022 -687Q4148 -687 4238.5 -647.5Q4329 -608 4377.5 -531.5Q4426 -455 4426 -343Q4426 -232 4377.5 -155.5Q4329 -79 4238.5 -39.5Q4148 0 4022 0ZM3808 -127L4014 -127Q4069 -127 4115.5 -140Q4162 -153 4196.5 -178.5Q4231 -204 4250 -242.5Q4269 -281 4269 -332L4269 -355Q4269 -406 4250 -444.5Q4231 -483 4196.5 -508.5Q4162 -534 4115.5 -547Q4069 -560 4014 -560L3808 -560ZM4513 0L4857 -687L5029 -687L5373 0L5206 0L5001 -424Q4996 -435 4986.5 -456.5Q4977 -478 4967.5 -500.5Q4958 -523 4950.5 -539.5Q4943 -556 4942 -557L4934 -557Q4925 -537 4913.5 -511Q4902 -485 4891.5 -461Q4881 -437 4874 -423L4669 0ZM4796 -133L4856.1 -256L5018.9 -256L5079 -133ZM5675 0L5675 -278L5339 -687L5522 -687L5750 -400L5760 -400L5991 -687L6164 -687L5827 -278L5827 0Z"/><path id="tagline" d="M311 7Q244 7 196 -17Q148 -41 123 -90Q97 -139 97 -213Q97 -288 123 -336Q148 -385 196 -409Q244 -433 311 -433Q378 -433 425 -409Q473 -385 499 -336Q524 -288 524 -213Q524 -139 499 -90Q473 -41 425 -17Q378 7 311 7ZM311 -51Q344 -51 371 -61Q397 -70 416 -90Q434 -109 444 -138Q453 -167 453 -206V-219Q453 -259 444 -288Q434 -317 416 -336Q397 -356 371 -365Q344 -375 311 -375Q277 -375 251 -365Q224 -356 206 -336Q187 -317 178 -288Q169 -259 169 -219V-206Q169 -167 178 -138Q187 -109 206 -90Q224 -70 251 -61Q277 -51 311 -51ZM814 0V-426H1118V-367H883V-241H1096V-181H883V0ZM1403 0V-426H1707V-367H1472V-241H1685V-181H1472V0ZM1992 0V-426H2061V-60H2274V0ZM2544 0V-426H2613V0ZM2923 0V-426H2990L3185 -159Q3188 -155 3192 -148Q3197 -141 3201 -135Q3206 -128 3208 -123H3211Q3211 -133 3211 -141Q3211 -150 3211 -159V-426H3278V0H3213L3017 -270Q3012 -277 3004 -289Q2997 -301 2993 -307H2990Q2990 -298 2990 -289Q2990 -280 2990 -270V0ZM3588 0V-426H3918V-367H3657V-248H3891V-188H3657V-59H3922V0ZM4506 0 4673 -426H4762L4929 0H4854L4816 -99H4615L4577 0ZM4637 -157H4794L4746 -282Q4744 -288 4740 -298Q4737 -308 4733 -320Q4729 -332 4725 -344Q4721 -356 4717 -366H4714Q4710 -354 4704 -338Q4699 -321 4693 -307Q4688 -292 4685 -282ZM5193 0V-426H5405Q5451 -426 5481 -409Q5511 -393 5526 -363Q5541 -333 5541 -293Q5541 -253 5524 -222Q5508 -192 5478 -175Q5447 -158 5403 -158H5262V0ZM5262 -217H5400Q5433 -217 5452 -237Q5471 -257 5471 -293Q5471 -316 5463 -333Q5455 -349 5439 -358Q5423 -367 5400 -367H5262ZM5817 0V-426H6029Q6074 -426 6104 -409Q6134 -393 6149 -363Q6164 -333 6164 -293Q6164 -253 6148 -222Q6132 -192 6101 -175Q6070 -158 6026 -158H5886V0ZM5886 -217H6023Q6056 -217 6075 -237Q6094 -257 6094 -293Q6094 -316 6086 -333Q6078 -349 6063 -358Q6047 -367 6023 -367H5886Z"/><g id="sfx-starter" fill-rule="evenodd"><path d="M430.62 12Q357.68 12 291.74 3.19Q225.81 -5.62 175.04 -28.51Q124.27 -51.41 95.31 -93.34Q66.35 -135.27 66.35 -201.06Q66.35 -205.81 66.58 -209.96Q66.81 -214.11 67.35 -216.11L175.54 -216.11Q174.54 -211.19 174.04 -204.77Q173.54 -198.35 173.54 -189.06Q173.54 -152.54 204.22 -127.99Q234.89 -103.44 292.48 -91.22Q350.06 -79 428.54 -79Q464.89 -79 500.13 -82.42Q535.38 -85.84 566.28 -93.37Q597.19 -100.89 620.98 -113.34Q644.78 -125.79 658.43 -143.88Q672.08 -161.97 672.08 -185.95Q672.08 -219.76 647.66 -240.31Q623.24 -260.86 581.4 -273.62Q539.56 -286.38 487.5 -294.75Q435.43 -303.13 380.09 -311.63Q324.75 -320.13 272.69 -333.48Q220.62 -346.84 178.78 -368.23Q136.94 -389.62 112.53 -424.05Q88.11 -458.49 88.11 -510.11Q88.11 -551.22 107.89 -585.46Q127.68 -619.7 169.23 -645.2Q210.78 -670.7 275.37 -684.62Q339.95 -698.54 430 -698.54Q521.51 -698.54 584.13 -682.93Q646.76 -667.32 684.62 -640.64Q722.49 -613.95 739.08 -580.2Q755.68 -546.46 755.68 -510.65L755.68 -491.89L649.02 -491.89L649.02 -510.4Q649.02 -536.54 623.88 -558.36Q598.73 -580.19 551.75 -593.86Q504.78 -607.54 438.54 -607.54Q358.27 -607.54 305.46 -596.24Q252.65 -584.94 226.37 -564.16Q200.08 -543.38 200.08 -514.27Q200.08 -484.84 224.5 -466.47Q248.92 -448.11 290.76 -436.85Q332.6 -425.6 384.67 -417.45Q436.73 -409.3 492.07 -400.3Q547.41 -391.3 599.48 -377.99Q651.54 -364.68 693.38 -342.33Q735.22 -319.97 759.64 -285.39Q784.06 -250.81 784.06 -199.73Q784.06 -121.57 739.43 -74.91Q694.81 -28.24 615.11 -8.12Q535.41 12 430.62 12Z"/><path transform="translate(847 0)" d="M338.35 0L338.35 -590.67L27.84 -590.67L27.84 -686.54L757.68 -686.54L757.68 -590.67L447.17 -590.67L447.17 0L338.35 0Z"/><path transform="translate(1633 0)" d="M31.35 0L380.4 -686.54L506.46 -686.54L855.52 0L735.84 0L654.3 -161.94L609.46 -251.87L508.32 -455.24Q502.41 -467.16 493.14 -486.82Q483.87 -506.48 474.37 -527.61Q464.87 -548.73 456.68 -566.38Q448.49 -584.02 444.27 -591.46L436.27 -591.46Q426.35 -570.08 413.7 -543.16Q401.06 -516.24 389.87 -492.24Q378.68 -468.24 371.68 -454.7L270.08 -251.87L225.7 -161.94L144.17 0ZM289.4 -161.94L333.78 -251.87L545.76 -251.87L590.6 -161.94Z"/><path transform="translate(2520 0)" d="M107.57 0L107.57 -686.54L623.54 -686.54Q691.95 -686.54 737.76 -659.11Q783.57 -631.68 807.03 -585.01Q830.49 -538.35 830.49 -480.27Q830.49 -416.05 797.38 -363.93Q764.27 -311.81 699.19 -287.32L847.95 0L725.65 0L589.54 -267.97L216.38 -267.97L216.38 0L107.57 0ZM216.38 -359.51L598.08 -359.51Q655.65 -359.51 687.58 -392.99Q719.51 -426.46 719.51 -478.65Q719.51 -514.08 705.3 -540.09Q691.08 -566.11 664.03 -580.28Q636.97 -594.46 598.08 -594.46L216.38 -594.46L216.38 -359.51Z"/><path transform="translate(3423 0)" d="M338.35 0L338.35 -590.67L27.84 -590.67L27.84 -686.54L757.68 -686.54L757.68 -590.67L447.17 -590.67L447.17 0L338.35 0Z"/><path transform="translate(4209 0)" d="M107.57 0L107.57 -686.54L784.19 -686.54L784.19 -594.46L216.38 -594.46L216.38 -397.38L727.41 -397.38L727.41 -305.3L216.38 -305.3L216.38 -92.08L792.19 -92.08L792.19 0L107.57 0Z"/><path transform="translate(5078 0)" d="M107.57 0L107.57 -686.54L623.54 -686.54Q691.95 -686.54 737.76 -659.11Q783.57 -631.68 807.03 -585.01Q830.49 -538.35 830.49 -480.27Q830.49 -416.05 797.38 -363.93Q764.27 -311.81 699.19 -287.32L847.95 0L725.65 0L589.54 -267.97L216.38 -267.97L216.38 0L107.57 0ZM216.38 -359.51L598.08 -359.51Q655.65 -359.51 687.58 -392.99Q719.51 -426.46 719.51 -478.65Q719.51 -514.08 705.3 -540.09Q691.08 -566.11 664.03 -580.28Q636.97 -594.46 598.08 -594.46L216.38 -594.46L216.38 -359.51Z"/></g></defs></svg>
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="https://faradayoffline.app/" aria-label="Faraday, offline app">
+      <svg class="mark" viewBox="0 0 100 136" aria-hidden="true"><path fill="var(--rim)" fill-rule="evenodd" d="M50.00 135.30L47.47 134.26L45.01 133.19L42.61 132.11L40.28 131.02L38.02 129.90L35.82 128.76L33.68 127.61L31.61 126.44L29.61 125.25L27.67 124.04L25.80 122.81L23.99 121.57L22.25 120.31L20.57 119.02L18.96 117.72L17.41 116.40L15.93 115.07L14.52 113.71L13.17 112.34L11.88 110.95L10.67 109.54L9.51 108.11L8.42 106.66L7.40 105.20L6.44 103.71L5.55 102.21L4.73 100.69L3.97 99.15L3.27 97.59L2.64 96.02L2.08 94.43L1.58 92.81L1.00 90.57L0.54 88.29L0.21 85.97L0.00 83.62L0.00 11.33L0.06 10.14L0.19 9.26L0.47 8.11L0.86 6.99L1.23 6.18L1.83 5.16L2.34 4.43L3.11 3.53L3.75 2.91L4.43 2.34L5.41 1.67L6.45 1.10L7.27 0.75L8.39 0.39L9.26 0.19L10.44 0.03L11.33 0.00L88.67 0.00L89.86 0.06L90.45 0.14L91.32 0.31L92.17 0.55L93.01 0.86L93.82 1.23L94.34 1.52L95.09 1.99L95.80 2.52L96.25 2.91L96.89 3.53L97.48 4.20L98.01 4.91L98.48 5.66L98.90 6.45L99.25 7.27L99.53 8.11L99.75 8.97L99.86 9.55L99.97 10.44L100.00 11.33L100.00 83.62L99.86 85.33L99.69 86.82L99.42 88.50L99.10 90.16L98.76 91.59L98.31 93.22L97.79 94.83L97.21 96.41L96.65 97.79L95.94 99.34L95.27 100.69L94.45 102.21L93.67 103.53L92.84 104.83L91.84 106.30L90.90 107.57L89.77 109.00L88.73 110.24L87.64 111.47L86.33 112.86L85.13 114.05L83.70 115.40L82.21 116.74L80.84 117.89L79.22 119.18L77.75 120.31L76.23 121.41L74.66 122.50L73.04 123.58L71.12 124.80L69.15 126.00L67.36 127.03L65.52 128.05L63.36 129.19L59.14 131.29L54.69 133.33ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z"/><path fill="var(--md-sys-color-primary)" fill-rule="evenodd" d="M50.00 127.73L45.83 125.89L41.70 123.92L38.07 122.03L34.41 119.97L31.22 118.00L29.70 117.00L28.03 115.85L26.62 114.84L25.08 113.66L23.79 112.63L22.37 111.44L21.19 110.39L19.90 109.19L18.83 108.12L17.66 106.90L16.70 105.82L15.65 104.58L14.67 103.34L13.76 102.08L13.00 100.98L12.20 99.71L11.46 98.43L10.77 97.14L10.15 95.85L9.58 94.54L9.07 93.22L8.61 91.89L8.03 89.86L7.57 87.80L7.23 85.70L7.00 83.39L7.00 11.21L7.04 10.76L7.12 10.32L7.37 9.57L7.76 8.88L8.04 8.52L8.35 8.19L8.69 7.89L9.07 7.64L9.78 7.29L10.54 7.07L11.37 7.00L88.79 7.00L89.35 7.05L90.01 7.21L90.64 7.47L91.22 7.83L91.73 8.27L92.17 8.78L92.53 9.36L92.79 9.99L92.95 10.65L93.00 11.37L93.00 83.39L92.88 84.81L92.72 86.05L92.53 87.28L92.29 88.49L92.02 89.69L91.70 90.88L91.34 92.05L90.93 93.22L90.42 94.54L89.85 95.85L89.23 97.14L88.63 98.27L87.90 99.55L87.20 100.66L86.35 101.92L85.56 103.02L84.60 104.27L83.70 105.36L82.62 106.59L81.62 107.66L80.41 108.88L79.30 109.94L76.93 112.04L75.48 113.22L74.15 114.25L71.35 116.28L68.34 118.28L65.11 120.24L61.68 122.17L58.03 124.05L54.17 125.89ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z"/></svg>
+      <svg class="name" viewBox="97 -687 6067 687" aria-hidden="true"><use href="#wordmark"/></svg>
+      <svg class="under" viewBox="97 -426 6067 426" aria-hidden="true"><use href="#tagline"/></svg>
+    </a>
+    <nav>
+      <a class="plain" href="../" aria-current="page">Download</a>
+      <a class="plain hw" href="https://faradayoffline.app/hardware/">Hardware</a>
+      <a class="plain" href="https://faradayoffline.app/guide/">Guide</a>
+      <a class="plain" href="https://faradayoffline.app/audits/">Audits</a>
+      <a class="plain" href="https://faradayoffline.app/standards/">Standards</a>
+      <a class="plain cr" href="https://faradayoffline.app/cryptography/">Cryptography</a>
+      <a class="plain" href="https://faradayoffline.app/blog/">Blog</a>
+      <a class="plain" href="https://faradayoffline.app/#faq">FAQ</a>
+      <a class="btn gh" href="https://github.com/bitcoinpasada/faraday" aria-label="GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.470 7.59.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.170-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.6 7.6 0 0 1 8 3.86c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <a class="btn x" href="https://x.com/faraday_offline" aria-label="Faraday on X" title="Faraday on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <button class="btn coffee" data-coffee title="Buy me a coffee" aria-label="Buy me a coffee"><svg viewBox="0.5 -1.25 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v5a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 2.5c-.6.8-.6 1.7 0 2.5M12 2.5c-.6.8-.6 1.7 0 2.5"/></svg></button>
+      <div class="menu">
+        <button class="btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <ul class="menu-list" id="menu" hidden>
+          <li><a href="https://faradayoffline.app/tour/">Tour</a></li>
+          <li><a href="../" aria-current="page">Download</a></li>
+          <li><a href="https://faradayoffline.app/hardware/">Hardware</a></li>
+          <li><a href="https://faradayoffline.app/guide/">Guide</a></li>
+          <li><a href="https://faradayoffline.app/audits/">Audits</a></li>
+          <li><a href="https://faradayoffline.app/standards/">Standards</a></li>
+          <li><a href="https://faradayoffline.app/cryptography/">Cryptography</a></li>
+          <li><a href="https://faradayoffline.app/blog/">Blog</a></li>
+          <li><a href="https://faradayoffline.app/#faq">FAQ</a></li>
+          <li><a href="https://github.com/bitcoinpasada/faraday">GitHub</a></li>
+        </ul>
+      </div>
+      <a class="btn accent" href="https://faradayoffline.app/tour/">Tour</a>
+    </nav>
+  </div>
+</header>
+
+
+<main id="main" tabindex="-1">
+<p class="back"><a class="btn text" href="../"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>All hardware</a></p>
+<div class="pic"><svg class="dev" viewBox="-1 -1 332 212" style="--w: 332; --h: 212" role="img" aria-label="A laptop or PC, showing Faraday&#x27;s Home"><rect class="body" x="12" y="0" width="306.5" height="201" rx="8"/><image href="https://faradayoffline.app/assets/download/home-pc.webp" x="22" y="11" width="286.5" height="179.1" preserveAspectRatio="none"/><rect class="edge" x="22" y="11" width="286.5" height="179.1"/><path class="body" d="M0 201H330V207Q330 210 326 210H4Q0 210 0 207Z"/><rect class="port" x="145" y="201" width="40" height="3" rx="1.5"/></svg></div>
+<div class="top">
+  <h1>A laptop or PC</h1>
+  <p>From a USB stick</p>
+  <span class="state testers">Looking for testers</span>
+</div>
+
+<article class="card need">
+  <h2>You need</h2>
+  <ul class="notes">
+      <li>A 64-bit laptop or PC with UEFI firmware</li>
+      <li>A USB stick of 256 MB or more</li>
+      <li>A webcam: the laptop's own, or a USB webcam</li>
+  </ul>
+  <dl class="facts">
+    <div><dt>Screen</dt><dd>The computer's own screen, at the mode its firmware chose</dd></div>
+    <div><dt>Layout</dt><dd>By the screen's width: the rail or the expanded rail.</dd></div>
+    <div><dt>Builds</dt><dd>Strict: looking for testers · Compatible: looking for testers</dd></div>
+  </dl>
+</article>
+
+
+<ol class="easy get">
+  <li><b>Faraday Starter</b><span class="row starter">
+      <a class="btn accent" data-os="linux" href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.9/Faraday-Starter-0.1.9-Linux.tar.gz">Faraday Starter for Linux</a>
+      <a class="btn accent" data-os="windows" href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.9/Faraday-Starter-0.1.9-Windows.exe">Faraday Starter for Windows</a>
+  </span></li>
+  <li><b>The image</b><a class="btn tonal file" href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.9/faraday-stick-0.1.9-x86_64-uefi-strict.img.xz">faraday-stick-0.1.9-x86_64-uefi-strict.img.xz</a></li>
+</ol>
+<p class="aside">Or write the image without the Starter, with <a href="https://etcher.balena.io/">balenaEtcher</a>.</p>
+<p class="aside"><a href="https://github.com/bitcoinpasada/faraday/issues/new?title=Tried%20on%20A%20laptop%20or%20PC%2C%20Strict%20build">Tried it? Tell us</a></p>
+
+<details class="card">
+  <summary>Opening the Starter the first time</summary>
+  <p><b>Linux</b>The file comes in a .tar.gz. Extract it with a double-click, then open the file inside. Writing a stick may ask for your password. It runs on Ubuntu 20.04 and later, Debian 11 and later, Fedora 32 and later, and Arch.</p>
+  <p><b>Windows</b>Windows shows "Windows protected your PC" the first time, because the file is not code-signed: a certificate would name a verified person, and Faraday is published under a pseudonym. Check the file against SHA256SUMS, as in Checking the files, then choose More info, Run anyway.</p>
+  <p><b>An antivirus warning</b>An antivirus can flag a new program that is not code-signed. Faraday Starter changes only what you ask it to: the stick it writes, an install if you choose one, a restart when you say. Check the file against SHA256SUMS before running it.</p>
+</details>
+<details class="card">
+  <summary>Checking the files</summary>
+  <div class="in">
+    <p>SHA256SUMS lists each file's SHA-256 and the commit it was built from, and the release key signs it. The key was made in Faraday and its secret part has never left a Faraday vault. Its fingerprint:</p>
+    <p class="fp"><code>D1AF A712 ABEF 9010 9A1B 587F F153 6BE0 7E23 4CFD</code></p>
+    <div class="cmd"><pre><code>gpg --import release-key.asc
+gpg --fingerprint F1536BE07E234CFD
+gpg --verify SHA256SUMS.asc SHA256SUMS
+sha256sum -c --ignore-missing SHA256SUMS</code></pre><button class="copy" type="button">Copy</button></div>
+    <p>On Windows, Gpg4win's gpg takes the first three commands, and PowerShell prints a file's sum to compare with its line in SHA256SUMS:</p>
+    <div class="cmd"><pre><code>Get-FileHash -Algorithm SHA256 .\faraday-stick-0.1.9-x86_64-uefi-strict.img.xz</code></pre><button class="copy" type="button">Copy</button></div>
+    <p class="row">
+      <a class="btn" href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.9/SHA256SUMS">SHA256SUMS</a>
+      <a class="btn" href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.9/SHA256SUMS.asc">SHA256SUMS.asc</a>
+      <a class="btn" href="https://github.com/bitcoinpasada/faraday/blob/main/faraday/release-key.asc">release-key.asc</a>
+      <a class="btn" href="https://github.com/bitcoinpasada/faraday/releases/tag/v0.1.9">Release 0.1.9</a>
+    </p>
+  </div>
+</details>
+<details class="card">
+  <summary>Other build</summary>
+  <div class="in">
+    <p class="build"><b>Compatible build</b><span class="state testers">Looking for testers</span><a class="btn file" href="https://github.com/bitcoinpasada/faraday/releases/download/v0.1.9/faraday-stick-0.1.9-x86_64-uefi-compatible.img.xz">faraday-stick-0.1.9-x86_64-uefi-compatible.img.xz</a><a href="https://github.com/bitcoinpasada/faraday/issues/new?title=Tried%20on%20A%20laptop%20or%20PC%2C%20Compatible%20build">Tried it? Tell us</a></p>
+  </div>
+</details>
+</main>
+
+
+<!-- Donations: the QR codes go in the two frames (data-qr), as on the
+     home page. -->
+<dialog class="coffee-box" id="coffee" aria-labelledby="coffee-title">
+  <button class="close" id="coffee-close" aria-label="Close" title="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <h2 id="coffee-title">Buy me a coffee</h2>
+  <p>Donations to Faraday's development, in bitcoin.</p>
+  <div class="qrs">
+    <figure><div class="qr" data-qr="lightning">QR code to come</div><figcaption>Lightning</figcaption></figure>
+    <figure><div class="qr" data-qr="bitcoin">QR code to come</div><figcaption>Bitcoin</figcaption></figure>
+  </div>
+</dialog>
+
+<footer>
+  <div>
+    <span>Faraday · MIT License</span>
+    <button class="link" data-coffee>Buy me a coffee</button>
+    <a href="https://github.com/bitcoinpasada/faraday">github.com/bitcoinpasada/faraday</a>
+    <a href="https://x.com/faraday_offline">x.com/faraday_offline</a>
+  </div>
+</footer>
+
+<script>
+"use strict";
+// Buy me a coffee, and the commands' Copy buttons, as on the home page.
+const coffee = document.querySelector("#coffee");
+for (const b of document.querySelectorAll("[data-coffee]")) b.addEventListener("click", () => coffee.showModal());
+document.querySelector("#coffee-close").addEventListener("click", () => coffee.close());
+coffee.addEventListener("click", (e) => { if (e.target === coffee) coffee.close(); });
+
+// The bar's menu, on a narrow screen: the button opens the list and
+// Escape, a choice, a tap outside or the focus leaving close it.
+{
+  const button = document.querySelector("#menu-btn");
+  const list = document.querySelector("#menu");
+  const wrap = button.parentElement;
+  const items = () => [...list.querySelectorAll("a, button")];
+  const show = (on, back) => {
+    list.hidden = !on;
+    button.setAttribute("aria-expanded", String(on));
+    if (on) items()[0].focus();
+    else if (back) button.focus();
+  };
+  button.addEventListener("click", () => show(list.hidden, false));
+  list.addEventListener("click", (e) => {
+    const item = e.target.closest("a, button");
+    if (!item) return;
+    show(false, false);
+    // Buy me a coffee: the focus comes back to the menu's button.
+    if (item.hasAttribute("data-coffee")) coffee.addEventListener("close", () => button.focus(), { once: true });
+  });
+  list.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+    e.preventDefault();
+    const all = items();
+    const i = all.indexOf(document.activeElement);
+    all[(i + (e.key === "ArrowDown" ? 1 : all.length - 1)) % all.length].focus();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || list.hidden) return;
+    e.preventDefault();
+    e.stopPropagation();
+    show(false, true);
+  }, true);
+  document.addEventListener("pointerdown", (e) => {
+    if (!list.hidden && !wrap.contains(e.target)) show(false, false);
+  });
+  wrap.addEventListener("focusout", (e) => {
+    if (!list.hidden && e.relatedTarget && !wrap.contains(e.relatedTarget)) show(false, false);
+  });
+}
+for (const b of document.querySelectorAll(".copy")) {
+  b.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(b.previousElementSibling.textContent);
+      b.textContent = "Copied";
+    } catch (e) {
+      b.textContent = "Select and copy";
+    }
+    setTimeout(() => { b.textContent = "Copy"; }, 1600);
+  });
+}
+// Faraday Starter: the visitor's system's first, as the button, and the
+// other as a text button. Another system, or no script, shows both.
+{
+  const ua = navigator.userAgent;
+  const mine = /Windows/.test(ua) ? "windows" : /Linux/.test(ua) && !/Android/.test(ua) ? "linux" : null;
+  for (const row of document.querySelectorAll(".starter")) {
+    const all = [...row.querySelectorAll("a[data-os]")];
+    const own = all.find((a) => a.dataset.os === mine);
+    if (!own) continue;
+    row.prepend(own);
+    for (const a of all) if (a !== own) { a.classList.remove("accent"); a.classList.add("text"); }
+  }
+}
+</script>
+</body>
+</html>

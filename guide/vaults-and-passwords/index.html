@@ -1,0 +1,933 @@
+<!doctype html>
+<!--
+  A page of the user guide, at guide/ and below: the index, each
+  walkthrough at guide/<slug>/, and each screen's page at
+  guide/screens/<slug>/ once Faraday has them. tools/guide.py fills it
+  from Faraday's docs/GUIDE.md and docs/guide/ (`just site` runs it);
+  __NAME__ marks what it puts in. The bar, menu, footer and script are
+  the Standards page's (web/standards.html), copied from it; keep the
+  pages alike.
+
+  The guide's own parts: the navigation drawer (a standard drawer from
+  840 px, a modal one below it, opened by Contents), the list "On this
+  page" (on the right from 1200 px, folded at the top below), previous
+  and next at a walkthrough's foot, and a print style. Every page works
+  without script: Contents then opens the drawer by its address
+  (#drawer) and closes it by the address #close, which names nothing, so the page stays where it is.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#faf8ff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111319" media="(prefers-color-scheme: dark)">
+<title>Vaults, passwords and codes · Faraday guide</title>
+<meta name="description" content="You end with: a vault of your own on a stick, holding key 3dca6805, a login with its TOTP codes and a note; the vault written, locked and unlocked again, and the login exported…">
+<link rel="canonical" href="https://faradayoffline.app/guide/vaults-and-passwords/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://faradayoffline.app/guide/vaults-and-passwords/">
+<meta property="og:site_name" content="Faraday">
+<meta property="og:title" content="Vaults, passwords and codes">
+<meta property="og:description" content="You end with: a vault of your own on a stick, holding key 3dca6805, a login with its TOTP codes and a note; the vault written, locked and unlocked again, and the login exported…">
+<meta property="og:image" content="https://faradayoffline.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-23 -10 146 146'%3E%3Cpath fill='%2300327d' fill-rule='evenodd' d='M50.00 135.30L47.47 134.26L45.01 133.19L42.61 132.11L40.28 131.02L38.02 129.90L35.82 128.76L33.68 127.61L31.61 126.44L29.61 125.25L27.67 124.04L25.80 122.81L23.99 121.57L22.25 120.31L20.57 119.02L18.96 117.72L17.41 116.40L15.93 115.07L14.52 113.71L13.17 112.34L11.88 110.95L10.67 109.54L9.51 108.11L8.42 106.66L7.40 105.20L6.44 103.71L5.55 102.21L4.73 100.69L3.97 99.15L3.27 97.59L2.64 96.02L2.08 94.43L1.58 92.81L1.00 90.57L0.54 88.29L0.21 85.97L0.00 83.62L0.00 11.33L0.06 10.14L0.19 9.26L0.47 8.11L0.86 6.99L1.23 6.18L1.83 5.16L2.34 4.43L3.11 3.53L3.75 2.91L4.43 2.34L5.41 1.67L6.45 1.10L7.27 0.75L8.39 0.39L9.26 0.19L10.44 0.03L11.33 0.00L88.67 0.00L89.86 0.06L90.45 0.14L91.32 0.31L92.17 0.55L93.01 0.86L93.82 1.23L94.34 1.52L95.09 1.99L95.80 2.52L96.25 2.91L96.89 3.53L97.48 4.20L98.01 4.91L98.48 5.66L98.90 6.45L99.25 7.27L99.53 8.11L99.75 8.97L99.86 9.55L99.97 10.44L100.00 11.33L100.00 83.62L99.86 85.33L99.69 86.82L99.42 88.50L99.10 90.16L98.76 91.59L98.31 93.22L97.79 94.83L97.21 96.41L96.65 97.79L95.94 99.34L95.27 100.69L94.45 102.21L93.67 103.53L92.84 104.83L91.84 106.30L90.90 107.57L89.77 109.00L88.73 110.24L87.64 111.47L86.33 112.86L85.13 114.05L83.70 115.40L82.21 116.74L80.84 117.89L79.22 119.18L77.75 120.31L76.23 121.41L74.66 122.50L73.04 123.58L71.12 124.80L69.15 126.00L67.36 127.03L65.52 128.05L63.36 129.19L59.14 131.29L54.69 133.33ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://faradayoffline.app/assets/site.css?v=d453ddfa35">
+<script>document.documentElement.classList.add("js");</script>
+<style>
+  /* The guide's own rules; the rest is assets/site.css (web/site.css).
+     Its text is 18 px on 28 px, larger than Material's body large, as
+     the /start/ guides: it is read on a phone held beside a computer. */
+  .guide { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 1440px; margin: 0 auto; }
+  .guide > main { max-width: calc(760px + 2 * var(--margin)); width: 100%; margin: 0 auto; padding: 24px var(--margin) 48px; }
+  @media (width >= 840px) {
+    .guide { grid-template-columns: 280px minmax(0, 1fr); }
+    .guide > main { padding-top: 32px; }
+  }
+  @media (width >= 1200px) {
+    .guide { grid-template-columns: 300px minmax(0, 1fr) 240px; }
+  }
+
+  /* The navigation drawer: Material's standard drawer from 840 px, in
+     surface-container-low beside the page, and its modal drawer below
+     840 px, over a scrim. */
+  .drawer {
+    position: sticky;
+    top: var(--bar-h, 64px);
+    align-self: start;
+    height: calc(100vh - var(--bar-h, 64px));
+    overflow-y: auto;
+    padding: 12px;
+    background: var(--md-sys-color-surface-container-low);
+    border-radius: 0 var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large) 0;
+    overscroll-behavior: contain;
+  }
+  .drawer h2 { margin: 16px 16px 8px; font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .drawer h2:first-child { margin-top: 4px; }
+  .drawer h3 { margin: 12px 16px 4px; font: var(--md-sys-typescale-label-medium); letter-spacing: var(--md-sys-typescale-label-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .drawer ol, .drawer ul { margin: 0; padding: 0; list-style: none; }
+  .drawer hr { margin: 8px 16px; border: 0; border-top: 1px solid var(--md-sys-color-outline-variant); }
+  .drawer .item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 4px 16px;
+    font: var(--md-sys-typescale-label-large);
+    letter-spacing: var(--md-sys-typescale-label-large-tracking);
+    color: var(--md-sys-color-on-surface-variant);
+    border-radius: var(--md-sys-shape-corner-full);
+    isolation: isolate;
+  }
+  .drawer a.item:hover { text-decoration: none; }
+  .drawer a.item::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: currentColor; opacity: 0; transition: opacity var(--md-sys-motion-duration-short2) linear; }
+  .drawer a.item:hover::before { opacity: var(--md-sys-state-hover-state-layer-opacity); }
+  .drawer a.item:focus-visible::before, .drawer a.item:active::before { opacity: var(--md-sys-state-focus-state-layer-opacity); }
+  .drawer a.item[aria-current] { color: var(--md-sys-color-on-secondary-container); background: var(--md-sys-color-secondary-container); font-weight: 600; }
+  .drawer .num { flex: none; min-width: 20px; color: var(--md-sys-color-on-surface-variant); font: var(--md-sys-typescale-label-medium); }
+  .drawer .soon-item { opacity: var(--md-sys-state-disabled-content-opacity); }
+  .drawer .soon-item .tag { margin-left: auto; white-space: nowrap; }
+  .drawer-head { display: none; align-items: center; justify-content: space-between; padding: 4px 4px 4px 16px; font: var(--md-sys-typescale-title-medium); letter-spacing: var(--md-sys-typescale-title-medium-tracking); }
+  .scrim { display: none; }
+  .contents { display: none; margin: 0 0 16px; }
+  @media (width < 840px) {
+    .drawer {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 50;
+      width: min(360px, calc(100vw - 56px));
+      height: 100%;
+      background: var(--md-sys-color-surface-container-low);
+      box-shadow: var(--md-sys-elevation-level1);
+      transform: translateX(-105%);
+      visibility: hidden;
+      transition: transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-accelerate), visibility 0s linear var(--md-sys-motion-duration-medium2);
+    }
+    .drawer:target, .drawer.open { transform: none; visibility: visible; transition: transform var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate); }
+    .drawer-head { display: flex; }
+    .scrim { position: fixed; inset: 0; z-index: 45; background: color-mix(in srgb, var(--md-sys-color-scrim) 32%, transparent); }
+    .drawer:target + .scrim, .drawer.open + .scrim { display: block; }
+    .contents { display: inline-flex; }
+  }
+
+  /* The search: Material's search bar at the top of the drawer, its
+     results listed under it in place of the drawer's list; on a phone
+     (below 840 px) a button opens a full-screen search view. Without
+     script none of it is there. */
+  .search, .searchopen, .sview { display: none; }
+  .js .search { display: block; margin: 0 0 8px; }
+  .results { margin: 8px 0 0; padding: 0; list-style: none; }
+  .results[hidden], .snone[hidden], .sstatus[hidden] { display: none; }
+  .results a { position: relative; display: block; padding: 8px 16px; border-radius: var(--md-sys-shape-corner-large); color: var(--md-sys-color-on-surface); isolation: isolate; }
+  .results a:hover { text-decoration: none; }
+  .results a::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: currentColor; opacity: 0; transition: opacity var(--md-sys-motion-duration-short2) linear; }
+  .results a:hover::before { opacity: var(--md-sys-state-hover-state-layer-opacity); }
+  .results .active a { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
+  .results .rt { display: block; font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); }
+  .results .rw { display: block; font: var(--md-sys-typescale-label-medium); letter-spacing: var(--md-sys-typescale-label-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .results .active .rw { color: inherit; }
+  .results .rs { display: block; margin-top: 2px; font: var(--md-sys-typescale-body-small); letter-spacing: var(--md-sys-typescale-body-small-tracking); color: var(--md-sys-color-on-surface-variant); overflow-wrap: anywhere; }
+  .results .active .rs { color: inherit; }
+  .results mark { color: inherit; background: none; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+  .snone, .sstatus { margin: 16px; font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .drawer.searching .drawer-nav { display: none; }
+  @media (width < 840px) {
+    .js .drawer .search { display: none; }
+    .js .searchopen { display: inline-flex; margin: 0 0 16px 8px; }
+    .sview { width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 8px 16px 16px; overflow-y: auto; color: var(--md-sys-color-on-surface); background: var(--md-sys-color-surface); border: 0; }
+    .sview[open] { display: block; }
+    .js .sview .search { display: block; }
+    .sview .sfield { padding-left: 4px; }
+    .sview .sback { flex: none; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; color: inherit; background: none; border: 0; border-radius: var(--md-sys-shape-corner-full); cursor: pointer; }
+    .sview .sback svg { width: 24px; height: 24px; }
+  }
+  @media (width >= 840px) { .sview { display: none !important; } }
+
+  /* A result opened: its section is lit for a moment, then fades. Not
+     under reduced motion. */
+  @keyframes flash { from { background-color: color-mix(in srgb, var(--md-sys-color-primary) 18%, transparent); } to { background-color: transparent; } }
+  .flash { animation: flash 1800ms var(--md-sys-motion-easing-standard) 1; border-radius: var(--md-sys-shape-corner-small); }
+  @media (prefers-reduced-motion: reduce) { .flash { animation: none; } }
+
+  /* On this page: the page's steps or sections, on the right from
+     1200 px, the one in view marked; folded at the top below it. */
+  .toc { font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); }
+  .toc summary { display: flex; align-items: center; min-height: 48px; padding: 0 16px; font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); cursor: pointer; list-style: none; }
+  .toc summary::-webkit-details-marker { display: none; }
+  .toc summary::after { content: ""; margin-left: auto; width: 8px; height: 8px; border: solid currentColor; border-width: 0 2px 2px 0; transform: rotate(45deg) translateY(-2px); transition: transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard); }
+  .toc[open] summary::after { transform: rotate(225deg) translateY(-2px); }
+  .toc-fold { margin: 0 0 24px; background: var(--md-sys-color-surface-container-low); border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-medium); }
+  .toc-fold ol { padding: 0 16px 12px; }
+  .toc-side { display: none; }
+  @media (width >= 1200px) {
+    .toc-fold { display: none; }
+    .toc-side { display: block; position: sticky; top: calc(var(--bar-h, 64px) + 24px); align-self: start; max-height: calc(100vh - var(--bar-h, 64px) - 48px); overflow-y: auto; padding: 32px 0 0; }
+    .toc-side summary { pointer-events: none; padding: 0 0 8px 18px; min-height: 0; }
+    .toc-side summary::after { display: none; }
+  }
+
+  /* The page's text. */
+  .doc { font: 400 18px/28px var(--md-ref-typeface-plain); letter-spacing: 0.25px; }
+  .doc h1 { margin: 0 0 16px; font: var(--md-sys-typescale-headline-large); }
+  .doc h2 { display: flex; align-items: baseline; gap: 12px; margin: 48px 0 12px; font: var(--md-sys-typescale-headline-small); }
+  .doc h3 { margin: 32px 0 8px; font: var(--md-sys-typescale-title-large); }
+  .doc h4 { margin: 24px 0 8px; font: var(--md-sys-typescale-title-medium); }
+  @media (width >= 840px) { .doc h1 { font: var(--md-sys-typescale-display-small); } }
+  .doc p, .doc ul, .doc ol { margin: 0 0 16px; }
+  .doc ul, .doc ol { padding-left: 28px; }
+  .doc li { margin: 0 0 6px; }
+  .doc :is(p, td) a, .doc :is(ul, ol):not(.choose, .walks, .grid) li a { text-decoration: underline; text-underline-offset: 3px; }
+  .doc kbd { padding: 1px 6px; font: 0.85em var(--md-ref-typeface-mono); background: var(--md-sys-color-surface-container-high); border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-extra-small); }
+  /* A step's number, in a primary pill before its heading. */
+  .doc .n { flex: none; display: inline-grid; place-items: center; min-width: 32px; height: 32px; padding: 0 10px; font: var(--md-sys-typescale-label-large); color: var(--md-sys-color-on-primary); background: var(--md-sys-color-primary); border-radius: var(--md-sys-shape-corner-full); transform: translateY(-3px); }
+  .doc pre { margin: 0 0 16px; padding: 12px 16px; overflow-x: auto; background: var(--md-sys-color-surface-container-highest); border-radius: var(--md-sys-shape-corner-small); font-size: 14px; line-height: 22px; }
+  .doc pre code { overflow-wrap: normal; white-space: pre; }
+  .lede { color: var(--md-sys-color-on-surface-variant); }
+  .draft { margin: 0 0 16px; padding: 8px 16px; font: var(--md-sys-typescale-label-large); color: var(--md-sys-color-on-tertiary-container); background: var(--md-sys-color-tertiary-container); border-radius: var(--md-sys-shape-corner-small); }
+
+  /* A screen's picture: as wide as the column, a 1 px outline-variant
+     edge and the medium shape; pressed, it opens at full size. Pictures
+     are drawn in Light only, and the edge sets them off a dark page. */
+  .shot { position: relative; margin: 0 0 24px; }
+  .shot a { position: relative; display: block; overflow: hidden; border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-medium); }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shot figcaption { margin-top: 8px; font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .missing { display: grid; place-items: center; aspect-ratio: 16 / 10; padding: 16px; font: var(--md-sys-typescale-label-large); color: var(--md-sys-color-on-surface-variant); background: var(--md-sys-color-surface-container); border: 1px dashed var(--md-sys-color-outline); border-radius: var(--md-sys-shape-corner-medium); text-align: center; }
+  /* The control pressed next, outlined over the picture from the
+     tour's own rectangle (<name>.mark.json); the PNG stays clean. */
+  .marked { position: absolute; outline: 3px solid var(--md-sys-color-primary); outline-offset: 4px; border-radius: var(--md-sys-shape-corner-small); pointer-events: none; }
+
+  /* Tables: rows split by outline-variant; below 600 px each row is a
+     block, each cell under its column's name. */
+  .table { margin: 0 0 24px; overflow-x: auto; }
+  .table table { width: 100%; border-collapse: collapse; font: var(--md-sys-typescale-body-large); letter-spacing: var(--md-sys-typescale-body-large-tracking); }
+  .table th, .table td { padding: 12px 16px 12px 0; text-align: left; vertical-align: top; border-top: 1px solid var(--md-sys-color-outline-variant); }
+  .table th { font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); color: var(--md-sys-color-on-surface-variant); border-top: 0; }
+  .table td:last-child, .table th:last-child { padding-right: 0; }
+  .table .shot { margin: 0; }
+  .table.pics td { width: 50%; }
+  @media (width < 600px) {
+    .table table, .table tbody, .table tr, .table td { display: block; width: auto; }
+    .table.pics td { width: auto; }
+    .table thead { display: none; }
+    .table tr { padding: 8px 0; border-top: 1px solid var(--md-sys-color-outline-variant); }
+    .table td { padding: 4px 0; border: 0; }
+    .table td[data-label]::before { content: attr(data-label); display: block; font: var(--md-sys-typescale-label-medium); letter-spacing: var(--md-sys-typescale-label-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  }
+
+  /* A box: "With your own key", "You'll need", and a quoted note. */
+  .box { margin: 0 0 24px; padding: 16px 20px; background: var(--md-sys-color-surface-container); border-radius: var(--md-sys-shape-corner-medium); }
+  .box > :last-child { margin-bottom: 0; }
+  .box h2, .box h3 { margin: 0 0 8px; font: var(--md-sys-typescale-title-medium); letter-spacing: var(--md-sys-typescale-title-medium-tracking); }
+  .facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; margin: 0 0 24px; padding: 16px 20px; background: var(--md-sys-color-surface-container-low); border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-medium); }
+  .facts dt { font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); line-height: 28px; }
+  .facts dd { margin: 0; }
+  .facts dd > ul, .facts dd > ol { margin: 0; }
+  @media (width < 600px) { .facts { grid-template-columns: 1fr; } .facts dd + dt { margin-top: 8px; } }
+
+  /* Before the computer restarts: a QR code to carry on reading on a
+     phone. Drawn black on white in either mode. */
+  .phone { display: flex; align-items: center; gap: 20px; margin: 32px 0; padding: 16px 20px; background: var(--md-sys-color-surface-container); border-radius: var(--md-sys-shape-corner-medium); }
+  .phone svg { flex: none; width: 132px; height: 132px; padding: 6px; background: #fff; border-radius: var(--md-sys-shape-corner-small); }
+  .phone p { margin: 0; }
+  .phone b { display: block; font: var(--md-sys-typescale-title-medium); letter-spacing: var(--md-sys-typescale-title-medium-tracking); }
+
+  /* The index: where to start, then the walkthroughs as cards. */
+  .doc .choose { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 0 0 16px; padding: 0; list-style: none; }
+  .choose a { display: flex; flex-direction: column; justify-content: center; min-height: 72px; height: 100%; padding: 12px 16px; color: var(--md-sys-color-on-secondary-container); background: var(--md-sys-color-secondary-container); border-radius: var(--md-sys-shape-corner-medium); }
+  .choose a:hover { text-decoration: none; box-shadow: var(--md-sys-elevation-level1); }
+  .choose b { font: var(--md-sys-typescale-title-medium); letter-spacing: var(--md-sys-typescale-title-medium-tracking); }
+  .choose span { font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); }
+  .doc .walks { display: grid; gap: 8px; margin: 0 0 16px; padding: 0; list-style: none; }
+  .walks > li > :is(a, div) { display: grid; grid-template-columns: 40px 1fr; gap: 0 12px; padding: 16px; color: var(--md-sys-color-on-surface); background: var(--md-sys-color-surface-container-low); border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-medium); }
+  .walks > li > .unnumbered { grid-template-columns: 1fr; }
+  .walks > li { margin: 0; }
+  .walks > li > a:hover { text-decoration: none; background: var(--md-sys-color-surface-container); }
+  .walks .no { grid-row: span 2; display: grid; place-items: center; width: 40px; height: 40px; font: var(--md-sys-typescale-title-medium); color: var(--md-sys-color-on-primary-container); background: var(--md-sys-color-primary-container); border-radius: var(--md-sys-shape-corner-full); }
+  .walks b { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: var(--md-sys-typescale-title-medium); letter-spacing: var(--md-sys-typescale-title-medium-tracking); }
+  .walks span.what { font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .walks .later { opacity: 0.6; }
+  .doc .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin: 0 0 16px; padding: 0; list-style: none; }
+  .grid a { display: block; font: var(--md-sys-typescale-title-small); letter-spacing: var(--md-sys-typescale-title-small-tracking); color: var(--md-sys-color-on-surface); }
+  .grid img, .grid .missing { display: block; width: 100%; height: auto; margin-bottom: 8px; border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-small); }
+
+  /* Previous and next, and the page's foot. */
+  .pager { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; margin: 48px 0 0; padding-top: 24px; border-top: 1px solid var(--md-sys-color-outline-variant); }
+  .pager .btn { height: auto; min-height: 56px; padding: 8px 24px; white-space: normal; text-align: left; max-width: 100%; }
+  .pager .btn span { display: flex; flex-direction: column; }
+  .pager .btn small { font: var(--md-sys-typescale-label-medium); letter-spacing: var(--md-sys-typescale-label-medium-tracking); opacity: 0.8; }
+  .pager .next { margin-left: auto; text-align: right; }
+  .pager .next span { align-items: flex-end; }
+  .about { margin: 32px 0 0; font: var(--md-sys-typescale-body-medium); letter-spacing: var(--md-sys-typescale-body-medium-tracking); color: var(--md-sys-color-on-surface-variant); }
+  .about p { margin: 0 0 4px; }
+  .about a { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* A picture at full size: Material's dialog. */
+  .zoom { width: min(1320px, 96vw); max-width: none; max-height: 96vh; padding: 48px 12px 12px; color: var(--md-sys-color-on-surface); background: var(--md-sys-color-surface-container-high); border: 0; border-radius: var(--md-sys-shape-corner-extra-large); box-shadow: var(--md-sys-elevation-level3); }
+  .zoom::backdrop { background: color-mix(in srgb, var(--md-sys-color-scrim) 32%, transparent); }
+  .zoom img { display: block; width: 100%; height: auto; border-radius: var(--md-sys-shape-corner-medium); }
+  .zoom p { margin: 8px 4px 0; font: var(--md-sys-typescale-body-medium); color: var(--md-sys-color-on-surface-variant); }
+
+  /* Printed: the page's text and pictures alone. */
+  @media print {
+    .bar, .skip-link, .drawer, .scrim, .contents, .searchopen, .sview, .toc, .pager, footer, .phone, .report { display: none !important; }
+    .guide { display: block; max-width: none; }
+    .guide > main { max-width: none; padding: 0; }
+    body { background: #fff; color: #000; }
+    .doc { font-size: 11pt; line-height: 1.45; }
+    .doc h1 { font-size: 20pt; line-height: 1.2; }
+    .doc h2 { font-size: 14pt; line-height: 1.3; break-after: avoid; margin-top: 18pt; }
+    .doc .n { color: #000; background: none; border: 1px solid #000; transform: none; }
+    .doc a { color: inherit; text-decoration: none; }
+    .shot, .table tr, .box, .facts, pre { break-inside: avoid; }
+    .shot a { border-color: #999; }
+    .shot img { max-height: 11cm; width: auto; max-width: 100%; }
+    .marked { outline-color: #000; }
+    .box, .facts, pre { background: none; border: 1px solid #999; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="wordmark" fill-rule="evenodd" d="M97 0L97 -687L751 -687L751 -560L249 -560L249 -394L703 -394L703 -267L249 -267L249 0ZM765 0L1109 -687L1281 -687L1625 0L1458 0L1253 -424Q1248 -435 1238.5 -456.5Q1229 -478 1219.5 -500.5Q1210 -523 1202.5 -539.5Q1195 -556 1194 -557L1186 -557Q1177 -537 1165.5 -511Q1154 -485 1143.5 -461Q1133 -437 1126 -423L921 0ZM1048 -133L1108.1 -256L1270.9 -256L1331 -133ZM1776 0L1776 -687L2320 -687Q2393 -687 2439.5 -657.5Q2486 -628 2509 -579.5Q2532 -531 2532 -472Q2532 -411 2500.5 -357.5Q2469 -304 2403 -274L2549 0L2378 0L2252 -245L1928 -245L1928 0ZM1928 -371L2278 -371Q2325 -371 2350.5 -398.5Q2376 -426 2376 -469Q2376 -498 2365 -518.5Q2354 -539 2332 -549.5Q2310 -560 2278 -560L1928 -560ZM2645 0L2989 -687L3161 -687L3505 0L3338 0L3133 -424Q3128 -435 3118.5 -456.5Q3109 -478 3099.5 -500.5Q3090 -523 3082.5 -539.5Q3075 -556 3074 -557L3066 -557Q3057 -537 3045.5 -511Q3034 -485 3023.5 -461Q3013 -437 3006 -423L2801 0ZM2928 -133L2988.1 -256L3150.9 -256L3211 -133ZM3656 0L3656 -687L4022 -687Q4148 -687 4238.5 -647.5Q4329 -608 4377.5 -531.5Q4426 -455 4426 -343Q4426 -232 4377.5 -155.5Q4329 -79 4238.5 -39.5Q4148 0 4022 0ZM3808 -127L4014 -127Q4069 -127 4115.5 -140Q4162 -153 4196.5 -178.5Q4231 -204 4250 -242.5Q4269 -281 4269 -332L4269 -355Q4269 -406 4250 -444.5Q4231 -483 4196.5 -508.5Q4162 -534 4115.5 -547Q4069 -560 4014 -560L3808 -560ZM4513 0L4857 -687L5029 -687L5373 0L5206 0L5001 -424Q4996 -435 4986.5 -456.5Q4977 -478 4967.5 -500.5Q4958 -523 4950.5 -539.5Q4943 -556 4942 -557L4934 -557Q4925 -537 4913.5 -511Q4902 -485 4891.5 -461Q4881 -437 4874 -423L4669 0ZM4796 -133L4856.1 -256L5018.9 -256L5079 -133ZM5675 0L5675 -278L5339 -687L5522 -687L5750 -400L5760 -400L5991 -687L6164 -687L5827 -278L5827 0Z"/><path id="tagline" d="M311 7Q244 7 196 -17Q148 -41 123 -90Q97 -139 97 -213Q97 -288 123 -336Q148 -385 196 -409Q244 -433 311 -433Q378 -433 425 -409Q473 -385 499 -336Q524 -288 524 -213Q524 -139 499 -90Q473 -41 425 -17Q378 7 311 7ZM311 -51Q344 -51 371 -61Q397 -70 416 -90Q434 -109 444 -138Q453 -167 453 -206V-219Q453 -259 444 -288Q434 -317 416 -336Q397 -356 371 -365Q344 -375 311 -375Q277 -375 251 -365Q224 -356 206 -336Q187 -317 178 -288Q169 -259 169 -219V-206Q169 -167 178 -138Q187 -109 206 -90Q224 -70 251 -61Q277 -51 311 -51ZM814 0V-426H1118V-367H883V-241H1096V-181H883V0ZM1403 0V-426H1707V-367H1472V-241H1685V-181H1472V0ZM1992 0V-426H2061V-60H2274V0ZM2544 0V-426H2613V0ZM2923 0V-426H2990L3185 -159Q3188 -155 3192 -148Q3197 -141 3201 -135Q3206 -128 3208 -123H3211Q3211 -133 3211 -141Q3211 -150 3211 -159V-426H3278V0H3213L3017 -270Q3012 -277 3004 -289Q2997 -301 2993 -307H2990Q2990 -298 2990 -289Q2990 -280 2990 -270V0ZM3588 0V-426H3918V-367H3657V-248H3891V-188H3657V-59H3922V0ZM4506 0 4673 -426H4762L4929 0H4854L4816 -99H4615L4577 0ZM4637 -157H4794L4746 -282Q4744 -288 4740 -298Q4737 -308 4733 -320Q4729 -332 4725 -344Q4721 -356 4717 -366H4714Q4710 -354 4704 -338Q4699 -321 4693 -307Q4688 -292 4685 -282ZM5193 0V-426H5405Q5451 -426 5481 -409Q5511 -393 5526 -363Q5541 -333 5541 -293Q5541 -253 5524 -222Q5508 -192 5478 -175Q5447 -158 5403 -158H5262V0ZM5262 -217H5400Q5433 -217 5452 -237Q5471 -257 5471 -293Q5471 -316 5463 -333Q5455 -349 5439 -358Q5423 -367 5400 -367H5262ZM5817 0V-426H6029Q6074 -426 6104 -409Q6134 -393 6149 -363Q6164 -333 6164 -293Q6164 -253 6148 -222Q6132 -192 6101 -175Q6070 -158 6026 -158H5886V0ZM5886 -217H6023Q6056 -217 6075 -237Q6094 -257 6094 -293Q6094 -316 6086 -333Q6078 -349 6063 -358Q6047 -367 6023 -367H5886Z"/></defs></svg>
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="https://faradayoffline.app/" aria-label="Faraday, offline app">
+      <svg class="mark" viewBox="0 0 100 136" aria-hidden="true"><path fill="var(--rim)" fill-rule="evenodd" d="M50.00 135.30L47.47 134.26L45.01 133.19L42.61 132.11L40.28 131.02L38.02 129.90L35.82 128.76L33.68 127.61L31.61 126.44L29.61 125.25L27.67 124.04L25.80 122.81L23.99 121.57L22.25 120.31L20.57 119.02L18.96 117.72L17.41 116.40L15.93 115.07L14.52 113.71L13.17 112.34L11.88 110.95L10.67 109.54L9.51 108.11L8.42 106.66L7.40 105.20L6.44 103.71L5.55 102.21L4.73 100.69L3.97 99.15L3.27 97.59L2.64 96.02L2.08 94.43L1.58 92.81L1.00 90.57L0.54 88.29L0.21 85.97L0.00 83.62L0.00 11.33L0.06 10.14L0.19 9.26L0.47 8.11L0.86 6.99L1.23 6.18L1.83 5.16L2.34 4.43L3.11 3.53L3.75 2.91L4.43 2.34L5.41 1.67L6.45 1.10L7.27 0.75L8.39 0.39L9.26 0.19L10.44 0.03L11.33 0.00L88.67 0.00L89.86 0.06L90.45 0.14L91.32 0.31L92.17 0.55L93.01 0.86L93.82 1.23L94.34 1.52L95.09 1.99L95.80 2.52L96.25 2.91L96.89 3.53L97.48 4.20L98.01 4.91L98.48 5.66L98.90 6.45L99.25 7.27L99.53 8.11L99.75 8.97L99.86 9.55L99.97 10.44L100.00 11.33L100.00 83.62L99.86 85.33L99.69 86.82L99.42 88.50L99.10 90.16L98.76 91.59L98.31 93.22L97.79 94.83L97.21 96.41L96.65 97.79L95.94 99.34L95.27 100.69L94.45 102.21L93.67 103.53L92.84 104.83L91.84 106.30L90.90 107.57L89.77 109.00L88.73 110.24L87.64 111.47L86.33 112.86L85.13 114.05L83.70 115.40L82.21 116.74L80.84 117.89L79.22 119.18L77.75 120.31L76.23 121.41L74.66 122.50L73.04 123.58L71.12 124.80L69.15 126.00L67.36 127.03L65.52 128.05L63.36 129.19L59.14 131.29L54.69 133.33ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z"/><path fill="var(--md-sys-color-primary)" fill-rule="evenodd" d="M50.00 127.73L45.83 125.89L41.70 123.92L38.07 122.03L34.41 119.97L31.22 118.00L29.70 117.00L28.03 115.85L26.62 114.84L25.08 113.66L23.79 112.63L22.37 111.44L21.19 110.39L19.90 109.19L18.83 108.12L17.66 106.90L16.70 105.82L15.65 104.58L14.67 103.34L13.76 102.08L13.00 100.98L12.20 99.71L11.46 98.43L10.77 97.14L10.15 95.85L9.58 94.54L9.07 93.22L8.61 91.89L8.03 89.86L7.57 87.80L7.23 85.70L7.00 83.39L7.00 11.21L7.04 10.76L7.12 10.32L7.37 9.57L7.76 8.88L8.04 8.52L8.35 8.19L8.69 7.89L9.07 7.64L9.78 7.29L10.54 7.07L11.37 7.00L88.79 7.00L89.35 7.05L90.01 7.21L90.64 7.47L91.22 7.83L91.73 8.27L92.17 8.78L92.53 9.36L92.79 9.99L92.95 10.65L93.00 11.37L93.00 83.39L92.88 84.81L92.72 86.05L92.53 87.28L92.29 88.49L92.02 89.69L91.70 90.88L91.34 92.05L90.93 93.22L90.42 94.54L89.85 95.85L89.23 97.14L88.63 98.27L87.90 99.55L87.20 100.66L86.35 101.92L85.56 103.02L84.60 104.27L83.70 105.36L82.62 106.59L81.62 107.66L80.41 108.88L79.30 109.94L76.93 112.04L75.48 113.22L74.15 114.25L71.35 116.28L68.34 118.28L65.11 120.24L61.68 122.17L58.03 124.05L54.17 125.89ZM45.07 54.08A16.42 16.42 0 1 1 54.92 54.08L66.42 91.56H33.57Z"/></svg>
+      <svg class="name" viewBox="97 -687 6067 687" aria-hidden="true"><use href="#wordmark"/></svg>
+      <svg class="under" viewBox="97 -426 6067 426" aria-hidden="true"><use href="#tagline"/></svg>
+    </a>
+    <nav>
+      <a class="plain" href="https://faradayoffline.app/download/">Download</a>
+      <a class="plain hw" href="https://faradayoffline.app/hardware/">Hardware</a>
+      <a class="plain" href="https://faradayoffline.app/guide/" aria-current="page">Guide</a>
+      <a class="plain" href="https://faradayoffline.app/audits/">Audits</a>
+      <a class="plain" href="https://faradayoffline.app/standards/">Standards</a>
+      <a class="plain cr" href="https://faradayoffline.app/cryptography/">Cryptography</a>
+      <a class="plain" href="https://faradayoffline.app/blog/">Blog</a>
+      <a class="plain" href="https://faradayoffline.app/#faq">FAQ</a>
+      <a class="btn gh" href="https://github.com/bitcoinpasada/faraday" aria-label="GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.470 7.59.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.170-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.6 7.6 0 0 1 8 3.86c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <a class="btn x" href="https://x.com/faraday_offline" aria-label="Faraday on X" title="Faraday on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <button class="btn coffee" data-coffee title="Buy me a coffee" aria-label="Buy me a coffee"><svg viewBox="0.5 -1.25 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v5a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 2.5c-.6.8-.6 1.7 0 2.5M12 2.5c-.6.8-.6 1.7 0 2.5"/></svg></button>
+      <div class="menu">
+        <button class="btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <ul class="menu-list" id="menu" hidden>
+          <li><a href="https://faradayoffline.app/tour/">Tour</a></li>
+          <li><a href="https://faradayoffline.app/download/">Download</a></li>
+          <li><a href="https://faradayoffline.app/hardware/">Hardware</a></li>
+          <li><a href="https://faradayoffline.app/guide/" aria-current="page">Guide</a></li>
+          <li><a href="https://faradayoffline.app/audits/">Audits</a></li>
+          <li><a href="https://faradayoffline.app/standards/">Standards</a></li>
+          <li><a href="https://faradayoffline.app/cryptography/">Cryptography</a></li>
+          <li><a href="https://faradayoffline.app/blog/">Blog</a></li>
+          <li><a href="https://faradayoffline.app/#faq">FAQ</a></li>
+          <li><a href="https://github.com/bitcoinpasada/faraday">GitHub</a></li>
+        </ul>
+      </div>
+      <a class="btn accent" href="https://faradayoffline.app/tour/">Tour</a>
+    </nav>
+  </div>
+</header>
+
+<div class="guide">
+<nav class="drawer" id="drawer" aria-label="Guide">
+  <div class="drawer-head"><span>Guide</span><a class="icon-btn" href="#close" id="drawer-close" aria-label="Close" title="Close"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></a></div>
+<div class="search" role="search" data-index="../../guide/search.json">
+  <div class="sfield">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+    <input type="search" placeholder="Search the guide" aria-label="Search the guide" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" role="combobox" aria-expanded="false" aria-autocomplete="list">
+    <button type="button" class="sclear" aria-label="Clear" title="Clear" hidden><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <p class="sstatus" role="status" hidden></p>
+  <ul class="results" role="listbox" aria-label="Search results" hidden></ul>
+  <p class="snone" hidden>No match. <a href="../../guide/screens/">Browse the guide</a>.</p>
+</div>
+<div class="drawer-nav">
+<ul><li><a class="item" href="https://faradayoffline.app/guide/">Overview</a></li></ul>
+<h2>Start here</h2><ol>
+<li><a class="item" href="https://faradayoffline.app/guide/new-key/"><span class="num">1</span>Make a key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/faraday-demo/"><span class="num">2</span>Faraday Demo</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/starter-tour/"><span class="num">3</span>Faraday Starter</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/get-faraday/"><span class="num">4</span>Get Faraday on a stick</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/start-from-the-stick/"><span class="num">5</span>Start a PC from the stick</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/first-start/"><span class="num">6</span>First start, Home and the session</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/back-up/"><span class="num">7</span>Back it up</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/make-a-wallet/"><span class="num">8</span>Make a wallet, single key or multisig</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/receive/"><span class="num">9</span>Receive</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/spend/"><span class="num">10</span>Spend</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/restore/"><span class="num">11</span>Restore a wallet</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/before-you-rely/"><span class="num">12</span>Before you rely on a key</a></li>
+</ol>
+<h2>More</h2><ol>
+<li><a class="item" href="https://faradayoffline.app/guide/multisig-with-others/"><span class="num"></span>Multisig with other people and devices</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/codex32/"><span class="num"></span>codex32 shares</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/spend-from-a-backup/"><span class="num"></span>Spend from a backup, step by step</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/vaults-and-passwords/" aria-current="page"><span class="num"></span>Vaults, passwords and codes</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/files-and-sticks/"><span class="num"></span>Files, sticks and QR codes</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/gpg/"><span class="num"></span>A GPG key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/secure-boot-keys/"><span class="num"></span>Your own Secure Boot keys</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/messages/"><span class="num"></span>Sign and check a message</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/more-from-a-key/"><span class="num"></span>More from a key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/check-and-decode/"><span class="num"></span>Check and decode</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/starter-tools/"><span class="num"></span>The Starter&#x27;s other tools</a></li>
+</ol>
+<h2>Screens</h2><ul><li><a class="item" href="https://faradayoffline.app/guide/screens/">Every screen</a></li></ul>
+<h3>Home</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/home/">Home</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/lock-and-power/">Lock and Power off</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/mode/">Mode and Load samples</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/prompts/">Prompts</a></li>
+</ul>
+<h3>Vaults</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/codes/">TOTP codes</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/create-vault/">Create a vault</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/vault/">Vault contents</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/vaults/">Vaults and Unlock</a></li>
+</ul>
+<h3>Files</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/files/">Files</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/qr-and-scan/">QR codes and the camera</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/stick-visit/">Stick visit</a></li>
+</ul>
+<h3>Wallets</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/add-a-key/">Add a key: typing a key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/back-up-wallet/">Back up a wallet</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/backup-flow/">The backup flow</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/backups/">Backups and the chart</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/make-a-wallet/">Make a new wallet</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/new-key/">Add a key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/restore/">Restore an existing wallet</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/sign/">Sign a transaction</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/spend-tab/">Spend</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/wallets/">Wallets</a></li>
+</ul>
+<h3>Tools</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/calculators/">Tools: the calculators</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/child-seeds/">Derive with BIP-85</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/decode/">Decode a transaction</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/explore/">Explore</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/lightning/">Lightning node key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/messages/">Sign a message and Check a signed message</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/nonce-check/">Nonce check</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/silent-payments/">Silent payments</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/sweep/">Sweep a private key</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/tools/">Tools</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/vanity/">Vanity address</a></li>
+</ul>
+<h3>Learn</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/learn/">Learn</a></li>
+</ul>
+<h3>Settings</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/settings/">Settings</a></li>
+</ul>
+<h3>Starter</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/starter-home/">Faraday Starter: Home</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/starter-learn-and-boot/">Faraday Starter: Start from the stick, and Learn</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/starter-make/">Faraday Starter: Make</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/starter-menu/">Faraday Starter: Install, Appearance and About</a></li>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/starter-tools/">Faraday Starter: Tools</a></li>
+</ul>
+<h3>Other</h3><ul>
+<li><a class="item" href="https://faradayoffline.app/guide/screens/README/">Screen reference</a></li>
+</ul>
+</div>
+</nav>
+<a class="scrim" href="#close" tabindex="-1" aria-hidden="true"></a>
+
+<main id="main" tabindex="-1" class="doc">
+<a class="btn tonal contents" href="#drawer" id="drawer-open" aria-controls="drawer" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Contents</a><button type="button" class="btn tonal searchopen" id="search-open" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>Search</button>
+<details class="toc toc-fold" open><summary>On this page</summary><ol><li><a href="#1-create-a-vault">Create a vault</a></li><li><a href="#2-a-passphrase-from-dice">A passphrase from dice</a></li><li><a href="#3-unlock-it">Unlock it</a></li><li><a href="#4-the-contents-and-a-key-saved">The contents, and a key saved</a></li><li><a href="#5-a-login-with-its-totp-code">A login with its TOTP code</a></li><li><a href="#6-the-codes-and-the-time">The codes, and the time</a></li><li><a href="#7-export-a-login-for-keepass">Export a login for KeePass</a></li><li><a href="#8-lock">Lock</a></li><li><a href="#9-write-it-to-a-stick">Write it to a stick</a></li><li><a href="#10-unlock-it-again-and-load-from-it">Unlock it again, and load from it</a></li><li><a href="#11-a-new-passphrase">A new passphrase</a></li></ol></details>
+<h1>Vaults, passwords and codes</h1>
+<p class="lede">A vault is one file, <code>.fvlt</code>, sealed under one to four passphrases. Faraday opens it in memory, seals it again at every lock, and writes it to a stick on the next stick visit. The passphrases on this page are examples only: never use a passphrase printed anywhere, this page included.</p>
+<dl class="facts"><dt>You end with</dt><dd>a vault of your own on a stick, holding key <code>3dca6805</code>, a login with its TOTP codes and a note; the vault written, locked and unlocked again, and the login exported for KeePass.</dd><dt>Before you start</dt><dd><a href="https://faradayoffline.app/guide/new-key/">Make a key</a>. <a href="https://faradayoffline.app/guide/back-up/">Back it up</a> makes a vault inside a backup&#x27;s checklist (<a href="https://faradayoffline.app/guide/back-up/#48-the-vault">step 4.8</a>); this page makes one on its own, for keys and for everything else.</dd><dt>You&#x27;ll need</dt><dd><ul><li>Faraday with key <code>3dca6805</code> loaded and no stick attached.</li><li>A USB stick other than the Faraday stick, formatted FAT32.</li><li>For a passphrase from dice: five dice, or one die rolled five times.</li><li>For the codes: a site&#x27;s TOTP setup code (its QR code or its key), and a phone or watch showing the time to the minute.</li></ul></dd><dt>Time</dt><dd>about 30 minutes.</dd></dl>
+<h2 id="1-create-a-vault"><span class="n">1</span><span>Create a vault</span></h2>
+<p>On <strong>Home</strong>, press <strong>Create a vault</strong> (<strong>None yet</strong>), or press <strong>Vaults</strong> in the sidebar, then <strong>Create a vault</strong> at the top right. With a stick in, the page says <strong>Remove the stick, then type the passphrases</strong>: pull it first.</p>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/create-vault-passphrases.webp"><img src="https://faradayoffline.app/assets/guide/create-vault-passphrases.webp" width="1280" height="800" alt="Create a vault with Size closed, the name Passwords and a passphrase that matches, Your choices beside it, Create vault outlined" loading="lazy" decoding="async"><span class="marked" style="left:77.031%;top:94.000%;width:20.938%;height:5.750%"></span></a><figcaption>Create a vault with Size closed, the name Passwords and a passphrase that matches, Your choices beside it, Create vault outlined</figcaption></figure>
+<p><strong>Create a vault</strong> is a column of cards. <strong>Size</strong> is closed on <strong>PCs and a Raspberry Pi · 64 MiB · 3 passes</strong>, with <strong>Change</strong>:</p>
+<div class="table"><table><thead><tr><th scope="col">Size</th><th scope="col">Unlock memory</th><th scope="col">Opens on</th></tr></thead><tbody><tr><td data-label="Size"><strong>PCs and a Raspberry Pi</strong></td><td data-label="Unlock memory">64 MiB, 3 passes</td><td data-label="Opens on">any PC and a Raspberry Pi</td></tr><tr><td data-label="Size"><strong>PCs only</strong></td><td data-label="Unlock memory">512 MiB, 3 passes</td><td data-label="Opens on">PCs only</td></tr></tbody></table></div>
+<p>Each row gives its unlock time on this computer. <strong>Customise</strong> opens three cards in place of Size:</p>
+<div class="table"><table><thead><tr><th scope="col">Card</th><th scope="col">Choices</th></tr></thead><tbody><tr><td data-label="Card"><strong>Where will you open it?</strong></td><td data-label="Choices"><strong>This computer</strong> and each other kind of machine, Other PCs and a Raspberry Pi 3 among them, all ticked as Size had them; the cost suggested next fits the one with the least memory</td></tr><tr><td data-label="Card"><strong>Unlock cost</strong></td><td data-label="Choices"><strong>Light</strong>, <strong>Standard</strong>, <strong>Medium</strong>, <strong>Strong</strong>, <strong>Maximum</strong> and <strong>Custom</strong>, each with its memory, passes and the bits it adds; one reads <strong>Suggested</strong>, the others <strong>Fits</strong> or &quot;Too large for&quot; the weakest machine</td></tr><tr><td data-label="Card"><strong>Space per passphrase</strong></td><td data-label="Choices">the room each passphrase&#x27;s contents get, and the file&#x27;s size</td></tr></tbody></table></div>
+<p>The cost and the space are fixed for the life of the vault. Leave Size as it is.</p>
+<p>Under <strong>Name and passphrases</strong>:</p>
+<ol><li><strong>Name</strong>: type <code>Passwords</code>. Beside it, <strong>File Passwords.fvlt</strong>. The name is what anyone who sees the stick reads; leave it empty for <code>vault.fvlt</code>.</li><li><strong>Passphrase 1</strong>: type it in the first field, then again in the second, until the line under them reads <strong>Matches</strong>. The eye at the end of a field, or <strong>Show passphrases</strong>, shows what is typed. Or press <strong>Generate with dice</strong> (step 2).</li><li><strong>Add another passphrase</strong> adds <strong>Passphrase 2</strong>, up to four, each with <strong>Remove</strong>. Each passphrase opens contents of its own, and the file does not say how many there are. For this walkthrough, keep one.</li></ol>
+<p><strong>Steps only</strong> and <strong>Guided</strong> at the top switch a short walk-through on each card off and on. The panel on the right, <strong>Your choices</strong>, repeats each card&#x27;s choice; under <strong>Will create</strong> it lists the <strong>File</strong>, its <strong>Size</strong>, the <strong>Unlock memory</strong>, the time to unlock here (<strong>Unlock here</strong>), what the cost adds (<strong>Unlock cost adds</strong>), the passphrase&#x27;s <strong>Strength</strong>, and where it goes (<strong>Goes to</strong>: <strong>For the stick</strong>). Press <strong>Create vault</strong>.</p>
+<p>&quot;Creating&quot; and the time it takes show while it works. A sealed copy of the vault goes into Files, <strong>For the stick</strong>.</p>
+<h2 id="2-a-passphrase-from-dice"><span class="n">2</span><span>A passphrase from dice</span></h2>
+<p><strong>Generate with dice</strong> on a passphrase&#x27;s card opens the dice:</p>
+<div class="table"><table><thead><tr><th scope="col">On the card</th><th scope="col">What it is</th></tr></thead><tbody><tr><td data-label="On the card"><strong>Which list?</strong></td><td data-label="What it is"><strong>Long list</strong> (7776 words · five dice), <strong>Short list</strong> (1296 words · four dice), <strong>Short list 2</strong> (1296 words · 3 edits apart)</td></tr><tr><td data-label="On the card">&quot;Roll 5 dice for each word and type the numbers&quot;</td><td data-label="What it is">the rolls, typed as they land in the field at the foot, or pressed on its keys 1 to 6; each word appears as its dice are in, and a press on a word shows it in the list</td></tr><tr><td data-label="On the card">the strength line</td><td data-label="What it is">under the field: the words so far, their bits, and the bits with the unlock cost</td></tr><tr><td data-label="On the card"><strong>Use these words</strong></td><td data-label="What it is">puts the words in both fields</td></tr><tr><td data-label="On the card"><strong>Cancel</strong></td><td data-label="What it is">leaves the field as it was</td></tr></tbody></table></div>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/vaults-and-passwords-dice.webp"><img src="https://faradayoffline.app/assets/guide/vaults-and-passwords-dice.webp" width="1280" height="800" alt="The dice on Create a vault, Long list chosen, three words rolled, 38.8 bits, Use these words outlined" loading="lazy" decoding="async"><span class="marked" style="left:26.406%;top:60.750%;width:11.328%;height:5.000%"></span></a><figcaption>The dice on Create a vault, Long list chosen, three words rolled, 38.8 bits, Use these words outlined</figcaption></figure>
+<p>The card asks for six words or more of the long list; the count turns green at 77 bits. Six words of the long list are 77.5 bits. Once the words fill the field, the strength line reads the dice&#x27;s bits plus the cost&#x27;s. A typed passphrase&#x27;s own bits are not measured, and the line says so.</p>
+<p>In Practice (<a href="https://faradayoffline.app/guide/starter-tour/">Faraday Demo</a>), <strong>Practice puts faraday in place of these words</strong>: the vault&#x27;s passphrase is <code>faraday</code>, the public one every Practice vault uses.</p>
+<h2 id="3-unlock-it"><span class="n">3</span><span>Unlock it</span></h2>
+<p>Once made, the vault waits on <strong>Unlock</strong>, picked, as <strong>New vault</strong>, <strong>Locked · not written yet</strong>, with <strong>Type the passphrase once more to open it</strong>. Type the passphrase under <strong>Passphrase</strong> and press <strong>Unlock</strong>. Under the button, &quot;This computer:&quot; and how much memory it has free; the unlock cost is not shown here.</p>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/vaults-and-passwords-unlock.webp"><img src="https://faradayoffline.app/assets/guide/vaults-and-passwords-unlock.webp" width="1280" height="800" alt="Unlock with New vault, Locked · not written yet, picked and the passphrase typed, Unlock outlined" loading="lazy" decoding="async"><span class="marked" style="left:50.625%;top:26.500%;width:12.500%;height:5.000%"></span></a><figcaption>Unlock with New vault, Locked · not written yet, picked and the passphrase typed, Unlock outlined</figcaption></figure>
+<p>&quot;Unlocking&quot; and its time show while it works. A wrong passphrase leaves the page as it is, with <strong>That passphrase opens nothing in this vault</strong> under the field; there is no limit on tries.</p>
+<p>The vault opens on its contents: <strong>Nothing in it yet</strong>, <strong>Sealed once</strong> under its name, and a button per thing it can hold:</p>
+<div class="table"><table><thead><tr><th scope="col">Button</th><th scope="col">Adds</th></tr></thead><tbody><tr><td data-label="Button"><strong>Save a bitcoin key</strong></td><td data-label="Adds">a key loaded now (step 4)</td></tr><tr><td data-label="Button"><strong>Save a wallet</strong></td><td data-label="Adds">a wallet loaded now</td></tr><tr><td data-label="Button"><strong>Add an entry</strong></td><td data-label="Adds">a login: title, username, password, URL, notes, TOTP secret (step 5)</td></tr><tr><td data-label="Button"><strong>Add a note</strong></td><td data-label="Adds">text (step 6)</td></tr><tr><td data-label="Button"><strong>Make a GPG key</strong></td><td data-label="Adds"><a href="https://faradayoffline.app/guide/gpg/">A GPG key</a></td></tr><tr><td data-label="Button"><strong>Make Secure Boot keys</strong></td><td data-label="Adds"><a href="https://faradayoffline.app/guide/secure-boot-keys/">Your own Secure Boot keys</a></td></tr><tr><td data-label="Button"><strong>Write it to a stick</strong></td><td data-label="Adds">writes the vault as it is now (step 9)</td></tr></tbody></table></div>
+<h2 id="4-the-contents-and-a-key-saved"><span class="n">4</span><span>The contents, and a key saved</span></h2>
+<p>Press <strong>Save a bitcoin key</strong>. <strong>Save a key</strong> lists each key loaded and not in the vault: <code>3dca6805</code> and its name, with <strong>Save</strong>. A key loaded with a BIP-39 passphrase also has <strong>Save with its passphrase</strong>. Press <strong>Save</strong>. The line <strong>Every key in this session is in the vault</strong> shows once all are in.</p>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/vaults-and-passwords-contents.webp"><img src="https://faradayoffline.app/assets/guide/vaults-and-passwords-contents.webp" width="1280" height="800" alt="Passwords open with 1 unsaved change, Bitcoin keys chosen and key 3dca6805&#x27;s words, SeedQR and load settings" loading="lazy" decoding="async"></a><figcaption>Passwords open with 1 unsaved change, Bitcoin keys chosen and key 3dca6805&#x27;s words, SeedQR and load settings</figcaption></figure>
+<p>The page is now the vault&#x27;s contents, in three columns:</p>
+<div class="table"><table><thead><tr><th scope="col">Part</th><th scope="col">What it shows</th></tr></thead><tbody><tr><td data-label="Part">the title</td><td data-label="What it shows">the vault&#x27;s name, then <strong>Open</strong>, or &quot;Open ·&quot; and the unsaved changes (<strong>Open · 1 unsaved change</strong>); <strong>Rename</strong> and <strong>Lock</strong> on the right; under it the file&#x27;s name and its cost (<code>Passwords.fvlt · 64 MiB · 3 passes</code>)</td></tr><tr><td data-label="Part">the first column</td><td data-label="What it shows">each kind the vault holds, with its count: <strong>Bitcoin keys</strong>, <strong>Wallets</strong>, <strong>Entries</strong>, <strong>Notes</strong>, <strong>GPG keys</strong>, <strong>Secure Boot</strong>; then a row per kind to add, each with <strong>+</strong>: <strong>Bitcoin key</strong>, <strong>Wallet</strong>, <strong>Entry</strong>, <strong>Note</strong>, <strong>GPG key</strong>, <strong>Secure Boot</strong></td></tr><tr><td data-label="Part">the second column</td><td data-label="What it shows">the items of the kind chosen, with its add button (<strong>Save a key</strong>, <strong>Save a wallet</strong>, <strong>Add an entry</strong>, <strong>Add a note</strong>)</td></tr><tr><td data-label="Part">the third column</td><td data-label="What it shows">the item chosen</td></tr></tbody></table></div>
+<p>Key <code>3dca6805</code> shows its length and fingerprint, its <strong>Fingerprint</strong>, its <strong>Words</strong> and its SeedQR (<strong>Show SeedQR</strong>) behind their eyes, <strong>BIP-39 passphrase</strong> (<strong>Stored</strong> or <strong>Not stored</strong>), <strong>Load at unlock</strong> (<strong>Yes</strong> or <strong>No</strong>) and <strong>In this session</strong> (<strong>Loaded</strong> or <strong>Not loaded</strong>). Under them:</p>
+<div class="table"><table><thead><tr><th scope="col">Button</th><th scope="col">Does</th></tr></thead><tbody><tr><td data-label="Button"><strong>Load into session</strong></td><td data-label="Does">loads the key, when it is not loaded</td></tr><tr><td data-label="Button"><strong>Load with a passphrase</strong></td><td data-label="Does">loads it with a BIP-39 passphrase typed now</td></tr><tr><td data-label="Button"><strong>Don&#x27;t load at unlock</strong>, <strong>Load at unlock</strong></td><td data-label="Does">whether the unlock&#x27;s load list ticks it (step 8)</td></tr><tr><td data-label="Button"><strong>Save to a stick</strong></td><td data-label="Does">the key&#x27;s words or SeedQR as a file for the stick, outside the vault: <strong>Anyone who finds this stick has this seed</strong></td></tr><tr><td data-label="Button"><strong>Hold to delete from vault</strong></td><td data-label="Does">removes the key from the vault</td></tr></tbody></table></div>
+<p>A key in a wallet of the same vault reads <strong>Load at unlock</strong> &quot;Loads with&quot; and the wallet&#x27;s name. A wallet&#x27;s item shows its backup&#x27;s chart, its <strong>Descriptor</strong>, <strong>Open in Wallets</strong>, <strong>Show as QR</strong> and <strong>Save to a stick</strong>.</p>
+<p>A value behind an eye shows after a press on it and hides at the next press or when the page is left. <strong>Rename</strong> names the vault&#x27;s contents; the file keeps its name.</p>
+<h2 id="5-a-login-with-its-totp-code"><span class="n">5</span><span>A login with its TOTP code</span></h2>
+<p>Press <strong>Entry</strong>, the row with <strong>+</strong> under the kinds (or <strong>Add an entry</strong> once <strong>Entries</strong> is listed). Fill in, as an example:</p>
+<div class="table"><table><thead><tr><th scope="col">Field</th><th scope="col">Example</th></tr></thead><tbody><tr><td data-label="Field"><strong>Title</strong></td><td data-label="Example"><code>Mail</code></td></tr><tr><td data-label="Field"><strong>Username</strong></td><td data-label="Example"><code>me@example.com</code></td></tr><tr><td data-label="Field"><strong>Password</strong></td><td data-label="Example">the site&#x27;s password</td></tr><tr><td data-label="Field"><strong>URL</strong></td><td data-label="Example">the site&#x27;s address</td></tr><tr><td data-label="Field"><strong>Notes</strong></td><td data-label="Example">anything else</td></tr><tr><td data-label="Field"><strong>TOTP secret</strong></td><td data-label="Example">the site&#x27;s setup key, or the <code>otpauth://</code> link its QR code holds</td></tr></tbody></table></div>
+<p>Press <strong>Save</strong>, or <strong>Cancel</strong>. An entry needs a title. A TOTP secret that does not read is refused with <strong>Not a TOTP key</strong>, and the form keeps what is typed.</p>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/vaults-and-passwords-entry.webp"><img src="https://faradayoffline.app/assets/guide/vaults-and-passwords-entry.webp" width="1280" height="800" alt="The entry Mail under Entries: its username, password, URL, code with its seconds left, TOTP secret and notes" loading="lazy" decoding="async"></a><figcaption>The entry Mail under Entries: its username, password, URL, code with its seconds left, TOTP secret and notes</figcaption></figure>
+<p>Under <strong>Entries</strong>, beside <strong>Add an entry</strong>, are <strong>Scan a code</strong> and <strong>TOTP codes</strong> (step 6); two buttons fill the list:</p>
+<div class="table"><table><thead><tr><th scope="col">Button</th><th scope="col">Does</th></tr></thead><tbody><tr><td data-label="Button"><strong>Scan a code</strong></td><td data-label="Does">opens the camera; a site&#x27;s TOTP setup QR code fills a new entry&#x27;s form with its title, account and secret, to save</td></tr><tr><td data-label="Button">&quot;Import from Files&quot; and a count</td><td data-label="Does">adds every entry of the entries files in Files</td></tr></tbody></table></div>
+<p>Entries that do not fit the vault&#x27;s space are not added, and a line says how many bytes they take and how many are left. With entries in the list, <strong>Search entries</strong> over it keeps those whose title holds what is typed; usernames, URLs and notes are not searched.</p>
+<p>The entry shows its title and kinds (&quot;Password · TOTP&quot;), <strong>Username</strong>, <strong>Password</strong>, <strong>URL</strong>, <strong>Code</strong>, <strong>TOTP secret</strong> and <strong>Notes</strong>, the secrets behind their eyes, then <strong>Edit</strong>, <strong>Export for KeePass</strong> (step 7) and <strong>Hold to delete from vault</strong>. <strong>Code</strong> is the code now, with the seconds left; it reads <strong>Set the time</strong> while the clock is not checked (step 6).</p>
+<h2 id="6-the-codes-and-the-time"><span class="n">6</span><span>The codes, and the time</span></h2>
+<p>Press <strong>TOTP codes</strong> under <strong>Entries</strong>, or <strong>Tools → TOTP codes</strong> (<strong>Codes from the entries in open vaults</strong>). The first time after power-on, <strong>Set the time</strong> opens first:</p>
+<div class="table"><table><thead><tr><th scope="col">On <a href="https://faradayoffline.app/guide/screens/settings/#set-the-time">Set the time</a></th><th scope="col">What it is</th></tr></thead><tbody><tr><td data-label="On Set the time"><strong>Now</strong></td><td data-label="What it is">the clock as Faraday reads it, or <strong>Not known</strong></td></tr><tr><td data-label="On Set the time"><strong>Time zone</strong></td><td data-label="What it is">the zone, with <strong>-</strong> and <strong>+</strong></td></tr><tr><td data-label="On Set the time"><strong>Date</strong>, <strong>Time</strong></td><td data-label="What it is">today&#x27;s date and the next minute, typed</td></tr><tr><td data-label="On Set the time"><strong>Set</strong></td><td data-label="What it is">sets the clock to that minute at its first second</td></tr><tr><td data-label="On Set the time"><strong>Keep this time</strong></td><td data-label="What it is">keeps the clock as it is, where it is right</td></tr><tr><td data-label="On Set the time"><strong>Back</strong></td><td data-label="What it is">goes back without checking the clock</td></tr></tbody></table></div>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/vaults-and-passwords-set-time.webp"><img src="https://faradayoffline.app/assets/guide/vaults-and-passwords-set-time.webp" width="1280" height="800" alt="Set the time with Now, the time zone UTC+00:00, empty Date and Time fields, Set grey, Keep this time and Back" loading="lazy" decoding="async"></a><figcaption>Set the time with Now, the time zone UTC+00:00, empty Date and Time fields, Set grey, Keep this time and Back</figcaption></figure>
+<p><strong>Set</strong> is grey until a date and a time are typed. Type the next minute, and press <strong>Set</strong> when the phone&#x27;s minute changes to it. The codes open:</p>
+<div class="table"><table><thead><tr><th scope="col">Row</th><th scope="col">What it shows</th></tr></thead><tbody><tr><td data-label="Row">&quot;Now · UTC&quot; and the zone</td><td data-label="What it shows">the local time with seconds, and <strong>Set the time</strong></td></tr><tr><td data-label="Row">an entry</td><td data-label="What it shows">its title and account, its code, and a bar for the seconds left</td></tr><tr><td data-label="Row">an entry whose secret is a counter&#x27;s (HOTP)</td><td data-label="What it shows">a badge, no code</td></tr><tr><td data-label="Row">an entry whose secret does not read</td><td data-label="What it shows"><strong>Unreadable</strong></td></tr></tbody></table></div>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/vaults-and-passwords-codes.webp"><img src="https://faradayoffline.app/assets/guide/vaults-and-passwords-codes.webp" width="1280" height="800" alt="TOTP codes: the time now, Search codes, the Mail entry&#x27;s code with its bar and 13 s left, Scan a setup code and Add an entry" loading="lazy" decoding="async"></a><figcaption>TOTP codes: the time now, Search codes, the Mail entry&#x27;s code with its bar and 13 s left, Scan a setup code and Add an entry</figcaption></figure>
+<p>A row opens its entry. <strong>Search codes</strong> finds an entry by its title. Under the list, <strong>Scan a setup code</strong> and <strong>Add an entry</strong> add to the vault open; with no entry, <strong>No entries with a TOTP secret</strong>. The codes come from every vault open.</p>
+<h2 id="7-export-a-login-for-keepass"><span class="n">7</span><span>Export a login for KeePass</span></h2>
+<p>On the entry <code>Mail</code>, press <strong>Export for KeePass</strong>. Type a passphrase of 8 characters or more under <strong>Passphrase</strong> (as an example, <code>correct horse battery staple</code>), then <strong>Seal and export</strong>; <strong>Cancel</strong> leaves it.</p>
+<p><strong>Sealing</strong> shows while it works. The file goes into Files, <strong>For the stick</strong>, named from the entry&#x27;s title in lower case, <code>mail.kdbx</code>, and a line says &quot;mail.kdbx waits for the stick, sealed&quot;. It holds that one entry and opens in a KeePass app with that passphrase. <strong>KeePass export</strong> under <strong>Tools</strong> says the same: an entry leaves this way, one at a time.</p>
+<h2 id="8-lock"><span class="n">8</span><span>Lock</span></h2>
+<p>Press <strong>Lock</strong> in the vault&#x27;s title (or on its row in <strong>Vaults</strong>, or at the foot of the sidebar). With changes in the vault, the <strong>Lock</strong> sheet lists what it keeps and wipes (<a href="https://faradayoffline.app/guide/screens/lock-and-power/#lock">Lock</a>):</p>
+<div class="table"><table><thead><tr><th scope="col">Section</th><th scope="col">Lists</th></tr></thead><tbody><tr><td data-label="Section"><strong>Kept</strong></td><td data-label="Lists">the vault, and the files for the stick</td></tr><tr><td data-label="Section"><strong>Wiped from memory</strong></td><td data-label="Lists">key <code>3dca6805</code>, &quot;in&quot; the vault; a key or wallet in no vault reads &quot;nowhere else&quot;, with <strong>Save</strong> beside it to put it in the vault open</td></tr><tr><td data-label="Section"><strong>Then</strong></td><td data-label="Lists"><strong>Faraday restarts on Unlock</strong></td></tr></tbody></table></div>
+<p>Press <strong>Lock</strong>, or <strong>Back to the vault</strong>. The lock seals the vault with its changes for the stick, wipes every key, and starts Faraday again on <strong>Unlock</strong>.</p>
+<h2 id="9-write-it-to-a-stick"><span class="n">9</span><span>Write it to a stick</span></h2>
+<p>Plug the stick in. With nothing loaded, <strong>Stick visit</strong> opens: under <strong>In Faraday</strong>, <code>Passwords.fvlt</code> and <code>mail.kdbx</code> are ticked. Press <strong>Write 2 files</strong>. Each file is written, read back and compared; the visit&#x27;s line reads &quot;Wrote Passwords.fvlt, read back and matched&quot;. Then pull the stick. <a href="https://faradayoffline.app/guide/files-and-sticks/#3-write-files-to-a-stick">Files, sticks and QR codes</a> goes through the visit.</p>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/vaults-and-passwords-written.webp"><img src="https://faradayoffline.app/assets/guide/vaults-and-passwords-written.webp" width="1280" height="800" alt="Vaults with Passwords locked, &quot;On KEYSTICK · current · key 3dca6805 · 2 entries&quot; and Unlock" loading="lazy" decoding="async"></a><figcaption>Vaults with Passwords locked, &quot;On KEYSTICK · current · key 3dca6805 · 2 entries&quot; and Unlock</figcaption></figure>
+<p><strong>Vaults</strong> lists each vault Faraday holds; the one picked shows its file, then where it stands, what it holds and when it was seen (&quot;On KEYSTICK · current · key 3dca6805 · 2 entries · seen&quot; and the time), and <strong>Unlock</strong>. Where it stands comes first:</p>
+<div class="table"><table><thead><tr><th scope="col">Line</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td data-label="Line"><strong>Never written</strong></td><td data-label="Meaning">sealed for the stick, on no stick yet</td></tr><tr><td data-label="Line">&quot;On&quot; a stick&#x27;s name &quot;· current&quot;</td><td data-label="Meaning">the stick holds it as it is now</td></tr><tr><td data-label="Line"><strong>Changed since written</strong></td><td data-label="Meaning">changed since the stick was written</td></tr><tr><td data-label="Line"><strong>Unchanged</strong></td><td data-label="Meaning">copied in from a stick Faraday no longer knows, and not changed</td></tr></tbody></table></div>
+<p>A changed vault makes Home lead with &quot;Write Passwords to a stick&quot;. A vault on the stick already is written over its own copy; another file of its name is kept, and this one is written beside it.</p>
+<h2 id="10-unlock-it-again-and-load-from-it"><span class="n">10</span><span>Unlock it again, and load from it</span></h2>
+<p>After a power-off the vault is only on its stick. Plug the stick in with no key loaded: on <strong>Stick visit</strong>, <code>Passwords.fvlt</code> is ticked under <strong>On the stick</strong>. Press <strong>Import 1 file</strong>, then pull the stick. A vault on the Faraday stick itself comes in at start instead, on <strong>Read from …</strong> (<a href="https://faradayoffline.app/guide/screens/prompts/#read-from-the-boot-stick">Read from the boot stick</a>).</p>
+<p>Then press <strong>Unlock</strong> on the vault&#x27;s row in <strong>Files</strong> or in <strong>Vaults</strong>, type the passphrase and press <strong>Unlock</strong>. Files opens, with <strong>Load from Passwords</strong> over it (the vault&#x27;s name; &quot;Load from Vault&quot; for one without a name), and a count of what it holds (&quot;1 key&quot;):</p>
+<div class="table"><table><thead><tr><th scope="col">On the sheet</th><th scope="col">What it is</th></tr></thead><tbody><tr><td data-label="On the sheet">a card per wallet</td><td data-label="What it is">the wallet and its seeds this vault holds, ticked as its <strong>Load at unlock</strong> says</td></tr><tr><td data-label="On the sheet"><strong>Keys</strong></td><td data-label="What it is">keys in no wallet: <code>3dca6805</code>, ticked</td></tr><tr><td data-label="On the sheet"><strong>Loaded</strong></td><td data-label="What it is">greyed at the right of a line already loaded</td></tr><tr><td data-label="On the sheet"><strong>Unselect all</strong>, <strong>Select all</strong></td><td data-label="What it is">unticks every card while any is ticked; ticks every card once none is</td></tr><tr><td data-label="On the sheet"><strong>Load ticked</strong></td><td data-label="What it is">loads what is ticked; Wallets opens on a wallet loaded, otherwise Files</td></tr><tr><td data-label="On the sheet"><strong>Not now</strong></td><td data-label="What it is">loads nothing; the vault stays open</td></tr></tbody></table></div>
+<figure class="shot"><a href="https://faradayoffline.app/assets/guide/vaults-and-passwords-load.webp"><img src="https://faradayoffline.app/assets/guide/vaults-and-passwords-load.webp" width="1280" height="800" alt="Load from Passwords: 1 key, the Keys card with 3dca6805 ticked, Load ticked outlined" loading="lazy" decoding="async"><span class="marked" style="left:50.312%;top:61.250%;width:22.188%;height:5.000%"></span></a><figcaption>Load from Passwords: 1 key, the Keys card with 3dca6805 ticked, Load ticked outlined</figcaption></figure>
+<p>Press <strong>Load ticked</strong>. A flow that asks for a vault (Spend, Restore, a backup) unlocks it from its own step and loads what it needs, with no sheet.</p>
+<p>The vault&#x27;s page now reads &quot;Sealed 2 times · last&quot;, the date and the time: the lock in step 8 sealed it once more. Had Files held a copy sealed more times, the unlock would have stopped at <a href="https://faradayoffline.app/guide/screens/vaults/#open-this-copy">Open this copy?</a>, saying &quot;An older copy: sealed 2 times.&quot; and the count of the newer one, and opened only on <strong>Open</strong>.</p>
+<h2 id="11-a-new-passphrase"><span class="n">11</span><span>A new passphrase</span></h2>
+<p>Passphrases, the cost and the space are fixed when a vault is made. To change one, create a new vault, unlock both, and save into the new one what the old one holds: load the keys and wallets and <strong>Save</strong> them, and add the entries and notes again. Write the new vault, then delete the old file from its stick with zeros (<a href="https://faradayoffline.app/guide/files-and-sticks/#5-delete-with-zeros">Files, sticks and QR codes</a>): until it is deleted, the old file still opens with the old passphrase.</p>
+<div class="box"><p><strong>With your own key</strong></p>
+<ul><li>Roll the passphrase with real dice: six words of the long list. Never use a passphrase printed anywhere, or one used for anything else.</li><li>Write the passphrase down and keep it apart from the stick: a lost passphrase loses what it opens.</li><li>Name the vault for whoever may see the stick, or leave the name empty.</li><li>Before you rely on the vault, unlock it from its stick on a fresh start: <a href="https://faradayoffline.app/guide/before-you-rely/">Before you rely on a key</a>.</li><li>A KeePass export is as safe as its passphrase: give it a strong one of its own.</li></ul>
+<p>Why: <a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/learn/faraday/vaults.md">Vaults</a>, <a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/learn/05-passphrases.md">Passphrases</a>, <a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/learn/faraday/time.md">Time and TOTP codes</a>, <a href="https://github.com/bitcoinpasada/faraday/blob/main/docs/learn/faraday/keys-kept.md">Where keys are kept</a>.</p></div>
+<p>Next: <a href="https://faradayoffline.app/guide/files-and-sticks/">Files, sticks and QR codes</a>.</p>
+<nav class="pager" aria-label="Walkthroughs"><a class="btn prev" href="https://faradayoffline.app/guide/spend-from-a-backup/" rel="prev"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg><span><small>Previous</small>Spend from a backup, step by step</span></a><a class="btn tonal next" href="https://faradayoffline.app/guide/files-and-sticks/" rel="next"><span><small>Next</small>Files, sticks and QR codes</span><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></a></nav>
+<div class="about">
+<p>This page describes Faraday 0.1.9.</p>
+<p class="report"><a href="https://github.com/bitcoinpasada/faraday/issues/new?template=bug.yml&title=Guide%3A%20Vaults%2C%20passwords%20and%20codes&app=The%20website&version=0.1.9&what=On%20the%20guide%27s%20page%20https%3A%2F%2Ffaradayoffline.app%2Fguide%2Fvaults-and-passwords%2F%3A%20">Something wrong on this page?</a> It opens a GitHub issue with the page named.</p>
+</div>
+</main>
+<aside class="toc-side" aria-label="On this page"><details class="toc" open><summary>On this page</summary><ol><li><a href="#1-create-a-vault">Create a vault</a></li><li><a href="#2-a-passphrase-from-dice">A passphrase from dice</a></li><li><a href="#3-unlock-it">Unlock it</a></li><li><a href="#4-the-contents-and-a-key-saved">The contents, and a key saved</a></li><li><a href="#5-a-login-with-its-totp-code">A login with its TOTP code</a></li><li><a href="#6-the-codes-and-the-time">The codes, and the time</a></li><li><a href="#7-export-a-login-for-keepass">Export a login for KeePass</a></li><li><a href="#8-lock">Lock</a></li><li><a href="#9-write-it-to-a-stick">Write it to a stick</a></li><li><a href="#10-unlock-it-again-and-load-from-it">Unlock it again, and load from it</a></li><li><a href="#11-a-new-passphrase">A new passphrase</a></li></ol></details></aside>
+</div>
+
+<dialog class="zoom" id="zoom" aria-label="The screen at full size">
+  <button class="close" id="zoom-close" aria-label="Close" title="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <img alt="">
+  <p></p>
+</dialog>
+
+<!-- Donations: the QR codes go in the two frames (data-qr), as on the
+     home page. -->
+<dialog class="coffee-box" id="coffee" aria-labelledby="coffee-title">
+  <button class="close" id="coffee-close" aria-label="Close" title="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <h2 id="coffee-title">Buy me a coffee</h2>
+  <p>Donations to Faraday's development, in bitcoin.</p>
+  <div class="qrs">
+    <figure><div class="qr" data-qr="lightning">QR code to come</div><figcaption>Lightning</figcaption></figure>
+    <figure><div class="qr" data-qr="bitcoin">QR code to come</div><figcaption>Bitcoin</figcaption></figure>
+  </div>
+</dialog>
+
+<footer>
+  <div>
+    <span>Faraday · MIT License</span>
+    <button class="link" data-coffee>Buy me a coffee</button>
+    <a href="https://github.com/bitcoinpasada/faraday">github.com/bitcoinpasada/faraday</a>
+    <a href="https://x.com/faraday_offline">x.com/faraday_offline</a>
+  </div>
+</footer>
+
+<script>
+"use strict";
+const root = document.documentElement;
+const bar = document.querySelector(".bar");
+new ResizeObserver(() => root.style.setProperty("--bar-h", bar.offsetHeight + "px")).observe(bar);
+
+// Buy me a coffee, as on the home page.
+const coffee = document.querySelector("#coffee");
+for (const b of document.querySelectorAll("[data-coffee]")) b.addEventListener("click", () => coffee.showModal());
+document.querySelector("#coffee-close").addEventListener("click", () => coffee.close());
+coffee.addEventListener("click", (e) => { if (e.target === coffee) coffee.close(); });
+
+// The bar's menu, on a narrow screen: the button opens the list and
+// Escape, a choice, a tap outside or the focus leaving close it.
+{
+  const button = document.querySelector("#menu-btn");
+  const list = document.querySelector("#menu");
+  const wrap = button.parentElement;
+  const items = () => [...list.querySelectorAll("a, button")];
+  const show = (on, back) => {
+    list.hidden = !on;
+    button.setAttribute("aria-expanded", String(on));
+    if (on) items()[0].focus();
+    else if (back) button.focus();
+  };
+  button.addEventListener("click", () => show(list.hidden, false));
+  list.addEventListener("click", (e) => {
+    const item = e.target.closest("a, button");
+    if (!item) return;
+    show(false, false);
+    if (item.hasAttribute("data-coffee")) coffee.addEventListener("close", () => button.focus(), { once: true });
+  });
+  list.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+    e.preventDefault();
+    const all = items();
+    const i = all.indexOf(document.activeElement);
+    all[(i + (e.key === "ArrowDown" ? 1 : all.length - 1)) % all.length].focus();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || list.hidden) return;
+    e.preventDefault();
+    e.stopPropagation();
+    show(false, true);
+  }, true);
+  document.addEventListener("pointerdown", (e) => {
+    if (!list.hidden && !wrap.contains(e.target)) show(false, false);
+  });
+  wrap.addEventListener("focusout", (e) => {
+    if (!list.hidden && e.relatedTarget && !wrap.contains(e.relatedTarget)) show(false, false);
+  });
+}
+
+// The modal drawer, below 840 px: Contents opens it and the close
+// button, the scrim, Escape or a choice close it, without touching the
+// address (without script, the address #drawer opens it).
+{
+  const drawer = document.querySelector("#drawer");
+  const open = document.querySelector("#drawer-open");
+  const close = document.querySelector("#drawer-close");
+  const scrim = document.querySelector(".scrim");
+  const modal = matchMedia("(width < 840px)");
+  const show = (on) => {
+    drawer.classList.toggle("open", on);
+    open.setAttribute("aria-expanded", String(on));
+    if (on) {
+      drawer.setAttribute("role", "dialog");
+      drawer.setAttribute("aria-modal", "true");
+      (drawer.querySelector("[aria-current]") || close).focus({ preventScroll: true });
+      drawer.querySelector("[aria-current]")?.scrollIntoView({ block: "center" });
+    } else {
+      drawer.removeAttribute("role");
+      drawer.removeAttribute("aria-modal");
+    }
+  };
+  open.addEventListener("click", (e) => { e.preventDefault(); show(true); });
+  for (const b of [close, scrim]) b.addEventListener("click", (e) => { e.preventDefault(); show(false); open.focus(); });
+  drawer.addEventListener("click", (e) => { if (e.target.closest("a.item")) show(false); });
+  document.addEventListener("keydown", (e) => {
+    if (!drawer.classList.contains("open")) return;
+    if (e.key === "Escape") { e.preventDefault(); show(false); open.focus(); return; }
+    if (e.key !== "Tab") return;
+    // The focus stays in the drawer while it is open.
+    const all = [...drawer.querySelectorAll("a[href]")];
+    const first = all[0], last = all[all.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+  modal.addEventListener("change", () => { if (!modal.matches) show(false); });
+  if (location.hash === "#drawer") history.replaceState(null, "", location.pathname);
+}
+
+// On this page: open on the right from 1200 px, folded below; the
+// section in view is marked.
+{
+  const side = document.querySelector(".toc-side");
+  const fold = document.querySelector(".toc-fold");
+  if (fold) fold.open = false;
+  if (side) {
+    const links = [...side.querySelectorAll("a")];
+    const byId = new Map(links.map((a) => [decodeURIComponent(a.hash.slice(1)), a]));
+    const heads = [...byId.keys()].map((id) => document.getElementById(id)).filter(Boolean);
+    const mark = () => {
+      const line = (parseFloat(getComputedStyle(root).getPropertyValue("--bar-h")) || 64) + 24;
+      let here = heads[0];
+      for (const h of heads) if (h.getBoundingClientRect().top <= line) here = h;
+      for (const a of links) a.classList.toggle("here", byId.get(here.id) === a);
+    };
+    if (heads.length) {
+      addEventListener("scroll", mark, { passive: true });
+      mark();
+    }
+  }
+}
+
+// A picture, pressed, opens at full size in a dialog.
+{
+  const zoom = document.querySelector("#zoom");
+  const img = zoom.querySelector("img");
+  const text = zoom.querySelector("p");
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest(".shot a");
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    const pic = a.querySelector("img");
+    img.src = a.href;
+    img.alt = pic.alt;
+    text.textContent = pic.alt;
+    zoom.showModal();
+  });
+  document.querySelector("#zoom-close").addEventListener("click", () => zoom.close());
+  zoom.addEventListener("click", (e) => { if (e.target === zoom) zoom.close(); });
+}
+// The search. The index, guide/search.json, is fetched from this site
+// the first time a search field takes focus; nothing else is fetched
+// and no library is used. Ranking: a control's name or a title equal to
+// the query first, then names and titles that start with it or hold it,
+// then the words in the text; ties go to the title match, a screen
+// before a step, and the order of the guide. tools/lint-search.py runs
+// the part between the two marks on the built index.
+// search:rank begin
+const fold = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+const kindRank = { control: 0, screen: 0, section: 0, step: 1, walk: 1 };
+const prepare = (entries) => entries.map((e) => ({ ...e, f: { t: fold(e.t), c: (e.c || []).map(fold), x: fold(e.x || "") } }));
+const nameScore = (name, q) => name === q ? 100 : name.startsWith(q) ? 60 : (" " + name).includes(" " + q) ? 40 : 0;
+function rank(entries, query, limit) {
+  const q = fold(query);
+  if (!q) return [];
+  const words = q.split(" ");
+  const found = [];
+  entries.forEach((e, order) => {
+    const hay = e.f.t + " " + e.f.c.join(" ") + " " + e.f.x;
+    if (!words.every((w) => hay.includes(w))) return;
+    const title = nameScore(e.f.t, q);
+    let ctrl = 0;
+    for (const c of e.f.c) ctrl = Math.max(ctrl, nameScore(c, q), c.includes(q) ? 30 : 0);
+    let main = Math.max(title, ctrl);
+    let hits = 0;
+    for (const w of words) hits += Math.min(e.f.x.split(w).length - 1, 20);
+    if (!main) {
+      main = 0;
+      for (const w of words) main += e.f.t.includes(w) ? 9 : e.f.c.some((c) => c.includes(w)) ? 6 : 3;
+      main = Math.min(main, 29);
+    }
+    // A heading named exactly as searched (a step, a section) comes before a control row of that name.
+    const heading = title === 100 && e.k !== "control" ? 1 : 0;
+    found.push({ e, order, key: [main, title, heading, kindRank[e.k] === 0 ? 1 : 0, Math.min(hits, 50)] });
+  });
+  found.sort((a, b) => {
+    for (let i = 0; i < a.key.length; i++) if (a.key[i] !== b.key[i]) return b.key[i] - a.key[i];
+    return a.order - b.order;
+  });
+  return found.slice(0, limit).map((r) => r.e);
+}
+// search:rank end
+
+{
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  const wide = matchMedia("(width >= 840px)");
+  const drawer = document.querySelector("#drawer");
+  const proto = drawer.querySelector(".search");
+  const open = document.querySelector("#search-open");
+  const kinds = { walk: "Walkthrough", screen: "Screen", control: "Control" };
+  let index = null;
+  let loading = null;
+  let openPhone = null;
+  const load = (url) => loading ||= fetch(url).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then((entries) => (index = prepare(entries)));
+
+  // A result opened: the section there is lit for a moment.
+  const flash = (hash) => {
+    if (reduced.matches || !hash) return;
+    const head = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (!head) return;
+    const els = [head];
+    for (let el = head.nextElementSibling; el && !/^H[1-6]$/.test(el.tagName) && els.length < 12; el = el.nextElementSibling) els.push(el);
+    for (const el of els) {
+      el.classList.remove("flash");
+      void el.offsetWidth;
+      el.classList.add("flash");
+      el.addEventListener("animationend", () => el.classList.remove("flash"), { once: true });
+    }
+  };
+  const store = (v) => { try { v === null ? sessionStorage.removeItem("guide-flash") : sessionStorage.setItem("guide-flash", v); } catch (e) { /* no storage: no flash */ } };
+  try {
+    if (sessionStorage.getItem("guide-flash") === location.pathname + location.hash) flash(location.hash);
+  } catch (e) { /* no storage */ }
+  store(null);
+  const go = (href) => {
+    const url = new URL(href, location.href);
+    if (url.pathname === location.pathname) {
+      history.pushState(null, "", url.pathname + url.hash);
+      if (url.hash) document.getElementById(decodeURIComponent(url.hash.slice(1)))?.scrollIntoView();
+      else scrollTo(0, 0);
+      flash(url.hash);
+    } else {
+      store(url.pathname + url.hash);
+      location.href = url.href;
+    }
+  };
+
+  const attach = (box, view) => {
+    const input = box.querySelector("input");
+    const list = box.querySelector(".results");
+    const none = box.querySelector(".snone");
+    const status = box.querySelector(".sstatus");
+    const clear = box.querySelector(".sclear");
+    const base = new URL(box.dataset.index, location.href);
+    const id = "r" + Math.random().toString(36).slice(2, 7);
+    list.id = id;
+    input.setAttribute("aria-controls", id);
+    let shown = [];
+    let active = -1;
+
+    const setActive = (i) => {
+      const items = [...list.children];
+      items.forEach((li, k) => li.classList.toggle("active", k === i));
+      active = i;
+      if (i >= 0) {
+        input.setAttribute("aria-activedescendant", items[i].id);
+        items[i].scrollIntoView({ block: "nearest" });
+      } else input.removeAttribute("aria-activedescendant");
+    };
+    const snippet = (e, words) => {
+      const x = e.x || "";
+      const low = x.toLowerCase();
+      let at = -1;
+      for (const w of words) { const i = low.indexOf(w); if (i >= 0 && (at < 0 || i < at)) at = i; }
+      const from = at > 60 ? low.lastIndexOf(" ", at - 40) + 1 : 0;
+      const end = from + 150 >= x.length ? x.length : Math.max(x.lastIndexOf(" ", from + 150), from + 100);
+      const part = (from > 0 ? "… " : "") + x.slice(from, end) + (end < x.length ? " …" : "");
+      const span = document.createElement("span");
+      span.className = "rs";
+      const re = words.length ? new RegExp("(" + words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")", "ig") : null;
+      (re ? part.split(re) : [part]).forEach((piece, k) => {
+        if (k % 2) { const m = document.createElement("mark"); m.textContent = piece; span.append(m); }
+        else span.append(piece);
+      });
+      return span;
+    };
+    const render = () => {
+      const query = input.value;
+      clear.hidden = !query;
+      drawer.classList.toggle("searching", !!query && !view);
+      list.replaceChildren();
+      none.hidden = true;
+      status.hidden = true;
+      setActive(-1);
+      if (!query.trim()) { list.hidden = true; input.setAttribute("aria-expanded", "false"); shown = []; return; }
+      if (!index) {
+        status.textContent = loading ? "Loading the index." : "The search is not available.";
+        status.hidden = false;
+        list.hidden = true;
+        return;
+      }
+      shown = rank(index, query, 8);
+      const words = fold(query).split(" ").filter(Boolean);
+      const raw = query.toLowerCase().split(/\s+/).filter(Boolean);
+      shown.forEach((e, k) => {
+        const li = document.createElement("li");
+        li.id = id + "-" + k;
+        li.setAttribute("role", "option");
+        const a = document.createElement("a");
+        a.href = new URL(e.u, base).href;
+        const t = document.createElement("span");
+        t.className = "rt";
+        t.textContent = (e.n ? e.n + " " : "") + e.t;
+        const w = document.createElement("span");
+        w.className = "rw";
+        w.textContent = [kinds[e.k], e.k === "walk" || e.k === "screen" ? "" : e.p].filter(Boolean).join(" · ") || e.p;
+        a.append(t, w, snippet(e, raw.length ? raw : words));
+        li.append(a);
+        list.append(li);
+      });
+      list.hidden = !shown.length;
+      none.hidden = !!shown.length;
+      input.setAttribute("aria-expanded", String(!list.hidden));
+    };
+    const leave = (href) => { if (view) view.close(); input.value = ""; render(); go(href); };
+
+    const ready = () => load(base.href).then(render, () => { loading = null; render(); });
+    input.addEventListener("focus", ready);
+    input.addEventListener("input", () => { ready(); render(); });
+    clear.addEventListener("click", () => { input.value = ""; render(); input.focus(); });
+    list.addEventListener("click", (e) => {
+      const a = e.target.closest("a");
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      e.preventDefault();
+      leave(a.href);
+    });
+    list.addEventListener("pointermove", (e) => {
+      const li = e.target.closest("li");
+      if (li && [...list.children].indexOf(li) !== active) setActive([...list.children].indexOf(li));
+    });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        if (!shown.length) return;
+        e.preventDefault();
+        const n = shown.length;
+        setActive(e.key === "ArrowDown" ? (active + 1) % n : active <= 0 ? n - 1 : active - 1);
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        if (shown.length) leave(list.children[active < 0 ? 0 : active].querySelector("a").href);
+      } else if (e.key === "Escape") {
+        if (input.value) { e.preventDefault(); input.value = ""; render(); }
+        else if (!view) { e.stopPropagation(); input.blur(); }
+      }
+    });
+    return { input, render };
+  };
+
+  const desk = attach(proto, null);
+  if (open) {
+    const view = document.createElement("dialog");
+    view.className = "sview";
+    view.setAttribute("aria-label", "Search the guide");
+    const box = proto.cloneNode(true);
+    const back = document.createElement("button");
+    back.type = "button";
+    back.className = "sback";
+    back.setAttribute("aria-label", "Close");
+    back.title = "Close";
+    back.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
+    box.querySelector(".sfield > svg").replaceWith(back);
+    view.append(box);
+    document.body.append(view);
+    const phone = attach(box, view);
+    back.addEventListener("click", () => view.close());
+    view.addEventListener("close", () => { phone.input.value = ""; phone.render(); open.focus(); });
+    const show = () => { view.showModal(); phone.input.focus(); };
+    open.addEventListener("click", show);
+    wide.addEventListener("change", () => { if (wide.matches && view.open) view.close(); });
+    openPhone = show;
+  }
+
+  // "/" starts a search, unless the cursor is in a field.
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target.closest?.("input, textarea, select, [contenteditable], dialog[open]")) return;
+    e.preventDefault();
+    if (wide.matches) desk.input.focus();
+    else if (openPhone) openPhone();
+  });
+}
+
+</script>
+</body>
+</html>
