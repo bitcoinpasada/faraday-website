@@ -1,0 +1,292 @@
+{
+ "style": "float",
+ "assets": "assets/scene/",
+ "laptop": {
+  "file": "laptop.webp",
+  "size": [
+   1802,
+   1302
+  ],
+  "screen": {
+   "x": 107,
+   "y": 52,
+   "width": 1588,
+   "height": 992,
+   "exact": [
+    107.19,
+    51.87,
+    1694.81,
+    1044.13
+   ]
+  },
+  "webcam": [
+   901.0,
+   27.2
+  ],
+  "fade": [
+   1255.3,
+   1301.3
+  ],
+  "sticks": {
+   "boot-stick": {
+    "in": {
+     "file": "boot-stick-in.webp",
+     "box": [
+      -160,
+      1199,
+      189,
+      65
+     ]
+    },
+    "out": {
+     "file": "boot-stick-out.webp",
+     "box": [
+      -379,
+      1201,
+      191,
+      61
+     ]
+    },
+    "side": "left"
+   },
+   "data-stick": {
+    "in": {
+     "file": "data-stick-in.webp",
+     "box": [
+      1773,
+      1199,
+      189,
+      65
+     ]
+    },
+    "out": {
+     "file": "data-stick-out.webp",
+     "box": [
+      1990,
+      1201,
+      191,
+      61
+     ]
+    },
+    "side": "right"
+   }
+  }
+ },
+ "props": {
+  "backup-sheet": {
+   "file": "backup-sheet.webp",
+   "size": [
+    713,
+    978
+   ],
+   "corners": [
+    [
+     40.3,
+     61.8
+    ],
+    [
+     681.0,
+     9.1
+    ],
+    [
+     708.7,
+     961.4
+    ],
+    [
+     3.8,
+     973.6
+    ]
+   ],
+   "enter": "left",
+   "metres": [
+    0.128,
+    0.181
+   ]
+  },
+  "seedqr-sheet": {
+   "file": "seedqr-sheet.webp",
+   "size": [
+    717,
+    996
+   ],
+   "corners": [
+    [
+     60.4,
+     8.0
+    ],
+    [
+     709.3,
+     69.0
+    ],
+    [
+     711.7,
+     992.4
+    ],
+    [
+     3.8,
+     963.2
+    ]
+   ],
+   "enter": "left",
+   "metres": [
+    0.105,
+    0.148
+   ]
+  },
+  "phone": {
+   "file": "phone.webp",
+   "size": [
+    500,
+    998
+   ],
+   "corners": [
+    [
+     92.0,
+     23.3
+    ],
+    [
+     482.4,
+     78.4
+    ],
+    [
+     450.9,
+     963.3
+    ],
+    [
+     29.2,
+     934.2
+    ]
+   ],
+   "enter": "right",
+   "metres": [
+    0.068,
+    0.15
+   ]
+  },
+  "sticky-note": {
+   "file": "sticky-note.webp",
+   "size": [
+    996,
+    1055
+   ],
+   "corners": [
+    [
+     20.1,
+     137.7
+    ],
+    [
+     922.8,
+     17.2
+    ],
+    [
+     992.7,
+     1010.2
+    ],
+    [
+     25.8,
+     1051.2
+    ]
+   ],
+   "enter": "right",
+   "metres": [
+    0.076,
+    0.076
+   ]
+  }
+ },
+ "dice": {
+  "count": 5,
+  "poses": [
+   {
+    "file": "die-pose-0.webp",
+    "front": 1
+   },
+   {
+    "file": "die-pose-1.webp",
+    "front": 3
+   },
+   {
+    "file": "die-pose-2.webp",
+    "front": 5
+   },
+   {
+    "file": "die-pose-3.webp",
+    "front": 2
+   },
+   {
+    "file": "die-pose-4.webp",
+    "front": 6
+   },
+   {
+    "file": "die-pose-5.webp",
+    "front": 4
+   },
+   {
+    "file": "die-pose-6.webp",
+    "front": 3
+   },
+   {
+    "file": "die-pose-7.webp",
+    "front": 5
+   }
+  ],
+  "enter": "right",
+  "metres": 0.016,
+  "faces": [
+   "die-1.webp",
+   "die-2.webp",
+   "die-3.webp",
+   "die-4.webp",
+   "die-5.webp",
+   "die-6.webp"
+  ]
+ },
+ "pi": {
+  "panel": "waveshare-2.8",
+  "panel_px": [
+   480,
+   640
+  ],
+  "file": "pi-waveshare-2.8.webp",
+  "size": [
+   714,
+   1039
+  ],
+  "screen": {
+   "x": 103,
+   "y": 125,
+   "width": 510,
+   "height": 681,
+   "exact": [
+    102.68,
+    124.67,
+    613.32,
+    805.53
+   ]
+  },
+  "fade": [
+   959.7,
+   1039.7
+  ],
+  "microsd": {
+   "in": {
+    "file": "pi-waveshare-2.8-sd-in.webp",
+    "box": [
+     -28,
+     621,
+     37,
+     139
+    ]
+   },
+   "out": {
+    "file": "pi-waveshare-2.8-sd-out.webp",
+    "box": [
+     -145,
+     621,
+     154,
+     140
+    ]
+   }
+  }
+ }
+}
